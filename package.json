@@ -1,0 +1,14 @@
+{
+  "name": "recraft",
+  "version": "0.0.1",
+  "description": "Custom minecraft launcher for our server",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Enderlorde",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^22.0.3"
+  }
+}
