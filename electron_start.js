@@ -1,16 +1,17 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 
 const createWindow = () => {
     const window = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 298,
+        height: 425,
+        frame: false,
         webPreferences: {
             preload:path.join(__dirname, 'preload.js')
         }
     })
-
-    window.loadURL('localhost:3000')
+    
+    window.loadURL('http://localhost:3000')
 }
 
 app.on('window-all-closed', () => {
@@ -19,4 +20,9 @@ app.on('window-all-closed', () => {
 
 app.whenReady().then(() => {
     createWindow()
+})
+
+ipcMain.handle('close', () => {
+    console.log('handled');
+    app.quit();
 })
