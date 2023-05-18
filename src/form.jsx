@@ -5,8 +5,8 @@ import './form.sass';
 const Form = () => {
     return (
         <form className="form">
-            <input className="form__input" type="text" placeholder="Nickname"/>
-            <Button>Play</Button>
+            <input onChange={(e) => window.something.changeNickname(e.target.value)} className="form__input" type="text" placeholder="Nickname"/>
+            <Button onClick={() => window.something.play()}>Play</Button>
         </form>
     );
 }
