@@ -1,15 +1,19 @@
 import React from 'react';
-import { useState } from 'react';
 import ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider, Outlet, useLocation } from 'react-router-dom';
+import Navigation from './navigation.jsx';
 import Header from './header.jsx';
 import Logo from './icons/logo.svg';
 import Form from './form.jsx';
-import Navigation from './navigation.jsx';
 import Progress from './progress.jsx';
+import Map from './map.jsx';
+import Wiki from './wiki.jsx';
+import Account from './account.jsx';
+import Settings from './settings.jsx';
 import './app.sass';
 
-const Main = () => {
-    const [progressState, setProgressState] = useState({ type: 'none', task: 0, total: 100 });
+const App = () => {
+    const [progressState, setProgressState] = React.useState({ type: 'none', task: 0, total: 100 });
 
     window.something.handleCounter((e, value) => {
         setProgressState(value);
@@ -17,14 +21,48 @@ const Main = () => {
     });
 
     return (
-        <div className="main">
+        <div className="app">
             <Header title="launcher"/>
             <Navigation />
-            <Logo width={200} height={200}/>
-            <Form />
-            <Progress status={progressState}/>
+            {useLocation().pathname == '/' &&  
+                <div className="app__wrapper">
+                    <Logo width={200} height={200}/>
+                    <Form />
+                    <Progress status={progressState}/>
+                </div>
+            }
+            <Outlet />
+           
+            
+            
         </div>
     );
 }
+
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <App />,
+        children: [
+            {
+                path: "map",
+                element: <Map />
+            },
+            {
+                path: "wiki",
+                element: <Wiki />
+            },
+            {
+                path: "account",
+                element: <Account />
+            },    {
+                path: "settings",
+                element: <Settings />
+            }
+        ]
+    }   
+]);
  
-ReactDOM.createRoot(document.querySelector('#root')).render(<Main />);
+ReactDOM.createRoot(document.querySelector('#root')).render(
+    <RouterProvider router={router} />
+);
