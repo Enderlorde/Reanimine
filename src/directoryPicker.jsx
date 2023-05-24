@@ -12,7 +12,7 @@ const DirectoryPicker = () => {
     return (
         <div className="directoryPicker">
             <button type="button" onClick={() => getDirectoryPath()}>...</button>
-            <input className="directoryPicker__path" value={path} />
+            <input className="directoryPicker__path" value={path} readOnly/>
         </div>
     );
 }

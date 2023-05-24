@@ -5,6 +5,7 @@ contextBridge.exposeInMainWorld('something',{
     play: () => ipcRenderer.invoke('play'),
     changeNickname: (nickname) => ipcRenderer.invoke('nickname-change', nickname),
     handleCounter: (callback) => ipcRenderer.on('update-counter', callback),
-    selectFolder: () => ipcRenderer.invoke('dialog:openDirectory'),
-    avialableROM: (msg) => ipcRenderer.on('getTotalMem', (e, msg) => msg),
+    selectFolder: () => ipcRenderer.invoke('open-directory'),
+    avialableRAM: () => ipcRenderer.invoke('total-memory'),
+    saveOptions: (options) => ipcRenderer.invoke('save-options', options),
 });

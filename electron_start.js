@@ -3,6 +3,7 @@ const path = require('path');
 const { Client, Authenticator } = require('minecraft-launcher-core');
 const launcher = new Client();
 const os = require('os');
+const lodash = require('lodash');
 
 let options = {
     authorization: Authenticator.getAuth('Nickname'),
@@ -27,7 +28,7 @@ const createWindow = () => {
         }
     });
 
-    ipcMain.handle('dialog:openDirectory', async () => {
+    ipcMain.handle('open-directory', async () => {
         const { cancelled,filePaths } = await dialog.showOpenDialog(window, {
             properties: ['openDirectory']
         })
@@ -37,8 +38,6 @@ const createWindow = () => {
             return filePaths[0]
         }
     });
-
-    window.webContents.send('getTotalMem', () => 20);
 
     launcher.on('download-status', (e) => window.webContents.send('update-counter', e));
 
@@ -53,14 +52,24 @@ app.whenReady().then(() => {
     createWindow();
 });
 
+ipcMain.handle('save-options', (e, newOptions) => {
+    console.log(newOptions);
+});
+
 ipcMain.handle('close', () => {
     console.log('handled');
     app.quit();
 });
 
 ipcMain.handle('play',() => {
-    launcher.launch(options);
+    if (options){
+        launcher.launch(options);
+    }else{
+        console.log('no options loaded');
+    };
 });
+
+ipcMain.handle('total-memory', () => os.totalmem());
 
 ipcMain.handle('nickname-change', (e, nickname) => {
     options['authorization'] = Authenticator.getAuth(nickname),
