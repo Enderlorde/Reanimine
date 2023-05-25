@@ -3,7 +3,8 @@ const path = require('path');
 const { Client, Authenticator } = require('minecraft-launcher-core');
 const launcher = new Client();
 const os = require('os');
-const lodash = require('lodash');
+const _ = require('lodash');
+const fs = require('fs');
 
 let options = {
     authorization: Authenticator.getAuth('Nickname'),
@@ -39,7 +40,12 @@ const createWindow = () => {
         }
     });
 
+    const savedOptions = window.webContents.executeJavaScript(`localStorage.getItem('options')`).then(value => JSON.parse(value));
+    savedOptions.then((val) => {options = _.merge({...options}, {...val}); console.log(options);});
+
     launcher.on('download-status', (e) => window.webContents.send('update-counter', e));
+    launcher.on('download', (e) => window.webContents.send('download-done', e));
+    launcher.on('package-extract', (e)=> console.log(e))
 
     window.loadURL('http://localhost:3000');
 }
@@ -53,11 +59,10 @@ app.whenReady().then(() => {
 });
 
 ipcMain.handle('save-options', (e, newOptions) => {
-    console.log(newOptions);
+    options = _.merge({...options}, {...newOptions});
 });
 
 ipcMain.handle('close', () => {
-    console.log('handled');
     app.quit();
 });
 

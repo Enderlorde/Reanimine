@@ -4,8 +4,7 @@ import { createBrowserRouter, RouterProvider, Outlet, useLocation } from 'react-
 import Navigation from './navigation.jsx';
 import Header from './header.jsx';
 import Logo from './icons/logo.svg';
-import Form from './form.jsx';
-import Progress from './progress.jsx';
+import Login from './login.jsx';
 import Map from './map.jsx';
 import Wiki from './wiki.jsx';
 import Account from './account.jsx';
@@ -20,6 +19,11 @@ const App = () => {
         console.log(value);
     });
 
+    window.something.handleDownload((e, value) => {
+        console.log('downloadDone');
+        console.log(value);
+    })
+
     return (
         <div className="app">
             <Header title="launcher"/>
@@ -27,8 +31,7 @@ const App = () => {
             {useLocation().pathname == '/' &&  
                 <div className="app__wrapper">
                     <Logo width={200} height={200}/>
-                    <Form />
-                    <Progress status={progressState}/>
+                    <Login progress={progressState}/>
                 </div>
             }
             <Outlet />

@@ -43,6 +43,8 @@
     "minecraft-launcher-core": "^3.16.18",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.11.2"
+    "react-router-dom": "^6.11.2",
+    "skinview3d": "^3.0.0-alpha.1",
+    "uuid": "^9.0.0"
   }
 }
