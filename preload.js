@@ -9,4 +9,5 @@ contextBridge.exposeInMainWorld('something',{
     selectFolder: () => ipcRenderer.invoke('open-directory'),
     avialableRAM: () => ipcRenderer.invoke('total-memory'),
     saveOptions: (options) => ipcRenderer.invoke('save-options', options),
+    registration: ()=> ipcRenderer.invoke('registration'),
 });

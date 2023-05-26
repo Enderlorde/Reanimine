@@ -1,11 +1,12 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, BrowserView, ipcMain, dialog } = require('electron');
 const path = require('path');
 const { Client, Authenticator } = require('minecraft-launcher-core');
 const launcher = new Client();
 const os = require('os');
 const _ = require('lodash');
-const fs = require('fs');
+import open from 'open';
 
+Authenticator.changeApiUrl('https://authserver.ely.by/auth')
 let options = {
     authorization: Authenticator.getAuth('Nickname'),
     root: "./minecraft",
@@ -41,7 +42,7 @@ const createWindow = () => {
     });
 
     const savedOptions = window.webContents.executeJavaScript(`localStorage.getItem('options')`).then(value => JSON.parse(value));
-    savedOptions.then((val) => {options = _.merge({...options}, {...val}); console.log(options);});
+    savedOptions.then((val) => {options = _.merge({...options}, {...val}); console.log(options); console.log(options.authorization)});
 
     launcher.on('download-status', (e) => window.webContents.send('update-counter', e));
     launcher.on('download', (e) => window.webContents.send('download-done', e));
@@ -49,6 +50,10 @@ const createWindow = () => {
 
     window.loadURL('http://localhost:3000');
 }
+
+ipcMain.handle('registration', async () => {
+    open("https://account.ely.by/login");
+});
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
@@ -77,9 +82,8 @@ ipcMain.handle('play',() => {
 ipcMain.handle('total-memory', () => os.totalmem());
 
 ipcMain.handle('nickname-change', (e, nickname) => {
-    options['authorization'] = Authenticator.getAuth(nickname),
-    console.log(options);
-});
+    Authenticator.getAuth(nickname,'ololo123').then((authData) => {options['authorization'] = authData; console.log(options.authorization);}
+)});
 
 launcher.on('debug', (e) => console.log(e));
 launcher.on('data', (e) => console.log(e));

@@ -37,6 +37,10 @@ module.exports = {
                 type: "asset",
             },
             {
+                test: /\.key$/i,
+                type: "asset/source"
+            },
+            {
                 test: /\.svg$/i,
                 use: [{loader: '@svgr/webpack', options:{
                     dimensions: false

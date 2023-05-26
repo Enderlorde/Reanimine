@@ -10,27 +10,36 @@ const Form = (props) => {
 
     useEffect(() =>{
         const savedNickname = window.localStorage.getItem('nickname'); 
-        if (savedNickname) setNickname(savedNickname)
+        if (savedNickname) setNickname(savedNickname);
     }, []);
 
     const nicknameChangeHandler = (nickname) => {
         if (!nickname) return
         setNickname(nickname);
         window.localStorage.setItem('nickname', nickname);
-        window.something.changeNickname(nickname)
+        window.something.changeNickname(nickname);
     }
 
     const playButtonClickHandler = () => {
-        setRunning(true)
-        window.something.play()
+        setRunning(true);
+        window.something.play();
+    }
+
+    const registrationButtonClickHandler = () => {
+        window.something.registration();
+    }
+
+    const collectFormData = (form) => {
+        let formData = new FormData();
     }
 
     return (
-        <form className="form">
-            <input onBlur={(e) => nicknameChangeHandler(e.target.value)} placeholder={nickname} className="form__input" type="text" />
-            <input placeholder="password" className="form__input" type="password" />
+        <form className="form" onSubmit={(e) => collectFormData(e.target)}>
+            <input name="nickname" onBlur={(e) => nicknameChangeHandler(e.target.value)} placeholder={nickname} className="form__input" type="text" />
+            <input name="password" placeholder="password" className="form__input" type="password" />
             <Button disabled={running} onClick={() => playButtonClickHandler()}>Play</Button>
-            <Progress disabled={!running} status={props.progress}/>
+            <Button disabled={running} onClick={() => registrationButtonClickHandler()}>Registration</Button>
+            <Progress disabled={!running} status={props.progress}/> 
         </form>
     );
 }
