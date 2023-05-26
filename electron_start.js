@@ -4,15 +4,18 @@ const { Client, Authenticator } = require('minecraft-launcher-core');
 const launcher = new Client();
 const os = require('os');
 const _ = require('lodash');
-import open from 'open';
+//import open from 'open';
 
 Authenticator.changeApiUrl('https://authserver.ely.by/auth')
 let options = {
-    authorization: Authenticator.getAuth('Nickname'),
     root: "./minecraft",
+    customArgs: ['-javaagent:G:\\Projects\\Reanicraft\\minecraft\\authlib-injector-1.2.2.jar=ely.by'],
     version: {
-        number: "1.14",
+        number: "1.12.2",
         type: "release"
+    },
+    server:{
+        host: '45.87.246.29',
     },
     memory: {
         max: "6G",
@@ -82,8 +85,12 @@ ipcMain.handle('play',() => {
 ipcMain.handle('total-memory', () => os.totalmem());
 
 ipcMain.handle('nickname-change', (e, nickname) => {
-    Authenticator.getAuth(nickname,'ololo123').then((authData) => {options['authorization'] = authData; console.log(options.authorization);}
+    Authenticator.getAuth(nickname,'').then((authData) => {options=_.merge({...options},{authorization: authData}); console.log(options.authorization);}
 )});
 
-launcher.on('debug', (e) => console.log(e));
+launcher.on('debug', (e) => {
+    const closingRegExp = new RegExp(/closing\.\.\./);
+    if (closingRegExp.test(e)) launcher.launch(options);
+    console.log(e)
+});
 launcher.on('data', (e) => console.log(e));
