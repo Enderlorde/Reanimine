@@ -4,6 +4,7 @@ import _ from 'lodash';
 import Button from './button.jsx';
 import DirectoryPicker from './directoryPicker.jsx';
 import './settings.sass';
+import './form.sass';
 
 const Settings = () => {
     const [avialableRAM, setAvialableRAM] = useState();

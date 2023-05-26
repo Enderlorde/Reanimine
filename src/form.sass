@@ -1,0 +1,34 @@
+.form
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: 6px
+    font-size: 14px
+    padding: 10px
+    transition: all 0.5s ease-in-out
+    
+    &_disabled
+        max-height: 0
+        padding: 0
+
+
+    &__input
+        padding: 8px
+        border: 0
+        border-radius: 5px
+
+    &__button
+        background-color: #fff
+        border: 0
+        padding: 5px
+        border-radius: 5px
+        font-family: 'karmatic-arcade', serif
+        color: #696773
+        cursor: pointer
+        transition: all 0.3s ease-in-out
+
+        &:hover
+            color: #FED766
+            background-color: #272727
+            font-size: 20px
+            padding: 10px

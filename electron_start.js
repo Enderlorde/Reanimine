@@ -4,6 +4,7 @@ const { Client, Authenticator } = require('minecraft-launcher-core');
 const launcher = new Client();
 const os = require('os');
 const _ = require('lodash');
+const { access } = require('fs');
 //import open from 'open';
 
 Authenticator.changeApiUrl('https://authserver.ely.by/auth')
@@ -84,9 +85,24 @@ ipcMain.handle('play',() => {
 
 ipcMain.handle('total-memory', () => os.totalmem());
 
-ipcMain.handle('nickname-change', (e, nickname) => {
-    Authenticator.getAuth(nickname,'').then((authData) => {options=_.merge({...options},{authorization: authData}); console.log(options.authorization);}
-)});
+ipcMain.handle('login', (e, credentials) => {
+    const fullfuled = (authData) => {
+        options=_.merge({...options},{authorization: authData}); console.log(options.authorization);
+        if (authData.access_token === authData.client_token){
+            console.log(`Offline mode as ${authData.name}`);
+            return `Offline mode as ${authData.name}`
+        }else{
+            console.log(`You logged as ${authData.name}`);
+            return `You logged as ${authData.name}`
+        }
+    }
+
+    const rejected = (reason) => {
+        console.log(`[LOGIN]: Error: ${reason}`);
+        return `[LOGIN]: Error: ${reason}`
+    }
+    return Authenticator.getAuth(credentials.nickname, credentials.password).then((authData) => fullfuled(authData), (reason) => rejected(reason))
+});
 
 launcher.on('debug', (e) => {
     const closingRegExp = new RegExp(/closing\.\.\./);
