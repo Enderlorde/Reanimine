@@ -6,12 +6,15 @@
     color: #696773
     transition: all 0.3s ease-in-out
     cursor: pointer
+    background-color: #fff
 
-    &:hover
+    &:disabled
+        color: #cacaca
+        cursor: not-allowed
+
+    &:not(:disabled):hover
         color: #FED766
         background-color: #272727
         font-size: 20px
         padding: 10px
     
-    &_disabled
-       display: none

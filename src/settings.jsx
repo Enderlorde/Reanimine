@@ -49,16 +49,17 @@ const Settings = () => {
         e.preventDefault();
         window.localStorage.setItem("options", JSON.stringify(options));
         window.something.saveOptions(options);
+        console.log(options);
     }
 
     return (
         <div className="settings">
             <form className="settings__form form" action="" onSubmit={(e) => submitHandler(e)}>
                 <label htmlFor="workingDirInput">Path to game</label>
-                <DirectoryPicker defaultPath={options.root} onPathChange={(value) => setOptions(_.merge({...options}, {root: `${value}\\minecraft`} ))}/>
-
-                <label htmlFor="customArgsInput">Custom args</label>
-                <input type="text" defaultValue={options.customArgs} onChange={(e) => setOptions(_.merge({...options}, {customArgs: e.target.value.split(" ")}))}/>
+                <DirectoryPicker defaultPath={options.root} onPathChange={(value) => setOptions(_.merge({...options}, {
+                    root: `${value}\\minecraft`,
+                    customArgs: `-javaagent:${value}\\minecraft\\authlib-injector-1.2.2.jar=ely.by`
+                } ))}/>
 
                 <label htmlFor="">Min RAM size: {options.memory.min}mb</label>
                 <input type="range" max={options.memory.max} 
@@ -86,7 +87,7 @@ const Settings = () => {
                     _.merge({...options},{window:{fullscreen: e.target.checked}})
                 )}/>
 
-                <Button type="submit">Save</Button>
+                <button className='form__button' type="submit">Save</button>
             </form>
         </div>
     );

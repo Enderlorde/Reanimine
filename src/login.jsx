@@ -4,6 +4,7 @@ import Progress from './progress.jsx';
 import Button from './button.jsx';
 import './login.sass';
 import './form.sass';
+import { json } from 'react-router-dom';
 
 const Form = (props) => {
     const [nickname, setNickname] = useState();
@@ -16,12 +17,34 @@ const Form = (props) => {
  
     useEffect(() =>{
         const savedNickname = window.localStorage.getItem('nickname'); 
-        if (savedNickname) setNickname(savedNickname);
+        const savedPID = window.sessionStorage.getItem('pid');
+        const savedMode = window.sessionStorage.getItem('mode');
+        if (savedNickname) 
+        {
+            setNickname(savedNickname);
+            if(savedMode){
+                setInfo(`${savedMode} mode as ${savedNickname}`);
+            }
+        }
+        if (savedPID) {
+            setRunning(true)
+        };
+        if (savedMode){
+            setLoggedIn(true)
+        }
     }, []);
 
     const playButtonClickHandler = () => {
-        setRunning(true);
-        window.something.play();
+        window.something.play().then((process) => {
+            setRunning(true);
+            window.sessionStorage.setItem('pid', JSON.parse(process).pid)
+        }).catch((e) => console.log(e));
+    }
+
+    const changeButtonClickHandler = () => {
+        setLoggedIn(false);
+        setInfo('Login to play')
+        window.sessionStorage.removeItem('mode');
     }
 
     const registrationButtonClickHandler = () => {
@@ -31,9 +54,14 @@ const Form = (props) => {
     const collectFormData = (e, form) => {
         e.preventDefault();
         let formData = Object.fromEntries(new FormData(form));
-        window.something.login(formData).then((result) => {
-            setInfo(result);
-            setLoggedIn(true)
+        window.something.login(formData).then((answer) => {
+            const result = JSON.parse(answer);
+            setInfo(result.info);
+            if (result.mode != 'error'){
+                setLoggedIn(true);
+                window.sessionStorage.setItem('mode', result.mode);
+                window.localStorage.setItem('nickname', result.authData.name);
+            }else return
         });
     }
 
@@ -42,6 +70,11 @@ const Form = (props) => {
         passwordInputRef.current.value = '';
     }
 
+    window.something.gameClosed(() => {
+        setRunning(false);
+        window.sessionStorage.removeItem('pid');
+    });
+
     return (
         <div className="login">
             <p>{info}</p>
@@ -49,12 +82,18 @@ const Form = (props) => {
                 <input name="nickname" defaultValue={nickname} placeholder={nickname} className="form__input" type="text" />
                 <input required ref={passwordInputRef} disabled={offlineMode}  name="password" placeholder="Password" className="form__input" type="password" />
                 <button className='form__button' type="submit">Login</button>
-                <button className='form__button' type="button" onClick={() => offlineSwitch()}>Offline</button>
-                <Button disabled={running} onClick={() => registrationButtonClickHandler()}>Registration</Button>
+                <button className='form__button' type="button" onClick={() => offlineSwitch()}>{offlineMode?"Online":"Offline"}</button>
+                <button className='form__button' type="button" disabled={running} onClick={() => registrationButtonClickHandler()}>Registration</button>
             </form>
-            <Button disabled={!loggedIn} onClick={() => playButtonClickHandler()}>Play</Button>
+
+            {loggedIn && 
+            <div className='login__buttons-wrapper'>
+                <Button disabled={running} onClick={() => playButtonClickHandler()}>Play</Button>
+                <Button disabled={running} onClick={() => changeButtonClickHandler()}>Change</Button>
+                <Progress disabled={running} status={props.progress}/> 
+            </div>
+            }
             
-            <Progress disabled={!running} status={props.progress}/> 
         </div> 
     );
 }
