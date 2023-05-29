@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider, Outlet, useLocation } from 'react-router-dom';
+import { createHashRouter, RouterProvider, Outlet, useLocation } from 'react-router-dom';
 import Navigation from './navigation.jsx';
 import Header from './header.jsx';
 import Logo from './icons/logo.svg';
@@ -42,7 +42,7 @@ const App = () => {
     );
 }
 
-const router = createBrowserRouter([
+const router = createHashRouter([
     {
         path: "/",
         element: <App />,

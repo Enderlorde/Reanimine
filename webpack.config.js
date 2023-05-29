@@ -5,7 +5,7 @@ module.exports = {
     entry: "./src/app.jsx",
 
     output: {
-        path: path.resolve(__dirname, "dist"),
+        path: path.resolve(__dirname, "build"),
     },
 
     mode: 'development',

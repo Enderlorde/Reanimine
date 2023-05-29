@@ -58,7 +58,8 @@ const Settings = () => {
                 <label htmlFor="workingDirInput">Path to game</label>
                 <DirectoryPicker defaultPath={options.root} onPathChange={(value) => setOptions(_.merge({...options}, {
                     root: `${value}\\minecraft`,
-                    customArgs: `-javaagent:${value}\\minecraft\\authlib-injector-1.2.2.jar=ely.by`
+                    customArgs: `-javaagent:${value}\\minecraft\\authlib-injector-1.2.2.jar=ely.by`,
+                    forge: `${value}\\minecraft\\Forge.jar`,
                 } ))}/>
 
                 <label htmlFor="">Min RAM size: {options.memory.min}mb</label>

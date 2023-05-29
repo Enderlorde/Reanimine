@@ -90,7 +90,7 @@ const Form = (props) => {
             <div className='login__buttons-wrapper'>
                 <Button disabled={running} onClick={() => playButtonClickHandler()}>Play</Button>
                 <Button disabled={running} onClick={() => changeButtonClickHandler()}>Change</Button>
-                <Progress disabled={running} status={props.progress}/> 
+                <Progress disabled={!running} status={props.progress}/> 
             </div>
             }
             

@@ -1,12 +1,12 @@
-const { app, BrowserWindow, BrowserView, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const { Client, Authenticator } = require('minecraft-launcher-core');
 const launcher = new Client();
 const os = require('os');
 const _ = require('lodash');
 const fs = require('fs');
-const download = require('file-download')
-//import open from 'open';
+const { DownloaderHelper } = require('node-downloader-helper');
+const open = require('open');
 
 Authenticator.changeApiUrl('https://authserver.ely.by/auth')
 let options = {
@@ -16,12 +16,16 @@ let options = {
         number: "1.12.2",
         type: "release"
     },
+    forge: `${__dirname}\\minecraft\\Forge.jar`,
     server:{
         host: '45.87.246.29',
     },
     memory: {
         max: "6G",
         min: "4G"
+    },
+    overrides:{
+        detached: false,
     }
 }
 
@@ -70,7 +74,7 @@ const createWindow = () => {
     launcher.on('download', (e) => window.webContents.send('download-done', e));  
     launcher.on('close', (code) => window.webContents.send('game-close', code));
 
-    window.loadURL('http://localhost:3000');
+    window.loadURL(`file://${path.join(__dirname, 'build/index.html')}`);
 }
 
 app.commandLine.appendSwitch('ignore-certificate-errors');
@@ -95,19 +99,55 @@ ipcMain.handle('close', () => {
     app.quit();
 });
 
+const rootFolderCheck = () => new Promise((resolve, reject) => {
+    const directory = options.root;
+    if (fs.existsSync(directory)){
+        console.log("[rootFolderChek]: root folder exists, starting...");
+        resolve()
+    }else{
+        console.log("[rootFolderChek]: root folder doesn't exists, creating...");
+        fs.mkdir((directory),{},(err) => {
+            if (err) throw err;
+            resolve()
+        });
+    }
+});
+
 const authlibCheck = () => new Promise((resolve, reject) => {
     const directory = path.join(options.root, 'authlib-injector-1.2.2.jar');
     if (fs.existsSync(directory)){
+        console.log("[authlibChek]: lib exists, starting...");
         resolve()
     }else{
-        try{
-            download('https://github.com/yushijinhun/authlib-injector/releases/download/v1.2.2/authlib-injector-1.2.2.jar',{directory: options.root});
-            resolve()
-        }catch (e){
-            reject(e)
-        }
+        console.log("[authlibChek]: lib doesn't exists, downloading...");
+        const dl = new DownloaderHelper('https://github.com/yushijinhun/authlib-injector/releases/download/v1.2.2/authlib-injector-1.2.2.jar', options.root);
+        dl.on('end', () => {
+            console.log('Download Completed');
+            resolve();
+        });
+        dl.on('error', (err) => console.log('Download Failed', err));
+        dl.start().catch(err => reject(err));  
     }
-}) 
+});
+
+const forgeCheck = () => new Promise((resolve, reject) => {
+    const directory = path.join(options.root, 'Forge.jar');
+    if (fs.existsSync(directory)){
+        console.log("[forgeChek]: lib exists, starting...");
+        resolve()
+    }else{
+        console.log("[forgeChek]: lib doesn't exists, downloading...");
+        const dl = new DownloaderHelper('https://maven.minecraftforge.net/net/minecraftforge/forge/1.12.2-14.23.5.2859/forge-1.12.2-14.23.5.2859-universal.jar', options.root, {
+            fileName: 'Forge.jar'
+        });
+        dl.on('end', () => {
+            console.log('Download Completed');
+            resolve();
+        });
+        dl.on('error', (err) => console.log('Download Failed', err));
+        dl.start().catch(err => reject(err));  
+    }
+});
 
 ipcMain.handle('play', async () => {
     const fullfiled = (result) => {
@@ -120,12 +160,19 @@ ipcMain.handle('play', async () => {
         throw (reason)
     }
 
-    if (options){
-        return launcher.launch(options).then((result) => fullfiled(result)).catch((reason) => rejected(reason));
-    }else{
-        console.log('no options loaded');
-        throw ('No options loaded');
-    };
+    rootFolderCheck().then(()=>{
+        authlibCheck().then(() => {
+            forgeCheck().then(() => {
+                if (options){
+                    console.log(options);
+                    return launcher.launch(options).then((result) => fullfiled(result)).catch((reason) => rejected(reason));
+                }else{
+                    console.log('no options loaded');
+                    throw ('No options loaded');
+                };
+            })
+        })
+    })
 });
 
 ipcMain.handle('total-memory', () => os.totalmem());

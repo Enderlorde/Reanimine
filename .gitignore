@@ -2,3 +2,5 @@ node_modules
 minecraft
 *.key
 *.http
+build
+dist
