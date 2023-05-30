@@ -1,18 +1,17 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import _ from 'lodash';
-import Button from './button.jsx';
 import DirectoryPicker from './directoryPicker.jsx';
 import './settings.sass';
 import './form.sass';
 
 const Settings = () => {
-    const [avialableRAM, setAvialableRAM] = useState();
+    const [avialableRAM, setAvialableRAM] = useState(512);
     const [options, setOptions] = useState({
         root: '',
         memory: {
             min: 1024,
-            max: 2048
+            max: avialableRAM
         },
         window: {
             width: 800,
@@ -57,9 +56,9 @@ const Settings = () => {
             <form className="settings__form form" action="" onSubmit={(e) => submitHandler(e)}>
                 <label htmlFor="workingDirInput">Path to game</label>
                 <DirectoryPicker defaultPath={options.root} onPathChange={(value) => setOptions(_.merge({...options}, {
-                    root: `${value}\\minecraft`,
+                    root: `${value}/minecraft`,
                     customArgs: `-javaagent:${value}\\minecraft\\authlib-injector-1.2.2.jar=ely.by`,
-                    forge: `${value}\\minecraft\\Forge.jar`,
+                    forge: `${value}/minecraft/Forge.jar`,
                 } ))}/>
 
                 <label htmlFor="">Min RAM size: {options.memory.min}mb</label>
@@ -87,8 +86,9 @@ const Settings = () => {
                 <input checked={options.window.fullscreen} type="checkbox" onChange={(e) => setOptions(
                     _.merge({...options},{window:{fullscreen: e.target.checked}})
                 )}/>
-
+                <p>Options saved</p>
                 <button className='form__button' type="submit">Save</button>
+                <button className='form__button' type="submit">Reset</button>
             </form>
         </div>
     );

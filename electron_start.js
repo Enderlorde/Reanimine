@@ -6,26 +6,32 @@ const os = require('os');
 const _ = require('lodash');
 const fs = require('fs');
 const { DownloaderHelper } = require('node-downloader-helper');
-const open = require('open');
+//const open = require('open');
 
 Authenticator.changeApiUrl('https://authserver.ely.by/auth')
 let options = {
     root: "./minecraft",
-    customArgs: [`-javaagent:${__dirname}\\minecraft\\authlib-injector-1.2.2.jar=ely.by`],
+    //customArgs: [`-javaagent:${__dirname}\\minecraft\\authlib-injector-1.2.2.jar=ely.by`],
     version: {
         number: "1.12.2",
         type: "release"
     },
-    forge: `${__dirname}\\minecraft\\Forge.jar`,
+    forge: `${__dirname}/minecraft/Forge.jar`,
     server:{
         host: '45.87.246.29',
     },
     memory: {
-        max: "6G",
-        min: "4G"
+        max: "1G",
+        min: "512M"
     },
     overrides:{
         detached: false,
+        fw: {
+            baseUrl: 'https://github.com/ZekerZhayard/ForgeWrapper/releases/download/',
+            version: '1.5.1',
+            sh1: '90104e9aaa8fbedf6c3d1f6d0b90cabce080b5a9',
+            size: 29892,
+        },
     }
 }
 
@@ -74,7 +80,8 @@ const createWindow = () => {
     launcher.on('download', (e) => window.webContents.send('download-done', e));  
     launcher.on('close', (code) => window.webContents.send('game-close', code));
 
-    window.loadURL(`file://${path.join(__dirname, 'build/index.html')}`);
+    //window.loadURL(`file://${path.join(__dirname, 'build/index.html')}`);
+    window.loadURL(`http://localhost:3000`);
 }
 
 app.commandLine.appendSwitch('ignore-certificate-errors');
@@ -108,7 +115,7 @@ const rootFolderCheck = () => new Promise((resolve, reject) => {
         console.log("[rootFolderChek]: root folder doesn't exists, creating...");
         fs.mkdir((directory),{},(err) => {
             if (err) throw err;
-            resolve()
+            reject()
         });
     }
 });
@@ -197,9 +204,9 @@ ipcMain.handle('login', (e, credentials) => {
     return Authenticator.getAuth(credentials.nickname, credentials.password).then((authData) => fullfiled(authData), (reason) => rejected(reason))
 });
 
-launcher.on('debug', (e) => {
+/* launcher.on('debug', (e) => {
     const closingRegExp = new RegExp(/closing\.\.\./);
     if (closingRegExp.test(e)) launcher.launch(options);
     console.log(e)
-});
+}); */
 launcher.on('data', (e) => console.log(e));
