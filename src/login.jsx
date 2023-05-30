@@ -4,7 +4,6 @@ import Progress from './progress.jsx';
 import Button from './button.jsx';
 import './login.sass';
 import './form.sass';
-import { json } from 'react-router-dom';
 
 const Form = (props) => {
     const [nickname, setNickname] = useState();

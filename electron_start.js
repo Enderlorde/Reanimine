@@ -11,24 +11,25 @@ const { DownloaderHelper } = require('node-downloader-helper');
 Authenticator.changeApiUrl('https://authserver.ely.by/auth')
 let options = {
     root: "./minecraft",
-    //customArgs: [`-javaagent:${__dirname}\\minecraft\\authlib-injector-1.2.2.jar=ely.by`],
+    //customArgs: [`-javaagent:./minecraft/authlib-injector-1.2.2.jar=ely.by                                           `],
     version: {
         number: "1.12.2",
         type: "release"
     },
-    forge: `${__dirname}/minecraft/Forge.jar`,
+    forge: `./minecraft/Forge.jar`,
     server:{
-        host: '45.87.246.29',
+       // host: '45.87.246.29',
     },
+    minArgs: 17,
     memory: {
         max: "1G",
         min: "512M"
     },
     overrides:{
-        detached: false,
+        detached: true,
         fw: {
             baseUrl: 'https://github.com/ZekerZhayard/ForgeWrapper/releases/download/',
-            version: '1.5.1',
+            version: '1.5.5',
             sh1: '90104e9aaa8fbedf6c3d1f6d0b90cabce080b5a9',
             size: 29892,
         },
@@ -80,8 +81,8 @@ const createWindow = () => {
     launcher.on('download', (e) => window.webContents.send('download-done', e));  
     launcher.on('close', (code) => window.webContents.send('game-close', code));
 
-    //window.loadURL(`file://${path.join(__dirname, 'build/index.html')}`);
-    window.loadURL(`http://localhost:3000`);
+    window.loadURL(`file://${path.join(__dirname, 'build/index.html')}`);
+    //window.loadURL(`http://localhost:3000`);
 }
 
 app.commandLine.appendSwitch('ignore-certificate-errors');
@@ -108,15 +109,19 @@ ipcMain.handle('close', () => {
 
 const rootFolderCheck = () => new Promise((resolve, reject) => {
     const directory = options.root;
-    if (fs.existsSync(directory)){
+    if (fs.existsSync(directory,)){
         console.log("[rootFolderChek]: root folder exists, starting...");
         resolve()
     }else{
         console.log("[rootFolderChek]: root folder doesn't exists, creating...");
-        fs.mkdir((directory),{},(err) => {
-            if (err) throw err;
-            reject()
-        });
+        try{
+            fs.mkdir((directory),{ recursive: true },() => {
+                console.log('Folder created');
+                resolve()
+            });
+        }catch (e){
+            reject(e)
+        }
     }
 });
 
@@ -144,7 +149,7 @@ const forgeCheck = () => new Promise((resolve, reject) => {
         resolve()
     }else{
         console.log("[forgeChek]: lib doesn't exists, downloading...");
-        const dl = new DownloaderHelper('https://maven.minecraftforge.net/net/minecraftforge/forge/1.12.2-14.23.5.2859/forge-1.12.2-14.23.5.2859-universal.jar', options.root, {
+        const dl = new DownloaderHelper("https://maven.minecraftforge.net/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860-installer.jar", options.root, {
             fileName: 'Forge.jar'
         });
         dl.on('end', () => {
@@ -210,3 +215,4 @@ ipcMain.handle('login', (e, credentials) => {
     console.log(e)
 }); */
 launcher.on('data', (e) => console.log(e));
+launcher.on('debug', (e) => console.log(e));

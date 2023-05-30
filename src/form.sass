@@ -27,7 +27,11 @@
         cursor: pointer
         transition: all 0.3s ease-in-out
 
-        &:hover
+        &:disabled
+                color: #cacaca
+                cursor: not-allowed
+
+        &:not(:disabled):hover
             color: #FED766
             background-color: #272727
             font-size: 20px

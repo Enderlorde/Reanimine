@@ -26,7 +26,11 @@
       "package.json",
       "electron_start.js",
       "preload.js"
-    ]
+    ],
+    "fileAssociations": {
+      "ext": "png",
+      "icon": "./icon.png"
+    }
   },
   "author": "enderlorde",
   "license": "ISC",
