@@ -1,9 +1,10 @@
 import React from 'react';
+import './map.sass';
 
 const Map = () => {
     return (
         <div className="map">
-            <h2>MAP PAGE</h2>
+            <iframe className="map__iframe" src="http://45.87.246.29:8123/" frameborder="0"></iframe>
         </div>
     );
 }

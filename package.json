@@ -4,18 +4,13 @@
   "description": "Simple minecraft launcher for my server",
   "main": "electron_start.js",
   "scripts": {
-    "start": "concurrently \"webpack serve\" \"yarn electron\" ",
-    "build": "webpack --mode=production --node-env=production",
+    "start": "concurrently \"webpack serve\" \"yarn electron:dev\" ",
+    "dist": "webpack --mode=production --node-env=production & electron-builder",
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
     "serve": "webpack serve",
-    "electron": "wait-on tcp:3000 & electron .",
-    "electronProd": "electron .",
-    "package": "electron-forge package",
-    "make": "electron-forge --asar make",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "electron:dev": "set ELECTRON_START_URL=http://localhost:3000 & wait-on tcp:3000 & electron ."
   },
   "build": {
     "appId": "com.launcher.reanicraft",
@@ -59,7 +54,9 @@
     "workbox-webpack-plugin": "^6.5.4"
   },
   "dependencies": {
+    "@minecraft-js/nbt": "^1.1.0",
     "@wiicamp/react-minecraft-skin-viewer": "^1.0.6",
+    "@xmcl/nbt": "^3.0.1",
     "ajv": "^8.12.0",
     "lodash": "^4.17.21",
     "minecraft-launcher-core": "^3.16.18",

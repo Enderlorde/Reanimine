@@ -6,6 +6,9 @@ const os = require('os');
 const _ = require('lodash');
 const fs = require('fs');
 const { DownloaderHelper } = require('node-downloader-helper');
+const { parseNBT, writeNBT } = require('@minecraft-js/nbt');
+const { NBT_Compound } = require('@minecraft-js/nbt/dist/datatypes/Compound');
+const { NBT_List, NBT_String } = require('@minecraft-js/nbt/dist/datatypes');
 //const open = require('open');
 
 Authenticator.changeApiUrl('https://authserver.ely.by/auth')
@@ -74,6 +77,11 @@ const createWindow = () => {
         }
     });
 
+    
+    ipcMain.handle('minimize', () => {
+        window.minimize();
+    });
+
     const savedOptions = window.webContents.executeJavaScript(`localStorage.getItem('options')`).then(value => JSON.parse(value));
     savedOptions.then((val) => {options = _.merge({...options}, {...val}); console.log(options); console.log(options.authorization)});
 
@@ -81,9 +89,28 @@ const createWindow = () => {
     launcher.on('download', (e) => window.webContents.send('download-done', e));  
     launcher.on('close', (code) => window.webContents.send('game-close', code));
 
-    window.loadURL(`file://${path.join(__dirname, 'build/index.html')}`);
+    //window.loadURL(`file://${path.join(__dirname, 'build/index.html')}`);
     //window.loadURL(`http://localhost:3000`);
+    window.loadURL(process.env.ELECTRON_START_URL||`file://${path.join(__dirname, 'build/index.html')}`);
 }
+
+const buffer = fs.readFileSync('./myfile.nbt');
+console.log(parseNBT(buffer));
+console.log(parseNBT(buffer).payload);
+console.log(parseNBT(buffer).payload[0]);
+console.log(parseNBT(buffer).payload[0].payload);
+console.log(parseNBT(buffer).payload[0].payload[0]);
+
+/* const test = new NBT_Compound('')
+test.payload = [new NBT_List('servers')]
+test.payload[0].payload = [new NBT_Compound()]
+test.payload[0].payload[0].payload = [ new NBT_Compound()]
+test.payload[0].payload[0].payload[0].payload = [new NBT_String("ip"), new NBT_String("name")]
+test.payload[0].payload[0].payload[0].payload[0].payload = "45.87.246.29";
+test.payload[0].payload[0].payload[0].payload[1].payload = "Server"; */
+
+/* const buffer2 = writeNBT(test)
+fs.writeFileSync('myfile.nbt', buffer2) */
 
 app.commandLine.appendSwitch('ignore-certificate-errors');
 
@@ -102,6 +129,7 @@ app.whenReady().then(() => {
 ipcMain.handle('save-options', (e, newOptions) => {
     options = _.merge({...options}, {...newOptions});
 });
+
 
 ipcMain.handle('close', () => {
     app.quit();

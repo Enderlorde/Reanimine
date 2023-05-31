@@ -2,6 +2,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('something',{
     close: () => ipcRenderer.invoke('close'),
+    minimize: () => ipcRenderer.invoke('minimize'),
     play: () => ipcRenderer.invoke('play'),
     handleCounter: (callback) => ipcRenderer.on('update-counter', callback),
     handleDownload: (callback) => ipcRenderer.on('download-done', callback),

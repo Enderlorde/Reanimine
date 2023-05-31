@@ -20,7 +20,7 @@ const DirectoryPicker = (props) => {
 
     return (
         <div className="directoryPicker">
-            <button type="button" onClick={() => getDirectoryPath()}>...</button>
+            <button className="directoryPicker__button" type="button" onClick={() => getDirectoryPath()}>...</button>
             <input className="directoryPicker__path" value={props.defaultPath} readOnly/>
         </div>
     );

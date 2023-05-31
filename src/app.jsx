@@ -26,7 +26,7 @@ const App = () => {
 
     return (
         <div className="app">
-            <Header title="launcher"/>
+            <Header title="Reanimine"/>
             <Navigation />
             {useLocation().pathname == '/' &&  
                 <div className="app__wrapper">

@@ -40,7 +40,7 @@ const Account = () => {
                     </Suspense>
                     
                 </div>:
-                <h2>Log in online to use this page</h2>
+                <h3>Log in online to use this page</h3>
             }
         </div>
     );

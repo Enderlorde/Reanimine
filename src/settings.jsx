@@ -66,7 +66,7 @@ const Settings = () => {
     return (
         <div className="settings">
             <form className="settings__form form" action="" onSubmit={(e) => submitHandler(e)}>
-            <label htmlFor="workingDirInput">Path to game</label>
+                <label htmlFor="workingDirInput">Path to game</label>
                 <DirectoryPicker defaultPath={options.root} onPathChange={(value) => {
                     setSaved(false);
 
@@ -79,7 +79,7 @@ const Settings = () => {
 
                 <label htmlFor="">Min RAM size: {options.memory.min}mb</label>
                 <input type="range" max={options.memory.max} 
-                defaultValue={options.memory.min} min={1024} onChange={(e) =>
+                defaultValue={options.memory.min} min={0} onChange={(e) =>
                     {
                         setSaved(false);
 
@@ -101,7 +101,7 @@ const Settings = () => {
                 }/>
                 
                 <label htmlFor="">Game width</label>
-                <input disabled={options.window.fullscreen} defaultValue={options.window.width} type="number" onChange={(e) =>
+                <input className="form__input" disabled={options.window.fullscreen} defaultValue={options.window.width} type="number" onChange={(e) =>
                     { 
                         setSaved(false);
 
@@ -112,7 +112,7 @@ const Settings = () => {
                 }/>
 
                 <label htmlFor="">Game height</label>
-                <input disabled={options.window.fullscreen} defaultValue={options.window.height} type="number" onChange={(e) =>
+                <input className="form__input" disabled={options.window.fullscreen} defaultValue={options.window.height} type="number" onChange={(e) =>
                     { 
                         setSaved(false);
 
