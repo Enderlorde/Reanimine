@@ -6,9 +6,6 @@ const os = require('os');
 const _ = require('lodash');
 const fs = require('fs');
 const { DownloaderHelper } = require('node-downloader-helper');
-const { parseNBT, writeNBT } = require('@minecraft-js/nbt');
-const { NBT_Compound } = require('@minecraft-js/nbt/dist/datatypes/Compound');
-const { NBT_List, NBT_String } = require('@minecraft-js/nbt/dist/datatypes');
 //const open = require('open');
 
 Authenticator.changeApiUrl('https://authserver.ely.by/auth')
