@@ -18,7 +18,7 @@ let options = {
     },
     forge: `./minecraft/Forge.jar`,
     server:{
-       // host: '45.87.246.29',
+        //host: '45.87.246.29',
     },
     minArgs: 17,
     memory: {

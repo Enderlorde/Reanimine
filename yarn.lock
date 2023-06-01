@@ -1216,6 +1216,26 @@
     lodash "^4.17.15"
     tmp-promise "^3.0.2"
 
+"@minecraft-js/bufwrapper@^1.4.6":
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/@minecraft-js/bufwrapper/-/bufwrapper-1.4.6.tgz#dab5ae732ee9952ee0d401cf17bc9243b239d3e2"
+  integrity sha512-+VD3Zq2S3q4EHsHNCFmNJKJbVSNBFROxMKEmwnC43GP2/AI+kb/gDro4UOq3lup4EGK0xNPTejUe1Qjq/sXt3Q==
+  dependencies:
+    "@minecraft-js/uuid" "^1.0.3"
+    varint "^6.0.0"
+
+"@minecraft-js/nbt@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@minecraft-js/nbt/-/nbt-1.1.0.tgz#0311e34859f120a951971024958ac8ef14645874"
+  integrity sha512-Rl+o09ptoGkBJdHk57vs5hosOnaCfzB2zDWnXNBsC900+OAIl+GHuQLfZj10OIZvzp99dguYK/yJRhYjFPeBUA==
+  dependencies:
+    "@minecraft-js/bufwrapper" "^1.4.6"
+
+"@minecraft-js/uuid@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@minecraft-js/uuid/-/uuid-1.0.3.tgz#cf6c01d400e2fb72f2eb642c92c7912a3b19f928"
+  integrity sha512-IOomvwaBUGctcSreU2QFLwlQoFyJItBrsEt9sMFylg7+cyuS7IwoMFvbbfeC3uFrfmudQQqD8/TUOG4zcbHGVg==
+
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"
   resolved "https://registry.yarnpkg.com/@nicolo-ribaudo/chokidar-2/-/chokidar-2-2.1.8-no-fsevents.3.tgz#323d72dd25103d0c4fbdce89dadf574a787b1f9b"
@@ -2237,6 +2257,19 @@
   integrity sha512-YFXgWmxWusXEUe8H8JB/RSiwDTqLuEv8Z8Xar2mqnOs9LNo6tQQTJ/Aj52X8hawfOF50HJv1B8KXiBiqMykwrA==
   dependencies:
     skinview3d "^2.2.0"
+
+"@xmcl/bytebuffer@0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@xmcl/bytebuffer/-/bytebuffer-0.1.1.tgz#402d9beb8cd8d93ad3012e4d9e2c5cf08bc6d60d"
+  integrity sha512-Mja7XzIjXgXX/mDNqkVO6X3yltIYo18RYTo3J4UA8Di2TMZp90NRbLJ8PFRWAyDo/R+kNyErvfXMge2eB/q9pg==
+
+"@xmcl/nbt@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@xmcl/nbt/-/nbt-3.0.1.tgz#27260637af83582f978517dc61a1e65b0d09757a"
+  integrity sha512-RPMs1GIc/z5xtrTIacGtdZGEkBPs8Hxo2+Dn2cPTgtRr7Rcj8JtSmUmFqhTUEeb+Arbm1rXFR79/EDAaVqBEgw==
+  dependencies:
+    "@xmcl/bytebuffer" "0.1.1"
+    pako "^2.1.0"
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
@@ -3445,6 +3478,11 @@ csso@^5.0.5:
   dependencies:
     css-tree "~2.2.0"
 
+curseforge-api@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/curseforge-api/-/curseforge-api-1.1.0.tgz#5806a40443527f07f492021b97685204c36a514f"
+  integrity sha512-NyJLQodVV/YpruqxfQcNhkubfsmsHvdVlREBzAWworOc4Ubn+1LlA5lyen6VcZnNu+cstXdI3RdNCRmtgrohAg==
+
 dargs@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/dargs/-/dargs-7.0.0.tgz#04015c41de0bcb69ec84050f3d9be0caf8d6d5cc"
@@ -3456,6 +3494,11 @@ dashdash@^1.12.0:
   integrity sha512-jRFi8UDGo6j+odZiEpjazZaWqEal3w/basFjQHQEwVtZJGDpxbH1MeYluwCS8Xq5wmLJooDlMgvVarmWfGM44g==
   dependencies:
     assert-plus "^1.0.0"
+
+data-uri-to-buffer@^4.0.0:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/data-uri-to-buffer/-/data-uri-to-buffer-4.0.1.tgz#d8feb2b2881e6a4f58c2e08acfd0e2834e26222e"
+  integrity sha512-0R9ikRb668HB7QDxT1vkpuUBtqc53YyAwMwGeUFKRojY/NWKvdZ+9UYtRfGmhqNbRkTSVpMbmyhXipFFv2cb/A==
 
 date-fns@^2.29.3:
   version "2.30.0"
@@ -4165,6 +4208,14 @@ fd-slicer@~1.1.0:
   dependencies:
     pend "~1.2.0"
 
+fetch-blob@^3.1.2, fetch-blob@^3.1.4:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/fetch-blob/-/fetch-blob-3.2.0.tgz#f09b8d4bbd45adc6f0c20b7e787e793e309dcce9"
+  integrity sha512-7yAQpD2UMJzLi1Dqv7qFYnPbaPx7ZfFK6PiIxQ4PfkGPyNyl2Ugx+a/umUonmKqjhM4DnfbMvdX6otXq83soQQ==
+  dependencies:
+    node-domexception "^1.0.0"
+    web-streams-polyfill "^3.0.3"
+
 figures@^3.0.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/figures/-/figures-3.2.0.tgz#625c18bd293c604dc4a8ddb2febf0c88341746af"
@@ -4281,6 +4332,13 @@ form-data@~2.3.2:
     asynckit "^0.4.0"
     combined-stream "^1.0.6"
     mime-types "^2.1.12"
+
+formdata-polyfill@^4.0.10:
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/formdata-polyfill/-/formdata-polyfill-4.0.10.tgz#24807c31c9d402e002ab3d8c720144ceb8848423"
+  integrity sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==
+  dependencies:
+    fetch-blob "^3.1.2"
 
 forwarded@0.2.0:
   version "0.2.0"
@@ -6013,6 +6071,11 @@ node-addon-api@^1.6.3:
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-1.7.2.tgz#3df30b95720b53c24e59948b49532b662444f54d"
   integrity sha512-ibPK3iA+vaY1eEjESkQkM0BbCqFOaZMiXRTtdB0u7b4djtY6JnsjvPdUHVMg6xQt3B8fpTTWHI9A+ADjM9frzg==
 
+node-domexception@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/node-domexception/-/node-domexception-1.0.0.tgz#6888db46a1f71c0b76b3f7555016b63fe64766e5"
+  integrity sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==
+
 node-downloader-helper@^2.1.7:
   version "2.1.7"
   resolved "https://registry.yarnpkg.com/node-downloader-helper/-/node-downloader-helper-2.1.7.tgz#74ef32db55b6d3df18dadf0f3e02d629dd7003a4"
@@ -6024,6 +6087,15 @@ node-fetch@^2.6.7:
   integrity sha512-4I6pdBY1EthSqDmJkiNk3JIT8cswwR9nfeW/cPdUagJYEQG7R95WRH74wpz7ma8Gh/9dI9FP+OU+0E4FvtA55w==
   dependencies:
     whatwg-url "^5.0.0"
+
+node-fetch@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-3.3.1.tgz#b3eea7b54b3a48020e46f4f88b9c5a7430d20b2e"
+  integrity sha512-cRVc/kyto/7E5shrWca1Wsea4y6tL9iYJE5FBCius3JQfb/4P4I295PfhgbJQBLTx6lATE4z+wK0rPM4VS2uow==
+  dependencies:
+    data-uri-to-buffer "^4.0.0"
+    fetch-blob "^3.1.4"
+    formdata-polyfill "^4.0.10"
 
 node-forge@^1:
   version "1.3.1"
@@ -6495,6 +6567,11 @@ pacote@^15.2.0:
     sigstore "^1.3.0"
     ssri "^10.0.0"
     tar "^6.1.11"
+
+pako@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/pako/-/pako-2.1.0.tgz#266cc37f98c7d883545d11335c00fbd4062c9a86"
+  integrity sha512-w+eufiZ1WuJYgPXbV/PO3NCMEc3xqylkKHzp8bxp1uW4qaSNQUkwmLLEc3kKsfz8lpV1F8Ht3U1Cm+9Srog2ug==
 
 param-case@^3.0.4:
   version "3.0.4"
@@ -8337,6 +8414,11 @@ validate-npm-package-name@^5.0.0:
   dependencies:
     builtins "^5.0.0"
 
+varint@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/varint/-/varint-6.0.0.tgz#9881eb0ce8feaea6512439d19ddf84bf551661d0"
+  integrity sha512-cXEIW6cfr15lFv563k4GuVuW/fiwjknytD37jIOLSdSWuOI6WnO/oKwmP2FQTU2l01LP8/M5TSAJpzUaGe3uWg==
+
 vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
@@ -8420,6 +8502,11 @@ wcwidth@^1.0.1:
   integrity sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==
   dependencies:
     defaults "^1.0.3"
+
+web-streams-polyfill@^3.0.3:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/web-streams-polyfill/-/web-streams-polyfill-3.2.1.tgz#71c2718c52b45fd49dbeee88634b3a60ceab42a6"
+  integrity sha512-e0MO3wdXWKrLbL0DgGnUV7WHVuw9OUvL4hjgnPkIeEvESk74gAITi5G606JtZPp39cd8HA9VQzCIvA49LpPN5Q==
 
 webidl-conversions@^3.0.0:
   version "3.0.1"
