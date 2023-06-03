@@ -1,7 +1,6 @@
 import React from 'react';
 import { useRef,useEffect, useState, Suspense } from 'react';
 import {SkinViewer} from 'skinview3d';
-import Skin from '../static/skin.png';
 
 import './account.sass';
 
@@ -20,7 +19,7 @@ const Account = () => {
         const nickname = window.localStorage.getItem('nickname');
 
         if(nickname && mode == 'Online'){
-            let skinViewer = new SkinViewer({
+            new SkinViewer({
                 canvas: viewport.current,
                 width: 240,
                 height: 320,

@@ -1,11 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import PlayIcon from './icons/play.svg';
-import MapIcon from './icons/map.svg';
-import SettingsIcon from './icons/settings.svg';
-import AccountIcon from './icons/account.svg';
-import WikiIcon from './icons/wiki.svg';
-import Tooltips from './tooltips.jsx';
+import { ReactComponent as PlayIcon } from './icons/play.svg';
+import { ReactComponent as MapIcon } from './icons/map.svg';
+import { ReactComponent as SettingsIcon } from './icons/settings.svg';
+import { ReactComponent as AccountIcon } from './icons/account.svg';
+import { ReactComponent as WikiIcon } from './icons/wiki.svg';
 import './navigation.sass';
 
 const Navigation = () => {
