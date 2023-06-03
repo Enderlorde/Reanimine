@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { createHashRouter, RouterProvider, Outlet, useLocation } from 'react-router-dom';
 import Navigation from './navigation.jsx';
 import Header from './header.jsx';
-import Logo from './icons/logo.svg';
+import {ReactComponent as Logo} from './icons/logo.svg';
 import Login from './login.jsx';
 import Map from './map.jsx';
 import Wiki from './wiki.jsx';

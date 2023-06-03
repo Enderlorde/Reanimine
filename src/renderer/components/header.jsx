@@ -1,6 +1,6 @@
 import React from 'react';
 import Toolbox from './toolbox.jsx';
-import Logo from './icons/logo.svg';
+import { ReactComponent as Logo } from './icons/logo.svg';
 
 import './header.sass';
 

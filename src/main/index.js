@@ -1,24 +1,24 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
-const path = require('path');
-const { Client, Authenticator } = require('minecraft-launcher-core');
+import { app, BrowserWindow, ipcMain, dialog } from 'electron';
+import path from 'path';
+import { Client, Authenticator } from'minecraft-launcher-core';
 const launcher = new Client();
-const os = require('os');
-const _ = require('lodash');
-const fs = require('fs');
-const { DownloaderHelper } = require('node-downloader-helper');
-//const open = require('open');
+import os from 'os';
+import _ from 'lodash';
+import fs from 'fs';
+import { DownloaderHelper } from 'node-downloader-helper';
+import open from 'open';
 
 Authenticator.changeApiUrl('https://authserver.ely.by/auth')
 let options = {
     root: "./minecraft",
-    //customArgs: [`-javaagent:./minecraft/authlib-injector-1.2.2.jar=ely.by                                           `],
+    customArgs: [`-javaagent:./minecraft/authlib-injector-1.2.2.jar=ely.by`,''],
     version: {
         number: "1.12.2",
         type: "release"
     },
     forge: `./minecraft/Forge.jar`,
     server:{
-        //host: '45.87.246.29',
+       host: '45.87.246.29',
     },
     minArgs: 17,
     memory: {
@@ -42,7 +42,7 @@ const createWindow = () => {
         height: 500,
         frame: false,
         webPreferences: {
-            preload:path.join(__dirname, 'preload.js')
+            preload:path.join(__dirname, '..\\preload\\index.js')
         }
     });
 
@@ -86,30 +86,8 @@ const createWindow = () => {
     launcher.on('download', (e) => window.webContents.send('download-done', e));  
     launcher.on('close', (code) => window.webContents.send('game-close', code));
 
-    //window.loadURL(`file://${path.join(__dirname, 'build/index.html')}`);
-    //window.loadURL(`http://localhost:3000`);
-    window.loadURL(process.env.ELECTRON_START_URL||`file://${path.join(__dirname, 'build/index.html')}`);
+    window.loadURL(process.env.ELECTRON_START_URL||`file://${path.join(__dirname, '../renderer/index.html')}`);
 }
-
-const buffer = fs.readFileSync('./myfile.nbt');
-console.log(parseNBT(buffer));
-console.log(parseNBT(buffer).payload);
-console.log(parseNBT(buffer).payload[0]);
-console.log(parseNBT(buffer).payload[0].payload);
-console.log(parseNBT(buffer).payload[0].payload[0]);
-
-/* const test = new NBT_Compound('')
-test.payload = [new NBT_List('servers')]
-test.payload[0].payload = [new NBT_Compound()]
-test.payload[0].payload[0].payload = [ new NBT_Compound()]
-test.payload[0].payload[0].payload[0].payload = [new NBT_String("ip"), new NBT_String("name")]
-test.payload[0].payload[0].payload[0].payload[0].payload = "45.87.246.29";
-test.payload[0].payload[0].payload[0].payload[1].payload = "Server"; */
-
-/* const buffer2 = writeNBT(test)
-fs.writeFileSync('myfile.nbt', buffer2) */
-
-app.commandLine.appendSwitch('ignore-certificate-errors');
 
 ipcMain.handle('registration', async () => {
     open("https://account.ely.by/login");
@@ -126,7 +104,6 @@ app.whenReady().then(() => {
 ipcMain.handle('save-options', (e, newOptions) => {
     options = _.merge({...options}, {...newOptions});
 });
-
 
 ipcMain.handle('close', () => {
     app.quit();
@@ -206,7 +183,7 @@ ipcMain.handle('play', async () => {
                 }else{
                     console.log('no options loaded');
                     throw ('No options loaded');
-                };
+                }
             })
         })
     })
@@ -218,9 +195,6 @@ ipcMain.handle('login', (e, credentials) => {
     const fullfiled = (authData) => {
         options=_.merge({...options},{authorization: authData}); console.log(options.authorization);
         const mode = authData.access_token === authData.client_token?'Offline':'Online';
-        if (mode == "Online"){
-
-        }
         const info = `${mode} mode as ${authData.name}`;
         console.log(info);
         return JSON.stringify({info: info, mode: mode, authData: authData});
@@ -234,10 +208,5 @@ ipcMain.handle('login', (e, credentials) => {
     return Authenticator.getAuth(credentials.nickname, credentials.password).then((authData) => fullfiled(authData), (reason) => rejected(reason))
 });
 
-/* launcher.on('debug', (e) => {
-    const closingRegExp = new RegExp(/closing\.\.\./);
-    if (closingRegExp.test(e)) launcher.launch(options);
-    console.log(e)
-}); */
 launcher.on('data', (e) => console.log(e));
 launcher.on('debug', (e) => console.log(e));
