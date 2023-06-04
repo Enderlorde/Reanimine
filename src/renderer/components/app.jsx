@@ -12,7 +12,7 @@ import Settings from './settings.jsx';
 import './app.sass';
 
 const App = () => {
-    const [progressState, setProgressState] = React.useState({ type: 'none', task: 0, total: 100 });
+    const [progressState, setProgressState] = React.useState({ type: 'none', current: 0, total: 100 });
 
     window.something.handleCounter((e, value) => {
         setProgressState(value);

@@ -7,11 +7,13 @@ import _ from 'lodash';
 import fs from 'fs';
 import { DownloaderHelper } from 'node-downloader-helper';
 import open from 'open';
-
+import { ModsDownloader } from './mods-download.js';
+const modsDownloader =  new ModsDownloader('$2a$10$vh2nSvmBS2Trig9lQ4WBX.FcrI7ZkzvJqY0iV2v/ODjcCmr3QeKea', [61811, 229061, 242638, 223008, 271856, 246391, 310383, 51195, 59751, 276837, 237754, 311327, 229060, 237749, 238222, 74072, 74924, 291786, 241392, 60028, 350675, 221857, 446100, 247357, 311561]);
+//61811 - buildcraft, 242638 - industrialcraft, 223008 - opencomputers, 241392 - balkon's weapon mod, 51195 - railcraft, 229061 - backtools, 236484, 237754 - zombie awareness, 237749 - coroutil for zombieawareness, 228027, 271856 - geolosys, 246391 - tough as nails, 223094, 59751 - forestry, 256717, 223794, 225738, 74072 - tinkers construct, 60028 - aquaculture, 241160, 277616, 252239, 285612, 281849, 221857 - pams harvestcraft, 287683, 295319, 276837 - firstaid, 354143, 352835, 235729, 272671, 310383 - armor underwear, 247357 - extra alchemy, 522574, 253456, 711714, 684624, 269973, 244830, 319175, 373774, 642817, 244844, 229060 - ichunutil for backtools, 311327 - carrots lib for touth as nails, 74924 - mantle lib for tinker, 311561 - minerva lib for extra potion, 242872, 556777, 227083, 224472, 238222 - JEI, 291786 - tinkers-jei, 350675 - pams brewcraft, 446100 - pams breadcraft,
 Authenticator.changeApiUrl('https://authserver.ely.by/auth')
 let options = {
     root: "./minecraft",
-    customArgs: [`-javaagent:./minecraft/authlib-injector-1.2.2.jar=ely.by`,''],
+    customArgs: [`-javaagent: ${__dirname}/minecraft/authlib-injector-1.2.2.jar=ely.by`, "-Dauthlibinjector.ignoredPackages=forgewrapper"],
     version: {
         number: "1.12.2",
         type: "release"
@@ -74,7 +76,8 @@ const createWindow = () => {
         }
     });
 
-    
+    modsDownloader.on('test', (e) => console.log(e));
+
     ipcMain.handle('minimize', () => {
         window.minimize();
     });
@@ -82,6 +85,7 @@ const createWindow = () => {
     const savedOptions = window.webContents.executeJavaScript(`localStorage.getItem('options')`).then(value => JSON.parse(value));
     savedOptions.then((val) => {options = _.merge({...options}, {...val}); console.log(options); console.log(options.authorization)});
 
+    modsDownloader.on('download-status', (e) => window.webContents.send('update-counter', e));
     launcher.on('download-status', (e) => window.webContents.send('update-counter', e));
     launcher.on('download', (e) => window.webContents.send('download-done', e));  
     launcher.on('close', (code) => window.webContents.send('game-close', code));
@@ -174,16 +178,18 @@ ipcMain.handle('play', async () => {
         throw (reason)
     }
 
-    rootFolderCheck().then(()=>{
-        authlibCheck().then(() => {
-            forgeCheck().then(() => {
-                if (options){
-                    console.log(options);
-                    return launcher.launch(options).then((result) => fullfiled(result)).catch((reason) => rejected(reason));
-                }else{
-                    console.log('no options loaded');
-                    throw ('No options loaded');
-                }
+    modsDownloader.download(options.root, options.version.number).then(() => {
+        rootFolderCheck().then(()=>{
+            authlibCheck().then(() => {
+                forgeCheck().then(() => {
+                    if (options){
+                        console.log(options);
+                        return launcher.launch(options).then((result) => fullfiled(result)).catch((reason) => rejected(reason));
+                    }else{
+                        console.log('no options loaded');
+                        throw ('No options loaded');
+                    }
+                })
             })
         })
     })

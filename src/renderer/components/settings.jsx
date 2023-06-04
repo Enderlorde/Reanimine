@@ -72,7 +72,7 @@ const Settings = () => {
 
                     setOptions(_.merge({...options}, {
                         root: `${value}/minecraft`,
-                        //customArgs: `-javaagent:${value}\\minecraft\\authlib-injector-1.2.2.jar=ely.by                                   `,
+                        customArgs: [`-javaagent:${value}\\minecraft\\authlib-injector-1.2.2.jar=ely.by`, "-Dauthlibinjector.ignoredPackages=forgewrapper"],
                         forge: `${value}/minecraft/Forge.jar`,
                     } ))}
                 }/>
