@@ -65,6 +65,8 @@ const createWindow = () => {
         });
       });
 
+    window.webContents.session.clearCache();
+
     ipcMain.handle('open-directory', async () => {
         const { cancelled,filePaths } = await dialog.showOpenDialog(window, {
             properties: ['openDirectory']
@@ -176,7 +178,7 @@ ipcMain.handle('play', async () => {
         throw (reason)
     }
 
-    modsDownloader.download(options.root, options.version.number, [61811, 229061, 242638, 223008, 271856, 246391, 310383, 51195, 59751, 276837, 237754, 311327, 229060, 237749, 238222, 74072, 74924, 291786, 241392, 60028, 350675, 221857, 446100, 247357, 311561]).then(() => {
+    modsDownloader.download(options.root, options.version.number, [61811, 229061, 242638, 223008, 271856, 246391, 310383, 51195, 59751, 276837, 237754, 311327, 229060, 237749, 238222, 74072, 74924, 291786, 241392, 60028, 221857, 446100, 247357, 311561]).then(() => {
         rootFolderCheck().then(()=>{
             authlibCheck().then(() => {
                 forgeCheck().then(() => {
@@ -190,6 +192,9 @@ ipcMain.handle('play', async () => {
                 })
             })
         })
+    }).catch((err) => {
+        console.log(`[MAIN] Error when downloading: ${err}`);
+        rejected(`[MAIN] Error when downloading: ${err}`);
     })
 });
 
