@@ -16,7 +16,7 @@ const App = () => {
 
     window.something.handleCounter((e, value) => {
         setProgressState(value);
-        console.log(value);
+        //console.log(value);
     });
 
     window.something.handleDownload((e, value) => {

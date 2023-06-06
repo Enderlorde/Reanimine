@@ -1,5 +1,5 @@
 import { app, BrowserWindow, ipcMain, dialog } from 'electron';
-import path from 'path';
+import path, { resolve } from 'path';
 import { Client, Authenticator } from'minecraft-launcher-core';
 const launcher = new Client();
 import os from 'os';
@@ -65,6 +65,8 @@ const createWindow = () => {
         });
       });
 
+    window.webContents.session.clearCache();
+
     ipcMain.handle('open-directory', async () => {
         const { cancelled,filePaths } = await dialog.showOpenDialog(window, {
             properties: ['openDirectory']
@@ -111,26 +113,19 @@ ipcMain.handle('close', () => {
     app.quit();
 });
 
-const rootFolderCheck = () => new Promise((resolve, reject) => {
-    const directory = options.root;
-    if (fs.existsSync(directory,)){
-        console.log("[rootFolderChek]: root folder exists, starting...");
-        resolve()
-    }else{
-        console.log("[rootFolderChek]: root folder doesn't exists, creating...");
-        try{
-            fs.mkdir((directory),{ recursive: true },() => {
-                console.log('Folder created');
-                resolve()
-            });
-        }catch (e){
-            reject(e)
-        }
+const rootFolderCheck = (directory) => new Promise((resolve, reject) => {
+    try{
+        fs.mkdir((directory),{ recursive: true },() => {
+            console.log('Folder created');
+            resolve()
+        });
+    }catch (e){
+        reject(e)
     }
 });
 
-const authlibCheck = () => new Promise((resolve, reject) => {
-    const directory = path.join(options.root, 'authlib-injector-1.2.2.jar');
+const authlibCheck = (root) => new Promise((resolve, reject) => {
+    const directory = path.join(root, 'authlib-injector-1.2.2.jar');
     if (fs.existsSync(directory)){
         console.log("[authlibChek]: lib exists, starting...");
         resolve()
@@ -146,8 +141,8 @@ const authlibCheck = () => new Promise((resolve, reject) => {
     }
 });
 
-const forgeCheck = () => new Promise((resolve, reject) => {
-    const directory = path.join(options.root, 'Forge.jar');
+const forgeCheck = (root) => new Promise((resolve, reject) => {
+    const directory = path.join(root, 'Forge.jar');
     if (fs.existsSync(directory)){
         console.log("[forgeChek]: lib exists, starting...");
         resolve()
@@ -176,7 +171,7 @@ ipcMain.handle('play', async () => {
         throw (reason)
     }
 
-    modsDownloader.download(options.root, options.version.number, [61811, 229061, 242638, 223008, 271856, 246391, 310383, 51195, 59751, 276837, 237754, 311327, 229060, 237749, 238222, 74072, 74924, 291786, 241392, 60028, 350675, 221857, 446100, 247357, 311561]).then(() => {
+/*     modsDownloader.download(options.root, options.version.number, [61811, 229061, 242638, 223008, 271856, 246391, 310383, 51195, 59751, 276837, 237754, 311327, 229060, 237749, 238222, 74072, 74924, 291786, 241392, 60028, 221857, 446100, 247357, 311561]).then(() => {
         rootFolderCheck().then(()=>{
             authlibCheck().then(() => {
                 forgeCheck().then(() => {
@@ -190,7 +185,22 @@ ipcMain.handle('play', async () => {
                 })
             })
         })
-    })
+    }).catch((err) => {
+        console.log(`[MAIN] Error when downloading: ${err}`);
+        rejected(`[MAIN] Error when downloading: ${err}`);
+    }) */
+
+    return rootFolderCheck(options.root).then(
+        modsDownloader.download(options.root, options.version.number, [61811, 229061, 242638, 223008, 271856, 246391, 310383, 51195, 59751, 276837, 237754, 311327, 229060, 237749, 238222, 74072, 74924, 291786, 241392, 60028, 221857, 446100, 247357, 311561])
+    ).then(() =>
+        authlibCheck(options.root)
+    ).then(() =>
+        forgeCheck(options.root)
+    ).then(() =>
+        launcher.launch(options)
+    ).then(
+        (result) => fullfiled(result)
+    );
 });
 
 ipcMain.handle('total-memory', () => os.totalmem());

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron-vite preview",
     "dev": "set ELECTRON_START_URL=http://localhost:5173 && electron-vite -w dev",
-    "prebuild": "electron-vite build && electron-builder"
+    "build": "electron-vite build && electron-builder"
   },
   "build": {
     "appId": "com.launcher.reanicraft",

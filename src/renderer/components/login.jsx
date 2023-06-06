@@ -18,6 +18,7 @@ const Form = (props) => {
         const savedNickname = window.localStorage.getItem('nickname'); 
         const savedPID = window.sessionStorage.getItem('pid');
         const savedMode = window.sessionStorage.getItem('mode');
+    
         if (savedNickname) 
         {
             setNickname(savedNickname);
@@ -27,7 +28,7 @@ const Form = (props) => {
         }
         if (savedPID) {
             setRunning(true)
-        };
+        }
         if (savedMode){
             setLoggedIn(true)
         }
@@ -35,8 +36,9 @@ const Form = (props) => {
 
     const playButtonClickHandler = () => {
         window.something.play().then((process) => {
+            console.log(process);
             setRunning(true);
-            window.sessionStorage.setItem('pid', JSON.parse(process).pid)
+            window.sessionStorage.setItem('pid', process.pid)
         }).catch((e) => console.log(e));
     }
 
