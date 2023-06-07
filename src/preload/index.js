@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron');
+import  { contextBridge, ipcRenderer } from 'electron';
 
 contextBridge.exposeInMainWorld('something',{
     close: () => ipcRenderer.invoke('close'),
@@ -12,4 +12,5 @@ contextBridge.exposeInMainWorld('something',{
     registration: ()=> ipcRenderer.invoke('registration'),
     login: (credentials) => ipcRenderer.invoke('login', credentials),
     gameClosed: (callback) => ipcRenderer.on('game-close', callback),
+    modsInfo: () => ipcRenderer.invoke('mods-info'),
 });

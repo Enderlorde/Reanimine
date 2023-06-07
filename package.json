@@ -53,6 +53,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.2",
+    "react-spinners": "^0.13.8",
     "skinview3d": "^3.0.0-alpha.1"
   },
   "repository": "https://github.com/Enderlorde/Reanimine.git",

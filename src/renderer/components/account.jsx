@@ -1,4 +1,5 @@
 import React from 'react';
+import { GridLoader } from 'react-spinners';
 import { useRef,useEffect, useState, Suspense } from 'react';
 import {SkinViewer} from 'skinview3d';
 
@@ -34,7 +35,7 @@ const Account = () => {
         <div className="account">
             {mode == 'Online'?
                 <div className="account__wrapper">
-                    <Suspense>
+                    <Suspense fallback={<GridLoader />}>
                         <canvas ref={viewport}></canvas>
                     </Suspense>
                     

@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, dialog } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog, shell } from 'electron';
 import path, { resolve } from 'path';
 import { Client, Authenticator } from'minecraft-launcher-core';
 const launcher = new Client();
@@ -36,7 +36,9 @@ let options = {
             size: 29892,
         },
     }
-}
+};
+
+const modsIDs = [61811, 229061, 242638, 223008, 271856, 246391, 310383, 51195, 59751, 276837, 237754, 311327, 229060, 237749, 238222, 74072, 74924, 291786, 241392, 60028, 221857, 446100, 247357, 311561];
 
 const createWindow = () => {
     const window = new BrowserWindow({
@@ -67,6 +69,11 @@ const createWindow = () => {
 
     window.webContents.session.clearCache();
 
+    window.webContents.setWindowOpenHandler((details) => {
+        shell.openExternal(details.url);
+        return { action: 'deny' }
+      })
+
     ipcMain.handle('open-directory', async () => {
         const { cancelled,filePaths } = await dialog.showOpenDialog(window, {
             properties: ['openDirectory']
@@ -92,6 +99,8 @@ const createWindow = () => {
 
     window.loadURL(process.env.ELECTRON_START_URL||`file://${path.join(__dirname, '../renderer/index.html')}`);
 }
+
+ipcMain.handle('mods-info',() => modsDownloader.getModsInfo(modsIDs).then((modsInfo) => JSON.stringify(modsInfo)));
 
 ipcMain.handle('registration', async () => {
     open("https://account.ely.by/login");
@@ -191,7 +200,7 @@ ipcMain.handle('play', async () => {
     }) */
 
     return rootFolderCheck(options.root).then(
-        modsDownloader.download(options.root, options.version.number, [61811, 229061, 242638, 223008, 271856, 246391, 310383, 51195, 59751, 276837, 237754, 311327, 229060, 237749, 238222, 74072, 74924, 291786, 241392, 60028, 221857, 446100, 247357, 311561])
+        modsDownloader.download(options.root, options.version.number, modsIDs)
     ).then(() =>
         authlibCheck(options.root)
     ).then(() =>
