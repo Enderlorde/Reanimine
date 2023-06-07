@@ -1,11 +1,13 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import Progress from './progress.jsx';
 import Button from './button.jsx';
 import './login.sass';
 import './form.sass';
 
 const Form = (props) => {
+
     const [nickname, setNickname] = useState();
     const [running, setRunning] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
@@ -98,5 +100,13 @@ const Form = (props) => {
         </div> 
     );
 }
- 
+
+Form.propTypes = {
+    progress: PropTypes.shape({
+        total: PropTypes.number.isRequired,
+        current: PropTypes.number.isRequired,
+        type: PropTypes.string.isRequired
+    }),
+}
+
 export default Form;

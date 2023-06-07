@@ -1,5 +1,5 @@
 import { app, BrowserWindow, ipcMain, dialog, shell } from 'electron';
-import path, { resolve } from 'path';
+import path from 'path';
 import { Client, Authenticator } from'minecraft-launcher-core';
 const launcher = new Client();
 import os from 'os';
@@ -174,30 +174,6 @@ ipcMain.handle('play', async () => {
         console.log('[PLAY]: Run with pid: ' + result.pid)
         return (JSON.stringify(result));
     }
-
-    const rejected = (reason) => {
-        console.log('[PLAY]: Error:'+ reason)
-        throw (reason)
-    }
-
-/*     modsDownloader.download(options.root, options.version.number, [61811, 229061, 242638, 223008, 271856, 246391, 310383, 51195, 59751, 276837, 237754, 311327, 229060, 237749, 238222, 74072, 74924, 291786, 241392, 60028, 221857, 446100, 247357, 311561]).then(() => {
-        rootFolderCheck().then(()=>{
-            authlibCheck().then(() => {
-                forgeCheck().then(() => {
-                    if (options){
-                        console.log(options);
-                        return launcher.launch(options).then((result) => fullfiled(result)).catch((reason) => rejected(reason));
-                    }else{
-                        console.log('no options loaded');
-                        throw ('No options loaded');
-                    }
-                })
-            })
-        })
-    }).catch((err) => {
-        console.log(`[MAIN] Error when downloading: ${err}`);
-        rejected(`[MAIN] Error when downloading: ${err}`);
-    }) */
 
     return rootFolderCheck(options.root).then(
         modsDownloader.download(options.root, options.version.number, modsIDs)
