@@ -146,7 +146,7 @@ const authlibCheck = (root) => new Promise((resolve, reject) => {
             resolve();
         });
         dl.on('error', (err) => console.log('Download Failed', err));
-        dl.start().catch(err => reject(err));  
+        dl.start().catch((err) => reject(err));  
     }
 });
 
@@ -165,7 +165,7 @@ const forgeCheck = (root) => new Promise((resolve, reject) => {
             resolve();
         });
         dl.on('error', (err) => console.log('Download Failed', err));
-        dl.start().catch(err => reject(err));  
+        dl.start().catch((err) => reject(err));  
     }
 });
 
@@ -175,7 +175,7 @@ ipcMain.handle('play', async () => {
         return (JSON.stringify(result));
     }
 
-    return rootFolderCheck(options.root).then(
+    return rootFolderCheck(options.root).then(() =>
         modsDownloader.download(options.root, options.version.number, modsIDs)
     ).then(() =>
         authlibCheck(options.root)

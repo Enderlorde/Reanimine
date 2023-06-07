@@ -54,6 +54,9 @@ export class ModsDownloader extends EventEmitter {
                     this.emit('download-status', {type: progress.name, current: progress.downloaded, total: progress.total});
 
                 });
+                dl.on('skip', (progress) => {
+                    this.emit('download-status', {type: progress.fileName, current: progress.downloadedSize, total: progress.totalSize});
+                })
                 dl.on('error', (err) => {
                     console.log('Download Failed', err);
                 });

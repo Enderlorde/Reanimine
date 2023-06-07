@@ -37,11 +37,16 @@ const Form = (props) => {
     }, []);
 
     const playButtonClickHandler = () => {
+        setRunning(true);
+        window.sessionStorage.setItem('pid', true)
         window.something.play().then((process) => {
             console.log(process);
-            setRunning(true);
+            
             window.sessionStorage.setItem('pid', process.pid)
-        }).catch((e) => console.log(e));
+        }).catch((e) => {
+            console.log(e);
+            setRunning(false);
+        });
     }
 
     const changeButtonClickHandler = () => {
