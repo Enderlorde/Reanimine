@@ -11,6 +11,8 @@ import { ModsDownloader } from './mods-download.js';
 const modsDownloader =  new ModsDownloader('$2a$10$vh2nSvmBS2Trig9lQ4WBX.FcrI7ZkzvJqY0iV2v/ODjcCmr3QeKea');
 //61811 - buildcraft, 242638 - industrialcraft, 223008 - opencomputers, 241392 - balkon's weapon mod, 51195 - railcraft, 229061 - backtools, 236484, 237754 - zombie awareness, 237749 - coroutil for zombieawareness, 228027, 271856 - geolosys, 246391 - tough as nails, 223094, 59751 - forestry, 256717, 223794, 225738, 74072 - tinkers construct, 60028 - aquaculture, 241160, 277616, 252239, 285612, 281849, 221857 - pams harvestcraft, 287683, 295319, 276837 - firstaid, 354143, 352835, 235729, 272671, 310383 - armor underwear, 247357 - extra alchemy, 522574, 253456, 711714, 684624, 269973, 244830, 319175, 373774, 642817, 244844, 229060 - ichunutil for backtools, 311327 - carrots lib for touth as nails, 74924 - mantle lib for tinker, 311561 - minerva lib for extra potion, 242872, 556777, 227083, 224472, 238222 - JEI, 291786 - tinkers-jei, 350675 - pams brewcraft, 446100 - pams breadcraft,
 
+let mode = 'Offline';
+
 let window = null;
 
 const singleInstanceLock = app.requestSingleInstanceLock();
@@ -155,59 +157,96 @@ const rootFolderCheck = (directory) => new Promise((resolve, reject) => {
     }
 });
 
-const authlibCheck = (root) => new Promise((resolve, reject) => {
-    const directory = path.join(root, 'authlib-injector-1.2.2.jar');
-    if (fs.existsSync(directory)){
-        console.log("[authlibChek]: lib exists, starting...");
-        resolve()
-    }else{
-        console.log("[authlibChek]: lib doesn't exists, downloading...");
-        const dl = new DownloaderHelper('https://github.com/yushijinhun/authlib-injector/releases/download/v1.2.2/authlib-injector-1.2.2.jar', options.root);
+const authlibCheck = (root) => {
+    return new Promise((resolve, reject) => {
+        const requestOptions = {
+            progressThrottle: 300,
+            override: {
+                skip: true,
+                skipSmaller: false
+            },
+            retry: {
+                maxRetries: 10,
+                delay: 1000
+            }
+        }
+       
+        const dl = new DownloaderHelper('https://github.com/yushijinhun/authlib-injector/releases/download/v1.2.2/authlib-injector-1.2.2.jar', root, requestOptions);
         dl.on('end', () => {
             console.log('Download Completed');
             resolve();
         });
+        dl.on('skip', (progress) => {
+            window.webContents.send('update-counter', {type: progress.name, current: progress.downloaded, total: progress.total});
+            resolve('Skipped');
+        });
+        dl.on('progress.throttled', (progress) => {
+            window.webContents.send('update-counter', {type: progress.name, current: progress.downloaded, total: progress.total});
+        });
         dl.on('error', (err) => console.log('Download Failed', err));
         dl.start().catch((err) => reject(err));  
-    }
-});
+       
+    });
+};
 
-const forgeCheck = (root) => new Promise((resolve, reject) => {
-    const directory = path.join(root, 'Forge.jar');
-    if (fs.existsSync(directory)){
-        console.log("[forgeChek]: lib exists, starting...");
-        resolve()
-    }else{
-        console.log("[forgeChek]: lib doesn't exists, downloading...");
-        const dl = new DownloaderHelper("https://maven.minecraftforge.net/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860-installer.jar", options.root, {
-            fileName: 'Forge.jar'
-        });
+const forgeCheck = (root) => {
+    return new Promise((resolve, reject) => {
+        const requestOptions = {
+            progressThrottle: 300,
+            fileName: 'Forge.jar',
+            override: {
+                skip: true,
+                skipSmaller: false
+            },
+            retry: {
+                maxRetries: 10,
+                delay: 1000
+            }
+        }
+        const dl = new DownloaderHelper("https://maven.minecraftforge.net/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860-installer.jar", root, requestOptions);
         dl.on('end', () => {
             console.log('Download Completed');
             resolve();
         });
+        dl.on('skip', (progress) => {
+            window.webContents.send('update-counter', {type: progress.name, current: progress.downloaded, total: progress.total});
+            resolve('Skipped');
+        });
+        dl.on('progress.throttled', (progress) => {
+            window.webContents.send('update-counter', {type: progress.name, current: progress.downloaded, total: progress.total});
+        });
         dl.on('error', (err) => console.log('Download Failed', err));
         dl.start().catch((err) => reject(err));  
-    }
-});
+    })
+};
 
-ipcMain.handle('play', async () => {
-    const fullfiled = (result) => {
-        console.log('[PLAY]: Run with pid: ' + result.pid)
-        return (JSON.stringify(result));
-    }
-
-    return rootFolderCheck(options.root).then(() =>
-        modsDownloader.download(options.root, options.version.number, modsIDs)
-    ).then(() =>
-        authlibCheck(options.root)
-    ).then(() =>
-        forgeCheck(options.root)
-    ).then(() =>
-        launcher.launch(options)
-    ).then(
-        (result) => fullfiled(result)
-    );
+ipcMain.handle('play',() => {
+    return new Promise((resolve, reject) => {
+/*         if (mode == 'Offline'){
+            options.customArgs = [''];
+            rootFolderCheck(options.root).then(() =>{
+                return launcher.launch(options);
+            }).then((result) => {
+                //console.log("[PLAY]: Offline mode: "+ JSON.stringify(result));
+                resolve(JSON.stringify(result));
+            }).catch((err) => {
+                console.log("[PLAY]: Offline mode: Error "+ err);
+                reject(err);
+            });
+        }else{ */
+            rootFolderCheck(options.root).then(() =>{
+                return modsDownloader.download(options.root, options.version.number, modsIDs);
+            }).then(() =>{
+                return authlibCheck(options.root);
+            }).then(() =>{
+                return forgeCheck(options.root)
+            }).then(() =>{
+                return launcher.launch(options)
+            }).then((result) => {
+                resolve(JSON.stringify(result));
+            }).catch((err) => reject(err));
+        /* } */
+    })
 });
 
 ipcMain.handle('total-memory', () => os.totalmem());
@@ -215,7 +254,7 @@ ipcMain.handle('total-memory', () => os.totalmem());
 ipcMain.handle('login', (e, credentials) => {
     const fullfiled = (authData) => {
         options=_.merge({...options},{authorization: authData}); console.log(options.authorization);
-        const mode = authData.access_token === authData.client_token?'Offline':'Online';
+        mode = authData.access_token === authData.client_token?'Offline':'Online';
         const info = `${mode} mode as ${authData.name}`;
         console.log(info);
         return JSON.stringify({info: info, mode: mode, authData: authData});

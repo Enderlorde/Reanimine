@@ -3,7 +3,9 @@ import  { contextBridge, ipcRenderer } from 'electron';
 contextBridge.exposeInMainWorld('something',{
     close: () => ipcRenderer.invoke('close'),
     minimize: () => ipcRenderer.invoke('minimize'),
-    play: () => ipcRenderer.invoke('play'),
+    play: () => {
+        return ipcRenderer.invoke('play');
+    },
     handleCounter: (callback) => ipcRenderer.on('update-counter', callback),
     handleDownload: (callback) => ipcRenderer.on('download-done', callback),
     selectFolder: () => ipcRenderer.invoke('open-directory'),

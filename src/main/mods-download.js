@@ -6,7 +6,7 @@ import path from "path";
 import fs from 'fs';
 
 export class ModsDownloader extends EventEmitter {
-    constructor(apiKey, ) {
+    constructor(apiKey) {
         super();
         this.client = new CurseForgeClient(apiKey,{fetch});
     }
@@ -16,26 +16,27 @@ export class ModsDownloader extends EventEmitter {
     }
 
     async download(dir,gameVersion, modsIDArray){
-
         fs.mkdir((path.join(dir, 'mods')),{ recursive: true },() => {
             console.log('Mods folder created');
         });
 
-        const modsInfo = await this.getModsInfo(modsIDArray);
+        const info = await this.getModsInfo(modsIDArray);
 
-        const modsPromises = modsInfo.map(async (mod) => {
-            const modFile = await mod.getFiles({
+        const modsPromises = info.reduce(async (previousPromise, mod) => {
+            await previousPromise;
+
+            const file = await mod.getFiles({
                 gameVersion: gameVersion,
                 modLoaderType: CurseForgeModLoaderType.Forge,
                 pageSize: 1
             });
     
-            if (modFile.data.length > 0){
-                const data = await modFile.data[0].getDownloadURL();
+            if (file.data.length > 0){
+                const url = await file.data[0].getDownloadURL();
                 
                 const requestOptions = {
                     progressThrottle: 300,
-                    fileName: modFile.data[0].fileName,
+                    fileName: file.data[0].fileName,
                     override: {
                         skip: true,
                         skipSmaller: false
@@ -47,7 +48,7 @@ export class ModsDownloader extends EventEmitter {
                 }
                 
                 return new Promise ((resolve,reject) => {
-                    const dl = new DownloaderHelper(data, path.resolve(dir, `mods`), requestOptions);
+                    const dl = new DownloaderHelper(url, path.resolve(dir, `mods`), requestOptions);
                     dl.on('end', () => {
                         console.log('Download Completed');
                         resolve('Downloaded');
@@ -58,6 +59,7 @@ export class ModsDownloader extends EventEmitter {
                     });
                     dl.on('skip', (progress) => {
                         this.emit('download-status', {type: progress.fileName, current: progress.downloadedSize, total: progress.totalSize});
+                        resolve('Skipped');
                     })
                     dl.on('error', (err) => {
                         console.log('Download Failed', err);
@@ -72,8 +74,8 @@ export class ModsDownloader extends EventEmitter {
                 throw new Error('no data');
             }
 
-        });
-        return Promise.all(modsPromises);
+        }, Promise.resolve());
+        return modsPromises;
     }
 
 }

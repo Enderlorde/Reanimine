@@ -36,9 +36,9 @@ const App = () => {
         setRunning(true);
         window.sessionStorage.setItem('pid', true)
         window.something.play().then((process) => {
-            console.log(process);
-            
-            window.sessionStorage.setItem('pid', process.pid)
+            //console.log(process);
+            if (process)
+                window.sessionStorage.setItem('pid', process.pid);
         }).catch((e) => {
             console.log(e);
             setRunning(false);
