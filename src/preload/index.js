@@ -11,6 +11,6 @@ contextBridge.exposeInMainWorld('something',{
     saveOptions: (options) => ipcRenderer.invoke('save-options', options),
     registration: ()=> ipcRenderer.invoke('registration'),
     login: (credentials) => ipcRenderer.invoke('login', credentials),
-    gameClosed: (callback) => ipcRenderer.on('game-close', callback),
+    handleClosing: (callback) => ipcRenderer.on('game-close', callback),
     modsInfo: () => ipcRenderer.invoke('mods-info'),
 });

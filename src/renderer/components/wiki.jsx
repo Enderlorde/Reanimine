@@ -38,9 +38,9 @@ const Wiki = () => {
         <div className="wiki">
         
             <ul className="mods">
-                {modsList.map((mod) => {
+                {modsList.map((mod, index) => {
                         return (
-                            <li className="mods__mod" >
+                            <li key={index} className="mods__mod" >
                                 <div className="mod">
                                     <div>
                                         {mod.logo && 

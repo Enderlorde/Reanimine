@@ -2,7 +2,7 @@ import { CurseForgeClient, CurseForgeModLoaderType } from "curseforge-api";
 import { DownloaderHelper } from 'node-downloader-helper';
 import { EventEmitter } from "stream";
 import fetch from 'node-fetch';
-import { join, resolve } from "path";
+import path from "path";
 import fs from 'fs';
 
 export class ModsDownloader extends EventEmitter {
@@ -17,7 +17,7 @@ export class ModsDownloader extends EventEmitter {
 
     async download(dir,gameVersion, modsIDArray){
 
-        fs.mkdir((join(dir, 'mods')),{ recursive: true },() => {
+        fs.mkdir((path.join(dir, 'mods')),{ recursive: true },() => {
             console.log('Mods folder created');
         });
 
@@ -45,22 +45,29 @@ export class ModsDownloader extends EventEmitter {
                         delay: 1000
                     }
                 }
-
-                const dl = new DownloaderHelper(data, resolve(dir, `mods`),requestOptions);
-                dl.on('end', () => {
-                    console.log('Download Completed');
+                
+                return new Promise ((resolve,reject) => {
+                    const dl = new DownloaderHelper(data, path.resolve(dir, `mods`), requestOptions);
+                    dl.on('end', () => {
+                        console.log('Download Completed');
+                        resolve('Downloaded');
+                    });
+                    dl.on('progress.throttled', (progress) => {
+                        this.emit('download-status', {type: progress.name, current: progress.downloaded, total: progress.total});
+    
+                    });
+                    dl.on('skip', (progress) => {
+                        this.emit('download-status', {type: progress.fileName, current: progress.downloadedSize, total: progress.totalSize});
+                    })
+                    dl.on('error', (err) => {
+                        console.log('Download Failed', err);
+                        reject(err);
+                    });
+                    dl.start().catch((err) => {
+                        console.log('Download Failed', err);
+                        reject(err);
+                    });
                 });
-                dl.on('progress.throttled', (progress) => {
-                    this.emit('download-status', {type: progress.name, current: progress.downloaded, total: progress.total});
-
-                });
-                dl.on('skip', (progress) => {
-                    this.emit('download-status', {type: progress.fileName, current: progress.downloadedSize, total: progress.totalSize});
-                })
-                dl.on('error', (err) => {
-                    console.log('Download Failed', err);
-                });
-                return dl.start();
             }else{
                 throw new Error('no data');
             }
@@ -68,4 +75,5 @@ export class ModsDownloader extends EventEmitter {
         });
         return Promise.all(modsPromises);
     }
+
 }

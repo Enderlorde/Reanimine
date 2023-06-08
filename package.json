@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron-vite preview",
     "dev": "set ELECTRON_START_URL=http://localhost:5173 && electron-vite -w dev",
-    "build": "electron-vite build && electron-builder"
+    "build": "electron-vite build && electron-builder --win=portable"
   },
   "build": {
     "appId": "com.launcher.reanicraft",
@@ -15,7 +15,7 @@
       "out/**/*"
     ]
   },
-  "author": "enderlorde",
+  "author": "Enderlorde",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.21.5",

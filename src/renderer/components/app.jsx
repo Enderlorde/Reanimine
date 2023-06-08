@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { createHashRouter, RouterProvider, Outlet, useLocation } from 'react-router-dom';
 import Navigation from './navigation.jsx';
@@ -12,17 +12,38 @@ import Settings from './settings.jsx';
 import './app.sass';
 
 const App = () => {
-    const [progressState, setProgressState] = React.useState({ type: 'none', current: 0, total: 100 });
+    const [progressState, setProgressState] = useState({ type: 'none', current: 0, total: 100 });
+    const [running, setRunning] = useState(false);
 
-    window.something.handleCounter((e, value) => {
-        setProgressState(value);
-        //console.log(value);
-    });
+    useEffect(() => {
+        window.something.handleCounter((e, value) => {
+            setProgressState(value);
+            //console.log(value);
+        });
+    
+        window.something.handleDownload((e, value) => {
+            console.log('downloadDone');
+            console.log(value);
+        });
 
-    window.something.handleDownload((e, value) => {
-        console.log('downloadDone');
-        console.log(value);
-    })
+        window.something.handleClosing(() => {
+            setRunning(false);
+            window.sessionStorage.removeItem('pid');
+        });
+    },[]);
+    
+    const handlePlay = () => {
+        setRunning(true);
+        window.sessionStorage.setItem('pid', true)
+        window.something.play().then((process) => {
+            console.log(process);
+            
+            window.sessionStorage.setItem('pid', process.pid)
+        }).catch((e) => {
+            console.log(e);
+            setRunning(false);
+        });
+    }
 
     return (
         <div className="app">
@@ -31,13 +52,10 @@ const App = () => {
             {useLocation().pathname == '/' &&  
                 <div className="app__wrapper">
                     <Logo width={200} height={200}/>
-                    <Login progress={progressState}/>
+                    <Login playHandler={() => handlePlay()} running={running} progress={progressState}/>
                 </div>
             }
-            <Outlet />
-           
-            
-            
+            <Outlet /> 
         </div>
     );
 }

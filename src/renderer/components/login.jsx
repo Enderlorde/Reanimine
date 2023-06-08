@@ -9,7 +9,7 @@ import './form.sass';
 const Form = (props) => {
 
     const [nickname, setNickname] = useState();
-    const [running, setRunning] = useState(false);
+    
     const [loggedIn, setLoggedIn] = useState(false);
     const [offlineMode, setOfflineMode] = useState(false);
     const [info, setInfo] = useState('Login or register to play');
@@ -18,7 +18,6 @@ const Form = (props) => {
  
     useEffect(() =>{
         const savedNickname = window.localStorage.getItem('nickname'); 
-        const savedPID = window.sessionStorage.getItem('pid');
         const savedMode = window.sessionStorage.getItem('mode');
     
         if (savedNickname) 
@@ -28,26 +27,12 @@ const Form = (props) => {
                 setInfo(`${savedMode} mode as ${savedNickname}`);
             }
         }
-        if (savedPID) {
-            setRunning(true)
-        }
         if (savedMode){
             setLoggedIn(true)
         }
     }, []);
 
-    const playButtonClickHandler = () => {
-        setRunning(true);
-        window.sessionStorage.setItem('pid', true)
-        window.something.play().then((process) => {
-            console.log(process);
-            
-            window.sessionStorage.setItem('pid', process.pid)
-        }).catch((e) => {
-            console.log(e);
-            setRunning(false);
-        });
-    }
+  
 
     const changeButtonClickHandler = () => {
         setLoggedIn(false);
@@ -78,11 +63,6 @@ const Form = (props) => {
         passwordInputRef.current.value = '';
     }
 
-    window.something.gameClosed(() => {
-        setRunning(false);
-        window.sessionStorage.removeItem('pid');
-    });
-
     return (
         <div className="login">
             <p>{info}</p>
@@ -91,14 +71,14 @@ const Form = (props) => {
                 <input required ref={passwordInputRef} disabled={offlineMode}  name="password" placeholder="Password" className="form__input" type="password" />
                 <button className='form__button' type="submit">Login</button>
                 <button className='form__button' type="button" onClick={() => offlineSwitch()}>{offlineMode?"Online":"Offline"}</button>
-                <button className='form__button' type="button" disabled={running} onClick={() => registrationButtonClickHandler()}>Registration</button>
+                <button className='form__button' type="button" disabled={props.running} onClick={() => registrationButtonClickHandler()}>Registration</button>
             </form>
 
             {loggedIn && 
             <div className='login__buttons-wrapper'>
-                <Button disabled={running} onClick={() => playButtonClickHandler()}>Play</Button>
-                <Button disabled={running} onClick={() => changeButtonClickHandler()}>Change</Button>
-                <Progress disabled={!running} status={props.progress}/> 
+                <Button disabled={props.running} onClick={() => props.playHandler()}>Play</Button>
+                <Button disabled={props.running} onClick={() => changeButtonClickHandler()}>Change</Button>
+                <Progress disabled={!props.running} status={props.progress}/> 
             </div>
             }
             
@@ -112,6 +92,8 @@ Form.propTypes = {
         current: PropTypes.number.isRequired,
         type: PropTypes.string.isRequired
     }),
+    playHandler: PropTypes.func,
+    running: PropTypes.bool
 }
 
 export default Form;
