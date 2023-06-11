@@ -1,4 +1,5 @@
 import { app, BrowserWindow, ipcMain, dialog, shell } from 'electron';
+import { spawn } from 'child_process';
 import path from 'path';
 import { Client, Authenticator } from'minecraft-launcher-core';
 const launcher = new Client();
@@ -9,7 +10,6 @@ import { DownloaderHelper } from 'node-downloader-helper';
 import open from 'open';
 import { ModsDownloader } from './mods-download.js';
 const modsDownloader =  new ModsDownloader('$2a$10$vh2nSvmBS2Trig9lQ4WBX.FcrI7ZkzvJqY0iV2v/ODjcCmr3QeKea');
-//61811 - buildcraft, 242638 - industrialcraft, 223008 - opencomputers, 241392 - balkon's weapon mod, 51195 - railcraft, 229061 - backtools, 236484, 237754 - zombie awareness, 237749 - coroutil for zombieawareness, 228027, 271856 - geolosys, 246391 - tough as nails, 223094, 59751 - forestry, 256717, 223794, 225738, 74072 - tinkers construct, 60028 - aquaculture, 241160, 277616, 252239, 285612, 281849, 221857 - pams harvestcraft, 287683, 295319, 276837 - firstaid, 354143, 352835, 235729, 272671, 310383 - armor underwear, 247357 - extra alchemy, 522574, 253456, 711714, 684624, 269973, 244830, 319175, 373774, 642817, 244844, 229060 - ichunutil for backtools, 311327 - carrots lib for touth as nails, 74924 - mantle lib for tinker, 311561 - minerva lib for extra potion, 242872, 556777, 227083, 224472, 238222 - JEI, 291786 - tinkers-jei, 350675 - pams brewcraft, 446100 - pams breadcraft,
 
 let mode = 'Offline';
 
@@ -45,7 +45,71 @@ let options = {
     }
 };
 
-const modsIDs = [61811, 229061, 242638, 223008, 271856, 246391, 310383, 51195, 59751, 276837, 237754, 311327, 229060, 237749, 238222, 74072, 74924, 291786, 241392, 60028, 221857, 446100, 247357, 311561];
+const modsIDs = [61811, 229061, 242638, 223008, 271856, 246391, 310383, 51195, 59751, 276837, 237754, 311327, 229060, 237749, 238222, 74072, 74924, 291786, 241392, 60028, 221857, 446100, 247357, 311561, 223094, 309516, 318255, 373157, 228027, 248453];
+/* 
+248453 - sadowfacts forgelin,
+373157 - roguelike dungeons,
+318255 - Phosphor,
+389665 - YUNG better mineshafts,
+260373 - gicomo's bookshelf,
+61811 - buildcraft, 
+242638 - industrialcraft, 
+223008 - opencomputers, 
+241392 - balkon's weapon mod, 
+51195 - railcraft, 
+229061 - backtools, 
+236484, 
+237754 - zombie awareness, 
+237749 - coroutil for zombieawareness, 
+228027 - bibliocraft, 
+271856 - geolosys, 
+246391 - tough as nails, 
+223094 - inventory tweaker,
+309516 - bountifull, 
+59751 - forestry, 
+256717, 
+223794, 
+225738, 
+74072 - tinkers construct, 
+60028 - aquaculture, 
+241160, 
+277616, 
+252239, 
+285612, 
+281849, 
+221857 - pams harvestcraft, 
+287683, 
+295319, 
+276837 - firstaid, 
+354143, 
+352835, 
+235729, 
+272671, 
+310383 - armor underwear, 
+247357 - extra alchemy, 
+522574, 
+253456, 
+711714, 
+684624, 
+269973, 
+244830, 
+319175, 
+373774, 
+642817, 
+244844, 
+229060 - ichunutil for backtools, 
+311327 - carrots lib for touth as nails, 
+74924 - mantle lib for tinker, 
+311561 - minerva lib for extra potion, 
+242872, 
+556777, 
+227083, 
+224472, 
+238222 - JEI, 
+291786 - tinkers-jei, 
+350675 - pams brewcraft, 
+446100 - pams breadcraft,
+ */
 
 const createWindow = () => {
     window = new BrowserWindow({
@@ -220,21 +284,34 @@ const forgeCheck = (root) => {
     })
 };
 
+const javaCheck = () => {
+    return new Promise((resolve, reject)=> {
+        let process = spawn('java', ['-version']);
+        process.on('error', (err) => {
+            reject(err);
+        })
+        process.stderr.once('data', (data) => {
+            console.log('[JAVACHECK]: '+data);
+            data = data.toString().split('\n')[0];
+            let javaVersion = new RegExp('java version').test(data)?data.split(' ')[2].replace(/"/g, ''):false;
+            if(javaVersion){
+                console.log('[JAVACHECK]: JAVA ' + javaVersion);
+                resolve(javaVersion)
+            }else{
+                console.log("[JAVACHECK]: NO JAVA INSTALLED");
+                open('https://www.java.com/ru/download/manual.jsp')
+                reject('No java')
+            }
+        })
+    })
+}
+
 ipcMain.handle('play',() => {
     return new Promise((resolve, reject) => {
-/*         if (mode == 'Offline'){
-            options.customArgs = [''];
-            rootFolderCheck(options.root).then(() =>{
-                return launcher.launch(options);
-            }).then((result) => {
-                //console.log("[PLAY]: Offline mode: "+ JSON.stringify(result));
-                resolve(JSON.stringify(result));
-            }).catch((err) => {
-                console.log("[PLAY]: Offline mode: Error "+ err);
-                reject(err);
-            });
-        }else{ */
-            rootFolderCheck(options.root).then(() =>{
+            console.log('BOOOOOOOOOOOO');
+            javaCheck().then(() => {
+                return rootFolderCheck(options.root);
+            }).then(() =>{
                 return modsDownloader.download(options.root, options.version.number, modsIDs);
             }).then(() =>{
                 return authlibCheck(options.root);
@@ -245,7 +322,6 @@ ipcMain.handle('play',() => {
             }).then((result) => {
                 resolve(JSON.stringify(result));
             }).catch((err) => reject(err));
-        /* } */
     })
 });
 

@@ -33,7 +33,7 @@ export class ModsDownloader extends EventEmitter {
     
             if (file.data.length > 0){
                 const url = await file.data[0].getDownloadURL();
-                
+                if (!url) return Promise.resolve('No url')      
                 const requestOptions = {
                     progressThrottle: 300,
                     fileName: file.data[0].fileName,
