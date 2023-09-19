@@ -1,3 +1,4 @@
+//import 'dotenv/config';
 import { app, BrowserWindow, ipcMain, dialog, shell } from 'electron';
 import { spawn } from 'child_process';
 import path from 'path';
@@ -9,7 +10,8 @@ import fs from 'fs';
 import { DownloaderHelper } from 'node-downloader-helper';
 import open from 'open';
 import { ModsDownloader } from './mods-download.js';
-const modsDownloader =  new ModsDownloader('$2a$10$vh2nSvmBS2Trig9lQ4WBX.FcrI7ZkzvJqY0iV2v/ODjcCmr3QeKea');
+console.log(import.meta.env.MAIN_VITE_CURSEFORGE_API_KEY);
+const modsDownloader =  new ModsDownloader(import.meta.env.MAIN_VITE_CURSEFORGE_API_KEY);
 
 let mode = 'Offline';
 
@@ -198,7 +200,9 @@ const modalWindow = (message) => {
 
 modsDownloader.on('download-status', (e) => window.webContents.send('update-counter', e));
 
-ipcMain.handle('mods-info',() => modsDownloader.getModsInfo(modsIDs).then((modsInfo) => JSON.stringify(modsInfo)));
+ipcMain.handle('mods-info',() => modsDownloader.getModsInfo(modsIDs).then(
+    (modsInfo) => JSON.stringify(modsInfo)).catch((error) => modalWindow(error.toString()))
+);
 
 ipcMain.handle('registration', async () => {
     open("https://account.ely.by/login");

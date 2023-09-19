@@ -1,5 +1,5 @@
 {
-  "name": "reanicraft",
+  "name": "reanimine",
   "version": "0.0.1",
   "description": "Simple minecraft launcher for my server",
   "main": "out\\main\\index.js",
@@ -9,11 +9,18 @@
     "build": "electron-vite build && electron-builder --win=portable"
   },
   "build": {
+    "productName": "Reanimine",
+    "copyright": "Enderlorde 2023",
     "appId": "com.launcher.reanicraft",
     "asar": true,
     "files": [
       "out/**/*"
-    ]
+    ],
+    "win": {
+      "publish": [
+        "github"
+      ]
+    }
   },
   "author": "Enderlorde",
   "license": "ISC",

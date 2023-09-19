@@ -7,7 +7,6 @@ import './login.sass';
 import './form.sass';
 
 const Form = (props) => {
-
     const [nickname, setNickname] = useState();
     
     const [loggedIn, setLoggedIn] = useState(false);
@@ -31,8 +30,6 @@ const Form = (props) => {
             setLoggedIn(true)
         }
     }, []);
-
-  
 
     const changeButtonClickHandler = () => {
         setLoggedIn(false);
