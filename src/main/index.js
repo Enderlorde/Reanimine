@@ -1,5 +1,6 @@
 //import 'dotenv/config';
 import { app, BrowserWindow, ipcMain, dialog, shell } from 'electron';
+import { autoUpdater } from 'electron-updater';
 import { spawn } from 'child_process';
 import path from 'path';
 import { Client, Authenticator } from'minecraft-launcher-core';
@@ -10,7 +11,6 @@ import fs from 'fs';
 import { DownloaderHelper } from 'node-downloader-helper';
 import open from 'open';
 import { ModsDownloader } from './mods-download.js';
-console.log(import.meta.env.MAIN_VITE_CURSEFORGE_API_KEY);
 const modsDownloader =  new ModsDownloader(import.meta.env.MAIN_VITE_CURSEFORGE_API_KEY);
 
 let mode = 'Offline';
@@ -226,6 +226,8 @@ if (!singleInstanceLock){
 
 app.on('ready', () => {
     createWindow();
+
+    autoUpdater.checkForUpdatesAndNotify();
 });
 
 ipcMain.handle('save-options', (e, newOptions) => {
@@ -262,18 +264,23 @@ const authlibCheck = (root) => {
         }
        
         const dl = new DownloaderHelper('https://github.com/yushijinhun/authlib-injector/releases/download/v1.2.2/authlib-injector-1.2.2.jar', root, requestOptions);
+
         dl.on('end', () => {
             console.log('Download Completed');
             resolve();
         });
+
         dl.on('skip', (progress) => {
             window.webContents.send('update-counter', {type: progress.name, current: progress.downloaded, total: progress.total});
             resolve('Skipped');
         });
+
         dl.on('progress.throttled', (progress) => {
             window.webContents.send('update-counter', {type: progress.name, current: progress.downloaded, total: progress.total});
         });
+
         dl.on('error', (err) => console.log('Download Failed', err));
+
         dl.start().catch((err) => reject(err));  
        
     });
@@ -293,18 +300,23 @@ const forgeCheck = (root) => {
                 delay: 1000
             }
         }
+
         const dl = new DownloaderHelper("https://maven.minecraftforge.net/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860-installer.jar", root, requestOptions);
+
         dl.on('end', () => {
             console.log('Download Completed');
             resolve();
         });
+
         dl.on('skip', (progress) => {
             window.webContents.send('update-counter', {type: progress.name, current: progress.downloaded, total: progress.total});
             resolve('Skipped');
         });
+
         dl.on('progress.throttled', (progress) => {
             window.webContents.send('update-counter', {type: progress.name, current: progress.downloaded, total: progress.total});
         });
+
         dl.on('error', (err) => console.log('Download Failed', err));
         dl.start().catch((err) => reject(err));  
     })

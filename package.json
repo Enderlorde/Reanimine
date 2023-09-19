@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron-vite preview",
     "dev": "set ELECTRON_START_URL=http://localhost:5173 && electron-vite -w dev",
-    "build": "electron-vite build && electron-builder --win=portable"
+    "build": "electron-vite build && electron-builder"
   },
   "build": {
     "productName": "Reanimine",
@@ -17,9 +17,10 @@
       "out/**/*"
     ],
     "win": {
-      "publish": [
-        "github"
-      ]
+      "publish": {
+        "provider": "github"
+      },
+      "target": "nsis"
     }
   },
   "author": "Enderlorde",
@@ -65,6 +66,9 @@
     "react-spinners": "^0.13.8",
     "skinview3d": "^3.0.0-alpha.1"
   },
-  "repository": "https://github.com/Enderlorde/Reanimine.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Enderlorde/Reanimine.git"
+  },
   "private": true
 }
