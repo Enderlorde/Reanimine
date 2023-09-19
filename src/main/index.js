@@ -173,8 +173,9 @@ const createWindow = () => {
 const modalWindow = (message) => {
     const modalWindow = new BrowserWindow({
         width: 500,
-        height: 200,
-        frame: true,
+        height: 300,
+        frame: false,
+        transparent: true,
         parent: window,
         modal: true,
         show: false,
@@ -189,6 +190,8 @@ const modalWindow = (message) => {
         modalWindow.webContents.send('message-send',message);
         modalWindow.show();
 })
+    ipcMain.on('modal-close', () => modalWindow.close())
+
 }
 
 modsDownloader.on('download-status', (e) => window.webContents.send('update-counter', e));
@@ -217,6 +220,7 @@ if (!singleInstanceLock){
 
 app.on('ready', () => {
     createWindow();
+    //modalWindow("Test");
 });
 
 ipcMain.handle('save-options', (e, newOptions) => {

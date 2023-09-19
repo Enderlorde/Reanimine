@@ -10,10 +10,23 @@ const Modal = () => {
         setMessage(message)
     })
 
+    const buttonHandler = () => {
+        () => window.modalAPI.close();
+    }  
+
     return (
         <div className="modal">
-            <h1>Error: {message}</h1>
-            <ErrorIcon width={100} height={100}/>
+            <div className="modal__block modal__block_red">
+                <ErrorIcon className="modal__icon" width={100} height={100} />
+            </div>
+
+            <div className="modal__block">
+                <h1 className='modal__title'>Ooops!</h1>
+
+                <p className='modal__message'>{message}</p>
+
+                <button className='modal__button' onClick={() => buttonHandler()} >Ok</button>
+            </div>
         </div>
     );
 }

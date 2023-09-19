@@ -1,7 +1,6 @@
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
-import { resolve } from 'path';
 
 const esm = [
     'curseforge-api',
