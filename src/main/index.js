@@ -306,6 +306,10 @@ const forgeCheck = (root) => {
     })
 };
 
+const modsCheck = () => {
+    return modsDownloader.download(options.root, options.version.number, modsIDs);
+}
+
 const javaCheck = () => {
     return new Promise((resolve, reject)=> {
         let process = spawn('java', ['-version']);
@@ -330,24 +334,41 @@ const javaCheck = () => {
 }
 
 ipcMain.handle('play',() => {
-    return new Promise((resolve, reject) => {
-        javaCheck().then(() => {
-            return rootFolderCheck(options.root);
-        }).then(() =>{
-            return modsDownloader.download(options.root, options.version.number, modsIDs);
-        }).then(() =>{
-            return authlibCheck(options.root);
-        }).then(() =>{
-            return forgeCheck(options.root)
-        }).then(() =>{
-            return launcher.launch(options)
-        }).then((result) => {
-            resolve(JSON.stringify(result));
-        }).catch((err) => {
-            modalWindow(err.message);
-            reject(err)
-        });
-    })
+    if (mode == 'Online') {
+        return new Promise((resolve, reject) => {
+            javaCheck().then(() => {
+                return rootFolderCheck(options.root);
+            }).then(() =>{
+                return modsCheck();
+            }).then(() =>{
+                return authlibCheck(options.root);
+            }).then(() =>{
+                return forgeCheck(options.root)
+            }).then(() =>{
+                return launcher.launch(options)
+            }).then((result) => {
+                resolve(JSON.stringify(result));
+            }).catch((err) => {
+                modalWindow(err.message);
+                reject(err)
+            });
+        })
+    }else{
+        options.customArgs = []
+        return new Promise((resolve, reject) => {
+            javaCheck().then(() => {
+                return rootFolderCheck(options.root);
+            }).then(() =>{
+                return launcher.launch(options)
+            }).then((result) => {
+                resolve(JSON.stringify(result));
+            }).catch((err) => {
+                modalWindow(err.message);
+                reject(err)
+            });
+        })
+    }
+    
 });
 
 ipcMain.handle('total-memory', () => os.totalmem());
@@ -363,6 +384,7 @@ ipcMain.handle('login', (e, credentials) => {
 
     const rejected = (reason) => {
         console.log(`[LOGIN]: ${reason}`);
+        modalWindow(reason.toString());
         return JSON.stringify({info:`${reason}`, mode:'error'});
     }
 
