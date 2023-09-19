@@ -1,6 +1,7 @@
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
+import { resolve } from 'path';
 
 const esm = [
     'curseforge-api',
@@ -12,10 +13,26 @@ export default defineConfig({
         plugins: [externalizeDepsPlugin({exclude: esm})]
     },
     preload: {
-        plugins: [externalizeDepsPlugin()]
+        plugins: [externalizeDepsPlugin()],
+        build: {
+            rollupOptions:{
+                input:{
+                    index: './src/preload/index.js',
+                    modal: './src/preload/modal.js'
+                }
+            }
+        }
     },
     renderer: {
-        plugins: [react(), svgr()]
+        plugins: [react(), svgr()],
+        build: {
+            rollupOptions:{
+                input:{
+                    index: './src/renderer/index.html',
+                    modal: './src/renderer/modal/index.html'
+                }
+            }
+        }
     },
     build: {
         rollupOptions: {

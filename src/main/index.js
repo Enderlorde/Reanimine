@@ -170,6 +170,27 @@ const createWindow = () => {
     window.loadURL(process.env.ELECTRON_START_URL||`file://${path.join(__dirname, '../renderer/index.html')}`);
 }
 
+const modalWindow = (message) => {
+    const modalWindow = new BrowserWindow({
+        width: 500,
+        height: 200,
+        frame: true,
+        parent: window,
+        modal: true,
+        show: false,
+        webPreferences: {
+            preload:path.join(__dirname, '..\\preload\\modal.js')
+        },
+        resizable: false,
+        autoHideMenuBar: true,
+    });
+    modalWindow.loadURL('http://localhost:5173/modal/index.html')
+    modalWindow.once('ready-to-show', () => {
+        modalWindow.webContents.send('message-send',message);
+        modalWindow.show();
+})
+}
+
 modsDownloader.on('download-status', (e) => window.webContents.send('update-counter', e));
 
 ipcMain.handle('mods-info',() => modsDownloader.getModsInfo(modsIDs).then((modsInfo) => JSON.stringify(modsInfo)));
@@ -193,10 +214,6 @@ if (!singleInstanceLock){
         }
     })
 }
-
-/* app.whenReady().then(() => {
-    createWindow();
-}); */
 
 app.on('ready', () => {
     createWindow();
@@ -288,7 +305,8 @@ const javaCheck = () => {
     return new Promise((resolve, reject)=> {
         let process = spawn('java', ['-version']);
         process.on('error', (err) => {
-            reject(err);
+            open('https://www.java.com/ru/download/manual.jsp');
+            reject(new Error('Java not found, please check installation'));
         })
         process.stderr.once('data', (data) => {
             console.log('[JAVACHECK]: '+data);
@@ -299,8 +317,8 @@ const javaCheck = () => {
                 resolve(javaVersion)
             }else{
                 console.log("[JAVACHECK]: NO JAVA INSTALLED");
-                open('https://www.java.com/ru/download/manual.jsp')
-                reject('No java')
+                open('https://www.java.com/ru/download/manual.jsp');
+                reject('No java');
             }
         })
     })
@@ -308,7 +326,6 @@ const javaCheck = () => {
 
 ipcMain.handle('play',() => {
     return new Promise((resolve, reject) => {
-            console.log('BOOOOOOOOOOOO');
             javaCheck().then(() => {
                 return rootFolderCheck(options.root);
             }).then(() =>{
@@ -321,7 +338,10 @@ ipcMain.handle('play',() => {
                 return launcher.launch(options)
             }).then((result) => {
                 resolve(JSON.stringify(result));
-            }).catch((err) => reject(err));
+            }).catch((err) => {
+                modalWindow(err.message);
+                reject(err)
+            });
     })
 });
 
