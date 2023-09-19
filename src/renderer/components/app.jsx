@@ -14,6 +14,7 @@ import './app.sass';
 const App = () => {
     const [progressState, setProgressState] = useState({ type: 'none', current: 0, total: 100 });
     const [running, setRunning] = useState(false);
+    const [appVersion, setAppVersion] = useState();
 
     useEffect(() => {
         window.something.handleCounter((e, value) => {
@@ -30,6 +31,10 @@ const App = () => {
             setRunning(false);
             window.sessionStorage.removeItem('pid');
         });
+
+        window.something.getAppVersion().then((appVersion) => {
+            setAppVersion(appVersion);
+        })
     },[]);
     
     const handlePlay = () => {
@@ -55,7 +60,10 @@ const App = () => {
                     <Login playHandler={() => handlePlay()} running={running} progress={progressState}/>
                 </div>
             }
-            <Outlet /> 
+            <Outlet />
+            <div>
+                {appVersion}
+            </div>
         </div>
     );
 }

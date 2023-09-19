@@ -1,6 +1,6 @@
 {
   "name": "reanimine",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Simple minecraft launcher for my server",
   "main": "out\\main\\index.js",
   "scripts": {
@@ -64,7 +64,8 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.2",
     "react-spinners": "^0.13.8",
-    "skinview3d": "^3.0.0-alpha.1"
+    "skinview3d": "^3.0.0-alpha.1",
+    "three": "^0.156.1"
   },
   "repository": {
     "type": "git",

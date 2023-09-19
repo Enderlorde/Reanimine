@@ -204,6 +204,8 @@ ipcMain.handle('mods-info',() => modsDownloader.getModsInfo(modsIDs).then(
     (modsInfo) => JSON.stringify(modsInfo)).catch((error) => modalWindow(error.toString()))
 );
 
+ipcMain.handle('getAppVersion', () => app.getVersion());
+
 ipcMain.handle('registration', async () => {
     open("https://account.ely.by/login");
 });
