@@ -185,13 +185,15 @@ const modalWindow = (message) => {
         resizable: false,
         autoHideMenuBar: true,
     });
+
     modalWindow.loadURL('http://localhost:5173/modal/index.html')
+
     modalWindow.once('ready-to-show', () => {
         modalWindow.webContents.send('message-send',message);
         modalWindow.show();
-})
-    ipcMain.on('modal-close', () => modalWindow.close())
+    })
 
+    ipcMain.handleOnce('modal-close', () => modalWindow.close())
 }
 
 modsDownloader.on('download-status', (e) => window.webContents.send('update-counter', e));
@@ -220,7 +222,6 @@ if (!singleInstanceLock){
 
 app.on('ready', () => {
     createWindow();
-    //modalWindow("Test");
 });
 
 ipcMain.handle('save-options', (e, newOptions) => {
@@ -330,22 +331,22 @@ const javaCheck = () => {
 
 ipcMain.handle('play',() => {
     return new Promise((resolve, reject) => {
-            javaCheck().then(() => {
-                return rootFolderCheck(options.root);
-            }).then(() =>{
-                return modsDownloader.download(options.root, options.version.number, modsIDs);
-            }).then(() =>{
-                return authlibCheck(options.root);
-            }).then(() =>{
-                return forgeCheck(options.root)
-            }).then(() =>{
-                return launcher.launch(options)
-            }).then((result) => {
-                resolve(JSON.stringify(result));
-            }).catch((err) => {
-                modalWindow(err.message);
-                reject(err)
-            });
+        javaCheck().then(() => {
+            return rootFolderCheck(options.root);
+        }).then(() =>{
+            return modsDownloader.download(options.root, options.version.number, modsIDs);
+        }).then(() =>{
+            return authlibCheck(options.root);
+        }).then(() =>{
+            return forgeCheck(options.root)
+        }).then(() =>{
+            return launcher.launch(options)
+        }).then((result) => {
+            resolve(JSON.stringify(result));
+        }).catch((err) => {
+            modalWindow(err.message);
+            reject(err)
+        });
     })
 });
 
