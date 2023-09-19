@@ -11,7 +11,7 @@ const Modal = () => {
     })
 
     const buttonHandler = () => {
-        () => window.modalAPI.close();
+        window.modalAPI.close();
     }  
 
     return (
