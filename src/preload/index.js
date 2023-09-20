@@ -13,4 +13,5 @@ contextBridge.exposeInMainWorld('something',{
     login: (credentials) => ipcRenderer.invoke('login', credentials),
     handleClosing: (callback) => ipcRenderer.on('game-close', callback),
     modsInfo: () => ipcRenderer.invoke('mods-info'),
+    getAppVersion: () => ipcRenderer.invoke('getAppVersion'),
 });

@@ -1,19 +1,27 @@
 {
-  "name": "reanicraft",
-  "version": "0.0.1",
+  "name": "reanimine",
+  "version": "0.1.2",
   "description": "Simple minecraft launcher for my server",
   "main": "out\\main\\index.js",
   "scripts": {
     "start": "electron-vite preview",
     "dev": "set ELECTRON_START_URL=http://localhost:5173 && electron-vite -w dev",
-    "build": "electron-vite build && electron-builder --win=portable"
+    "build": "electron-vite build && electron-builder"
   },
   "build": {
+    "productName": "Reanimine",
+    "copyright": "Enderlorde 2023",
     "appId": "com.launcher.reanicraft",
     "asar": true,
     "files": [
       "out/**/*"
-    ]
+    ],
+    "win": {
+      "publish": {
+        "provider": "github"
+      },
+      "target": "nsis"
+    }
   },
   "author": "Enderlorde",
   "license": "ISC",
@@ -56,8 +64,12 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.2",
     "react-spinners": "^0.13.8",
-    "skinview3d": "^3.0.0-alpha.1"
+    "skinview3d": "^3.0.0-alpha.1",
+    "three": "^0.156.1"
   },
-  "repository": "https://github.com/Enderlorde/Reanimine.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Enderlorde/Reanimine.git"
+  },
   "private": true
 }

@@ -2,6 +2,7 @@ node_modules
 minecraft
 *.key
 *.http
+.env
 build
 dist
 .log

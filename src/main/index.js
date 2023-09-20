@@ -1,4 +1,6 @@
+//import 'dotenv/config';
 import { app, BrowserWindow, ipcMain, dialog, shell } from 'electron';
+import { autoUpdater } from 'electron-updater';
 import { spawn } from 'child_process';
 import path from 'path';
 import { Client, Authenticator } from'minecraft-launcher-core';
@@ -9,7 +11,7 @@ import fs from 'fs';
 import { DownloaderHelper } from 'node-downloader-helper';
 import open from 'open';
 import { ModsDownloader } from './mods-download.js';
-const modsDownloader =  new ModsDownloader('$2a$10$vh2nSvmBS2Trig9lQ4WBX.FcrI7ZkzvJqY0iV2v/ODjcCmr3QeKea');
+const modsDownloader =  new ModsDownloader(import.meta.env.MAIN_VITE_CURSEFORGE_API_KEY);
 
 let mode = 'Offline';
 
@@ -45,7 +47,7 @@ let options = {
     }
 };
 
-const modsIDs = [61811, 229061, 242638, 223008, 271856, 246391, 310383, 51195, 59751, 276837, 237754, 311327, 229060, 237749, 238222, 74072, 74924, 291786, 241392, 60028, 221857, 446100, 247357, 311561, 223094, 309516, 318255, 373157, 228027, 248453];
+const modsIDs = [61811, 229061, 242638, 223008, 271856, 246391, 310383, 51195, 59751, 276837, 237754, 311327, 229060, 237749, 238222, 74072, 74924, 291786, 241392, 60028, 221857, 446100, 247357, 311561, 223094, 309516, 318255, 373157, 228027, 248453, 276951];
 /* 
 248453 - sadowfacts forgelin,
 373157 - roguelike dungeons,
@@ -198,7 +200,11 @@ const modalWindow = (message) => {
 
 modsDownloader.on('download-status', (e) => window.webContents.send('update-counter', e));
 
-ipcMain.handle('mods-info',() => modsDownloader.getModsInfo(modsIDs).then((modsInfo) => JSON.stringify(modsInfo)));
+ipcMain.handle('mods-info',() => modsDownloader.getModsInfo(modsIDs).then(
+    (modsInfo) => JSON.stringify(modsInfo)).catch((error) => modalWindow(error.toString()))
+);
+
+ipcMain.handle('getAppVersion', () => app.getVersion());
 
 ipcMain.handle('registration', async () => {
     open("https://account.ely.by/login");
@@ -222,6 +228,8 @@ if (!singleInstanceLock){
 
 app.on('ready', () => {
     createWindow();
+
+    autoUpdater.checkForUpdatesAndNotify();
 });
 
 ipcMain.handle('save-options', (e, newOptions) => {
@@ -258,18 +266,23 @@ const authlibCheck = (root) => {
         }
        
         const dl = new DownloaderHelper('https://github.com/yushijinhun/authlib-injector/releases/download/v1.2.2/authlib-injector-1.2.2.jar', root, requestOptions);
+
         dl.on('end', () => {
             console.log('Download Completed');
             resolve();
         });
+
         dl.on('skip', (progress) => {
             window.webContents.send('update-counter', {type: progress.name, current: progress.downloaded, total: progress.total});
             resolve('Skipped');
         });
+
         dl.on('progress.throttled', (progress) => {
             window.webContents.send('update-counter', {type: progress.name, current: progress.downloaded, total: progress.total});
         });
+
         dl.on('error', (err) => console.log('Download Failed', err));
+
         dl.start().catch((err) => reject(err));  
        
     });
@@ -289,18 +302,23 @@ const forgeCheck = (root) => {
                 delay: 1000
             }
         }
+
         const dl = new DownloaderHelper("https://maven.minecraftforge.net/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860-installer.jar", root, requestOptions);
+
         dl.on('end', () => {
             console.log('Download Completed');
             resolve();
         });
+
         dl.on('skip', (progress) => {
             window.webContents.send('update-counter', {type: progress.name, current: progress.downloaded, total: progress.total});
             resolve('Skipped');
         });
+
         dl.on('progress.throttled', (progress) => {
             window.webContents.send('update-counter', {type: progress.name, current: progress.downloaded, total: progress.total});
         });
+
         dl.on('error', (err) => console.log('Download Failed', err));
         dl.start().catch((err) => reject(err));  
     })
