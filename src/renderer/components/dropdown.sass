@@ -1,0 +1,60 @@
+$text-color: #ffffff
+$background-outline-2: #363A44
+$background-outline-1: #63656D
+$color: #43464F
+$hover-color: #393C43
+$click-color: #33363D
+
+.dropdown
+    position: relative
+
+    &:hover .dropdown__arrow
+        cursor: pointer    
+        transform: scaleY(-1)
+
+    &__header
+        display: flex
+        align-items: center    
+        gap: 13px  
+
+        user-select: none
+        cursor: pointer
+
+    &__list
+        display: none
+        position: absolute
+        flex-direction: column
+        align-items: center
+
+        user-select: none
+
+        width: 100%
+
+        list-style: none
+
+        cursor: pointer
+
+        color: $text-color
+        font-size: 25px
+
+        outline: 4px solid $background-outline-2
+        border: 4px solid $background-outline-1
+        
+        background-color: $color
+
+    &:hover>.dropdown__list
+        display: flex
+
+    &__item
+        padding: 20px
+        width: 100%
+        
+        &:not(:last-child)
+            border-bottom: 4px solid $background-outline-1
+        
+        &:hover
+            background-color: $hover-color 
+
+        &:active
+            background-color: $click-color
+            

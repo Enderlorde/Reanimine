@@ -1,14 +1,21 @@
 import React from 'react';
 import Toolbox from './toolbox.jsx';
-import { ReactComponent as Logo } from './icons/logo.svg';
+import Dropdown from './dropdown.jsx';
+import AccountWidget from './accountWidget.jsx';
+//import { ReactComponent as Logo } from './icons/logo.svg';
 
 import './header.sass';
 
 const Header = (props) => {
     return (
         <div className="header">
-            <Logo width={30} height={30}/>
-            <p>{props.title}</p>
+            {/* <Logo width={30} height={30}/> */}
+            {/* <p>{props.title}</p> */}
+            <AccountWidget className="accountWidget header__accountWidget" />
+            <Dropdown className="dropdown header__dropdown" content={{
+                header: "MINECRAFT BEDROCK",
+                list: ["FAQ", "INSTALLATION", "PATCH NOTE"]
+            }}/>
             <Toolbox className='toolbox header__toolbox'/>
         </div>
     );

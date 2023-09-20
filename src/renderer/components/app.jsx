@@ -5,6 +5,7 @@ import Navigation from './navigation.jsx';
 import Header from './header.jsx';
 import {ReactComponent as Logo} from './icons/logo.svg';
 import Login from './login.jsx';
+import News from './news.jsx';
 import Map from './map.jsx';
 import Wiki from './wiki.jsx';
 import Account from './account.jsx';
@@ -53,16 +54,20 @@ const App = () => {
     return (
         <div className="app">
             <Header title="Reanimine"/>
-            <Navigation />
-            {useLocation().pathname == '/' &&  
-                <div className="app__wrapper">
-                    <Logo width={200} height={200}/>
-                    <Login playHandler={() => handlePlay()} running={running} progress={progressState}/>
-                </div>
-            }
-            <Outlet />
-            <div>
-                {appVersion}
+
+            <div className="app__content">
+                <Navigation className="navigation app__navigation" content={{
+                    list: [["news"], ["java edition", "bedrock edition", "education edition", "mc dungeons", "mc legends"], ["settings/accounts", "more"]]
+                }}/>
+
+                {useLocation().pathname == '/' &&  
+                    <div className="app__wrapper">
+                        {/* <Logo width={200} height={200}/>
+                        <Login playHandler={() => handlePlay()} running={running} progress={progressState}/> */}
+                        <News/>
+                    </div>
+                }
+                <Outlet />
             </div>
         </div>
     );
