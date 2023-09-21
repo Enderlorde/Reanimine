@@ -1,8 +1,11 @@
 .news
-    width: calc(100% - 4px)
+    width: calc(80% - 4px)
     outline: 4px solid #ffffff
-    height: 100%
+    height: calc(100% - 4vw - 12px)
     overflow-y: scroll
+
+    &::-webkit-scrollbar  
+        display: none
 
     &__wrapper
         display: flex
@@ -28,7 +31,7 @@
         width: 100%
 
         position: relative
-        padding: 31px 18px
+        padding: 3vw 18px
 
         background-color: #28282B
 
@@ -50,8 +53,6 @@
         justify-content: center
         
         position: relative
-
-        
 
         width: 85%
         padding: 21px 128px 28px 128px

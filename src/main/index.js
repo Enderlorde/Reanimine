@@ -115,8 +115,8 @@ const modsIDs = [61811, 229061, 242638, 223008, 271856, 246391, 310383, 51195, 5
 
 const createWindow = () => {
     window = new BrowserWindow({
-        width: 1920,
-        height: 1080,
+        width: 1280,
+        height: 720,
         frame: false,
         webPreferences: {
             preload:path.join(__dirname, '..\\preload\\index.js')

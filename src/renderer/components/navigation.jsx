@@ -19,8 +19,8 @@ const Navigation = (props) => {
                             {navigationCategory.map((navigationItem) => {
                                     return (
                                         <li className='navigation__item'>
-                                            <button className='navigation__button'>
-                                                {navigationItem}
+                                            <button className='navigation__button' onClick={() => navigate(`/${navigationItem.path}`)}>
+                                                {navigationItem.name}
                                             </button>
                                         </li>
                                     )

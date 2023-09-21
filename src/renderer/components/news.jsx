@@ -1,7 +1,5 @@
-import React, { Suspense } from 'react';
-import { CircleLoader }	from 'react-spinners';
-//import Feed from './feed';
-const Feed = React.lazy(() => import("./feed.jsx"));
+import React from 'react';
+import Feed from './feed';
 import "./news.sass";
 
 const News = () => {
@@ -12,15 +10,13 @@ const News = () => {
 
                 <div className="news__separator">
                     <div className="news__buttonWrapper">
-                        <button className="news__button">Play</button>
+                        {/* <button className="news__button">Play</button> */}
                     </div>
                     
                     <p className='news__username'>My Username</p>
                 </div>
 
-                <Suspense fallback={<CircleLoader />}>
-                    <Feed className="news__feed" url="https://launchercontent.mojang.com/javaPatchNotes.json"/>
-                </Suspense>
+                <Feed className="news__feed" link="https://launchercontent.mojang.com/news.json"/>
             </div>
         </div>
     );

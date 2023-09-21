@@ -57,7 +57,7 @@ const App = () => {
 
             <div className="app__content">
                 <Navigation className="navigation app__navigation" content={{
-                    list: [["news"], ["java edition", "bedrock edition", "education edition", "mc dungeons", "mc legends"], ["settings/accounts", "more"]]
+                    list: [[{name:"news" , path:"news"}], [{name:"java edition", path:""}, {name:"bedrock edition", path:""}, {name:"education edition", path:""}, {name:"mc dungeons", path:""}, {name:"mc legends", path:""}], [{name:"settings/accounts", path:"settings"}, {name:"more", path:""}]]
                 }}/>
 
                 {useLocation().pathname == '/' &&  
@@ -92,6 +92,10 @@ const router = createHashRouter([
             },    {
                 path: "settings",
                 element: <Settings />
+            },
+            {
+                path: "news",
+                element: <News />
             }
         ]
     }   

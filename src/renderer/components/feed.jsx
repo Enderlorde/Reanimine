@@ -8,12 +8,13 @@ const Feed = (props) => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        fetch("https://launchercontent.mojang.com/javaPatchNotes.json").then((response) => response.json()).then((content) => {
-            const redusedNews = []
+        fetch(props.link).then((response) => response.json()).then((content) => {
+            /* const redusedNews = []
             for (var i = 0; i < 4; i++){
                 redusedNews.push(content.entries[i]);
             }
-            setData(redusedNews);
+            setData(redusedNews); */
+            setData(content.entries)
         })
         
     },[])
@@ -27,15 +28,15 @@ const Feed = (props) => {
             {
                 data.map((item, index) => <li className='feed__item' key={index}>
                     <div className="feed__img">
-                        <img src={"https://launchercontent.mojang.com"+item.image.url} alt={item.image.title}/>
+                        <img src={"https://launchercontent.mojang.com"+item.playPageImage.url} alt={item.playPageImage.title}/>
                     </div>
                     <div className="feed__contentWrapper">
                         <div className="feed__headline">
                             <h2 className="feed__title">{item.title}</h2>
-                            <span className="feed__version">{item.version}</span>
+                            <span className="feed__version">{item.date}</span>
                         </div>
                         <div className="feed__content">
-                            {stripHtml(item.body).result}
+                            {stripHtml(item.text).result.slice(0, 100)}
                         </div>
                     </div>
                 </li>)
