@@ -5,6 +5,6 @@ minecraft
 .env
 build
 dist
-.log
+*.log
 mods
 out

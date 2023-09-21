@@ -65,6 +65,7 @@
     "react-router-dom": "^6.11.2",
     "react-spinners": "^0.13.8",
     "skinview3d": "^3.0.0-alpha.1",
+    "string-strip-html": "^13.4.3",
     "three": "^0.156.1"
   },
   "repository": {

@@ -19,7 +19,7 @@ const News = () => {
                 </div>
 
                 <Suspense fallback={<CircleLoader />}>
-                    <Feed url="https://launchercontent.mojang.com/javaPatchNotes.json"/>
+                    <Feed className="news__feed" url="https://launchercontent.mojang.com/javaPatchNotes.json"/>
                 </Suspense>
             </div>
         </div>

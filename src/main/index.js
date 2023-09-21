@@ -132,7 +132,7 @@ const createWindow = () => {
     window.webContents.session.webRequest.onHeadersReceived((details, callback) => {
         callback({
           responseHeaders: {
-            'Access-Control-Allow-Origin': ['*'],
+            //'Access-Control-Allow-Origin': ['*'],
             // We use this to bypass headers
             'Access-Control-Allow-Headers': ['*'],
             ...details.responseHeaders,
