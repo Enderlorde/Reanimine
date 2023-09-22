@@ -12,10 +12,7 @@ const Header = (props) => {
             {/* <Logo width={30} height={30}/> */}
             {/* <p>{props.title}</p> */}
             <AccountWidget className="accountWidget header__accountWidget" />
-            <Dropdown className="dropdown header__dropdown" content={{
-                header: "MINECRAFT BEDROCK",
-                list: ["FAQ", "INSTALLATION", "PATCH NOTE"]
-            }}/>
+            <Dropdown className="dropdown header__dropdown" content={props.menu}/>
             <Toolbox className='toolbox header__toolbox'/>
         </div>
     );

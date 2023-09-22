@@ -2,8 +2,10 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import _ from 'lodash';
 import DirectoryPicker from './directoryPicker.jsx';
+import Dropdown from './dropdown.jsx';
+import Form from './form.jsx';
+import Switch from './switch.jsx';
 import './settings.sass';
-import './form.sass';
 
 const Settings = () => {
     const defaultOptions = {
@@ -65,7 +67,17 @@ const Settings = () => {
 
     return (
         <div className="settings">
-            <form className="settings__form form" action="" onSubmit={(e) => submitHandler(e)}>
+            <p className="settings__warning">Some settings may require restarting the Launcher in order to start working</p>
+
+     {/*        <form className="settings__form" action="" onSubmit={(e) => submitHandler(e)}>
+                <ul className='settings__list'>
+                    <li className='settings__item'>
+                        <label className='settings__label' htmlFor="language">language</label>
+
+                        <Dropdown className="dropdown settings__dropdown" name="language" content={{header: "English - United States", list:["Русский"]}}/>
+                    </li>
+                </ul>
+
                 <label htmlFor="workingDirInput">Path to game</label>
                 <DirectoryPicker defaultPath={options.root} onPathChange={(value) => {
                     setSaved(false);
@@ -135,7 +147,43 @@ const Settings = () => {
 
                 <button className='form__button' disabled={saved} type="submit">{saved?'Saved':'Save'}</button>
                 <button className='form__button' type="submit" onClick={() => returnDefault()}>Reset</button>
-            </form>
+            </form> */}
+
+            <Form content={
+                [{
+                    title:"language",
+                    adjustments:[
+                        <Dropdown className="dropdown settings__dropdown" content={{
+                            header: "English - United States",
+                            list: [{
+                                text:"Russian",
+                                function: () => console.log("Russian")
+                            }]
+                        }} />
+                    ]
+                }, {
+                    title: "launcher settings", 
+                    adjustments: [
+                        <Switch disabled={true} text="Use beta version for launcher"/>,
+                        <Switch disabled={true} text="Keep the launcher open while in the Launcher"/>,
+                        <Switch disabled={true} text="Animate transitions between pages in the Launcher"/>,
+                        <Switch disabled={true} text="Animate play button on the Play pages in the Launcher"/>,
+                        <Switch disabled={true} text="Disable hardware acceleration (requires restarting the Launcher)"/>
+                    ]
+                },{
+                    title: "launcher accesibility settings",
+                    adjustments: [
+                        <Switch text="Make text side bigger"/>,
+                    ]
+                }, {
+                    title: "minecraft: java edition settings",
+                    adjustments: [
+                        <Switch text="Open output log when Minecraft: Java Edition starts"/>,
+                        <Switch text="Automatically send Minecraft: Java Edition reports to Mojang Studios"/>,
+                        <Switch text="Show historical versions of Minecraft: Java Edition in the Launcher"/>
+                    ]
+                }]          
+            } confirmText="Reset Settings"   />
         </div>
     );
 }

@@ -1,20 +1,64 @@
-.button
-    border: 0
-    padding: 5px
-    border-radius: 5px
-    font-family: 'karmatic-arcade', serif
-    color: #696773
-    transition: all 0.3s ease-in-out
-    cursor: pointer
-    background-color: #fff
-
-    &:disabled
-        color: #cacaca
-        cursor: not-allowed
-
-    &:not(:disabled):hover
-        color: #FED766
-        background-color: #272727
-        font-size: 20px
-        padding: 10px
+$background: #313233
+$background-outline-color: #151516
+$main-outline: #1E1E1F
+$bottom-right-outline: #5A5B5C
+$top-left-outline: #6D6D6E
+$shadow-outline: #313233
     
+.button
+    display: flex
+    align-items: center
+    justify-content: start
+    
+    position: relative
+
+    width: 85%
+    padding: 11px 15px 18px 15px
+
+    font-family: "Minecraft", serif
+    font-size: 1vw
+    font-weight: bold
+    color: #fff
+    text-transform: uppercase
+    text-decoration: none
+
+    background-color: #48494A
+    outline: 4px solid $main-outline 
+
+    cursor: pointer
+    
+    &::after
+        content: ""
+        display: block
+        position: absolute
+        //background-color: #fff
+        width: calc(100% - 8px)
+        height: calc(100% - 8px - 11px)
+        top: 0
+        left: 0
+        border: 4px solid $top-left-outline
+        border-bottom-color: $bottom-right-outline
+        border-right-color: $bottom-right-outline
+        box-shadow: 0px 11px $shadow-outline
+
+    &:hover,&_active
+        padding: 11px 15px
+        transform: translateY(7px)
+        margin-bottom: 7px
+
+        &::after
+            height: calc(100% - 8px)
+            box-shadow: none
+
+    &_color-red
+        background-color: #CA3636
+        outline: 4px solid $main-outline 
+
+        &::after
+            border: 4px solid #D55E5E
+            border-bottom-color: #CF4A4A
+            border-right-color: #CF4A4A
+            box-shadow: 0px 11px #AD1D1D
+
+    &_align-center
+        justify-content: center

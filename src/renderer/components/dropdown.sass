@@ -8,6 +8,9 @@ $click-color: #33363D
 .dropdown
     position: relative
 
+    &__arrow
+        transition: all 0.2s ease-in-out
+
     &:hover .dropdown__arrow
         cursor: pointer    
         transform: scaleY(-1)
@@ -15,7 +18,10 @@ $click-color: #33363D
     &__header
         display: flex
         align-items: center    
+        justify-content: space-between
         gap: 13px  
+
+        width: 100%
 
         user-select: none
         cursor: pointer

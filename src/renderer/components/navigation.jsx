@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { ReactComponent as PlayIcon } from './icons/play.svg';
 import { ReactComponent as MapIcon } from './icons/map.svg';
 import { ReactComponent as SettingsIcon } from './icons/settings.svg';
@@ -19,9 +19,15 @@ const Navigation = (props) => {
                             {navigationCategory.map((navigationItem) => {
                                     return (
                                         <li className='navigation__item'>
-                                            <button className='navigation__button' onClick={() => navigate(`/${navigationItem.path}`)}>
+                                           {/*  <button className='navigation__button' onClick={() => navigate(`/${navigationItem.path}`)}>
                                                 {navigationItem.name}
-                                            </button>
+                                            </button> */}
+                                            <NavLink className={({isActive, isPending}) => isPending?"pending":isActive?"navigation__link_active navigation__link ":"navigation__link"} to={`/${navigationItem.path}`} >
+                                                <div className="navigation__icon">
+                                                    {navigationItem.icon} 
+                                                </div>
+                                                {navigationItem.name}
+                                            </NavLink>
                                         </li>
                                     )
                                 })

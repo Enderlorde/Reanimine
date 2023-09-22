@@ -34,6 +34,7 @@ $shadow-outline: #313233
         justify-content: center
         width: 100%
 
+
     &__category
         display: flex
         flex-direction: column
@@ -55,10 +56,11 @@ $shadow-outline: #313233
                 bottom:-8px
                 background-color: #494A4C
 
-    &__button
+    &__link
         display: flex
         align-items: center
         justify-content: start
+        gap: 1vw
         
         position: relative
 
@@ -71,21 +73,13 @@ $shadow-outline: #313233
         font-weight: bold
         color: #fff
         text-transform: uppercase
+        text-decoration: none
 
         background-color: #48494A
         outline: 4px solid $main-outline 
 
         cursor: pointer
-
-        &:hover
-            padding: 11px 15px
-            transform: translateY(7px)
-            margin-bottom: 7px
-
-            &::after
-                height: calc(100% - 8px)
-                box-shadow: none
-
+        
         &::after
             content: ""
             display: block
@@ -99,6 +93,17 @@ $shadow-outline: #313233
             border-bottom-color: $bottom-right-outline
             border-right-color: $bottom-right-outline
             box-shadow: 0px 11px $shadow-outline
+
+        &:hover,&_active
+            padding: 11px 15px
+            transform: translateY(7px)
+            margin-bottom: 7px
+
+            &::after
+                height: calc(100% - 8px)
+                box-shadow: none
+
+        
 
             
                 

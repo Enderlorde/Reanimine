@@ -1,0 +1,12 @@
+<svg width="36.000000" height="36.000000" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Created with Pixso.
+	</desc>
+	<defs>
+		<pattern id="pattern_14_2460" patternContentUnits="objectBoundingBox" width="1.000000" height="1.000000">
+			<use xlink:href="#image14_246_0" transform="matrix(0.125,0,0,0.125,0,0)"/>
+		</pattern>
+		<image id="image14_246_0" width="8.000000" height="8.000000" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAABHNCSVQICAgIfAhkiAAAAIpJREFUGJVdj6ENhDAARV/JjdGEEpKKc+izZ041YYRO0BlQ7IDGkZvgBIYVECQEBHsUQ3sNT/7/vviQoKT2SmqfZiIt368agN/0ZT8WEYW0DAQpU1L7tum40zYdSmr/AKiqHPiwzhsA5bO4MsjCYp03rDNYZ6IYhaEfsc7E0DrD0I//F/drgf1YxAmKKSzx4DrVagAAAABJRU5ErkJggg=="/>
+	</defs>
+	<rect id="News Icon" width="36.000000" height="36.000000" fill="url(#pattern_14_2460)"/>
+</svg>
