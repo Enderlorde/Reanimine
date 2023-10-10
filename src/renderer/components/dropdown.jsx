@@ -13,7 +13,7 @@ const Dropdown = (props) => {
         <div className={props.className?props.className:"dropdown"}>
             <div className='dropdown__header'>
                 {props.content.header &&
-                    <p>{props.content.header}</p>
+                    <p>{props.content.header.ru}</p>
                 }
                 
                 <Arrow  className="dropdown__arrow"/>
@@ -22,7 +22,7 @@ const Dropdown = (props) => {
             {props.content.list &&
                 <ul className={"dropdown__list"}>
                     {props.content.list.map((listData) =>
-                        <li className='dropdown__item' onClick={() => listData.function()}>{listData.text}</li>
+                        <li className='dropdown__item' onClick={() => listData.function()}>{listData.text.ru}</li>
                     )}
                 </ul>
             }

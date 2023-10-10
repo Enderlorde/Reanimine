@@ -10,7 +10,7 @@ const Form = (props) => {
                     return (
                         <li className="form__category">
                             <h2 className='form__categoryTitle'>
-                                {category.title}
+                                {category.title.ru}
                             </h2>
 
                             <ul className='form__categoryContent'>
@@ -29,7 +29,7 @@ const Form = (props) => {
             </ul>
 
             {props.confirmText &&
-                <Button className='button button_color-red button_align-center form__button'>{props.confirmText}</Button>
+                <Button className='button button_color-red button_align-center form__button'>{props.confirmText.ru}</Button>
             }
         </form>
     );

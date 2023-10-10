@@ -154,36 +154,34 @@ const Settings = () => {
                     title:"language",
                     adjustments:[
                         <Dropdown className="dropdown settings__dropdown" content={{
-                            header: "English - United States",
+                            header: {en:"English - United States",ru:"English - United States"},
                             list: [{
-                                text:"Russian",
+                                text:{en:"Russian",ru:"Russian"},
                                 function: () => console.log("Russian")
                             }]
                         }} />
                     ]
                 }, {
-                    title: "launcher settings", 
+                    title: {en:"launcher settings",ru:"Настройки лаунчера"}, 
                     adjustments: [
-                        <Switch disabled={true} text="Use beta version for launcher"/>,
-                        <Switch disabled={true} text="Keep the launcher open while in the Launcher"/>,
-                        <Switch disabled={true} text="Animate transitions between pages in the Launcher"/>,
-                        <Switch disabled={true} text="Animate play button on the Play pages in the Launcher"/>,
-                        <Switch disabled={true} text="Disable hardware acceleration (requires restarting the Launcher)"/>
+                        <Switch disabled={true} text={{en:"Use beta version for launcher",ru:"Использовать бета-версию лаунчера"}}/>,
+                        <Switch disabled={true} text={{en:"Keep the launcher open while in the Launcher",ru:"Не закрывать лаунчер"}}/>,
+                        <Switch disabled={true} text={{en:"Disable hardware acceleration (requires restarting the Launcher)",ru:"Отключить аппаратное ускорение (требуется перезапуск лаунчера)"}}/>
                     ]
                 },{
-                    title: "launcher accesibility settings",
+                    title: {en:"launcher accesibility settings",ru:"Настройки доступности"},
                     adjustments: [
-                        <Switch text="Make text side bigger"/>,
+                        <Switch text={{en:"Make text side bigger",ru:"Сделать текст больше"}}/>,
                     ]
                 }, {
-                    title: "minecraft: java edition settings",
+                    title: {en:"minecraft: java edition settings",ru:"Настройки minecraft: java edition"},
                     adjustments: [
-                        <Switch text="Open output log when Minecraft: Java Edition starts"/>,
-                        <Switch text="Automatically send Minecraft: Java Edition reports to Mojang Studios"/>,
-                        <Switch text="Show historical versions of Minecraft: Java Edition in the Launcher"/>
+                        <Switch text={{en:"Open output log when Minecraft: Java Edition starts",ru:"Открыть лог когда игра запустится"}}/>,
+                        <Switch text={{en:"Automatically send Minecraft: Java Edition reports to Mojang Studios",ru:"Автоматически отсылать отчет в Mojang Studios"}}/>,
+                        <Switch text={{en:"Show historical versions of Minecraft: Java Edition in the Launcher",ru:"Показать прошлые версии в лаунчере"}}/>
                     ]
                 }]          
-            } confirmText="Reset Settings"   />
+            } confirmText={{en:"Reset Settings",ru:"Сбросить настройки"}}/>
         </div>
     );
 }

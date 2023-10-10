@@ -6,15 +6,13 @@ import Header from './header.jsx';
 import Login from './login.jsx';
 import News from './news.jsx';
 import Map from './map.jsx';
-import Wiki from './wiki.jsx';
+import Mods from './mods.jsx';
+import Game from './game.jsx';
 import Account from './account.jsx';
 import Settings from './settings.jsx';
+import JavaEdition from './JavaEdition.jsx';
 import {ReactComponent as NewsIcon} from './icons/News Icon.svg';
 import {ReactComponent as JavaIcon} from './icons/Java Edition Icon.svg';
-import {ReactComponent as BedrockIcon} from './icons/Bedrock Icon.svg';
-import {ReactComponent as DungeonsIcon} from './icons/Minecraft dungons 1.svg';
-import {ReactComponent as LegendsIcon} from './icons/Minecraft legends icon 1.svg';
-import {ReactComponent as EducationIcon} from './icons/Education Edition Icon.svg';
 import './app.sass';
 
 const App = () => {
@@ -27,12 +25,12 @@ const App = () => {
     const navigate = useNavigate();
 
     const settingsMenu = {
-        header: "settings",
+        header: {en:"settings", ru:"Настройки"},
         list: [{
-            text:"account",
+            text:{en:"accounts", ru:"Аккаунты"},
             function: () => navigate("/account")
         }, {
-            text:"about",
+            text:{en:"about", ru:"О НАС"},
             function: () => console.log("about")
         }]
     }
@@ -63,9 +61,9 @@ const App = () => {
             break;
             case "/account":
                 let menuTemp = menu
-                menuTemp.header = "accounts"
+                menuTemp.header = {en:"accounts", ru:"Аккаунты"}
                 menuTemp.list[0] = {
-                    text:"settings",
+                    text:{en:"settings", ru:"настройки"},
                     function: () => navigate("/settings")
                 }
                 setMenu({...menuTemp})
@@ -113,8 +111,8 @@ const App = () => {
     }
 
     const testMen = {
-        header: "MINECRAFT BEDROCK",
-        list: ["FAQ", "INSTALLATION", "PATCH NOTE"]
+        header: {en:"MINECRAFT BEDROCK", ru:"MINECRAFT BEDROCK"},
+        list: [{en:"FAQ", ru:"FAQ"}, {en:"INSTALLATION", ru:"Установка"}, {en:"PATCH NOTE", ru:"История изменений"}]
     }
 
     return (
@@ -125,38 +123,31 @@ const App = () => {
                 <Navigation className="navigation app__navigation" content={{
                     list: [
                         [{
-                            name: "news", 
+                            name: {en:"news", ru:"Новости"}, 
                             path: "news",
                             icon: <NewsIcon width={20} height={20}/>
                         }], 
 
                         [{
-                            name:"java edition", 
-                            path:"",
+                            name:{en:"Java edition", ru:"Java edition"}, 
+                            path:"je",
                             icon: <JavaIcon width={20} height={20}/>
-                        }, {
-                            name:"bedrock edition", 
-                            path:"",
-                            icon: <BedrockIcon width={20} height={20}/>
-                        }, {
-                            name:"education edition", 
-                            path:"",
-                            icon: <EducationIcon width={20} height={20}/>
-                        }, {
-                            name:"mc dungeons", 
-                            path:"",
-                            icon: <DungeonsIcon width={20} height={20}/>
-                        }, {
-                            name:"mc legends", 
-                            path:"",
-                            icon: <LegendsIcon width={20} height={20}/>
-                        }], 
-
+                        }],
                         [{
-                            name:"settings/accounts", 
+                            name:{en:"Reanimine", ru:"Reanimine"},
+                            path:"game"
+                        },{
+                            name:{en:"map", ru:"Карта"},
+                            path:"map"
+                        },{
+                            name:{en:"Mods", ru:"Моды"},
+                            path:"mods"
+                        }],
+                        [{
+                            name:{en:"settings/accounts", ru:"Настройки/аккаунты"}, 
                             path:"settings"
                         }, {
-                            name:"more", 
+                            name:{en:"more", ru:"больше"}, 
                             path:""
                         }]
                     ]
@@ -181,12 +172,16 @@ const router = createHashRouter([
         element: <App />,
         children: [
             {
+                path: "game",
+                element: <Game />
+            },
+            {
                 path: "map",
                 element: <Map />
             },
             {
-                path: "wiki",
-                element: <Wiki />
+                path: "mods",
+                element: <Mods />
             },
             {
                 path: "account",
@@ -198,6 +193,9 @@ const router = createHashRouter([
             {
                 path: "news",
                 element: <News />
+            },{
+                path: "je",
+                element: <JavaEdition />
             }
         ]
     }   

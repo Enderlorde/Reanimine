@@ -4,7 +4,7 @@ import './switch.sass';
 const Switch = (props) => {
     return (
         <div className="switch">
-            <p>{props.text}</p>
+            <p>{props.text.ru}</p>
 
             <div className={`switch__button ${props.disabled?"switch__button_disabled":""}`}>
                 <ul className="switch__buttonSlider">

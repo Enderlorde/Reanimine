@@ -2,11 +2,14 @@ import React from 'react';
 import { GridLoader } from 'react-spinners';
 import { useRef,useEffect, useState, Suspense } from 'react';
 import {SkinViewer} from 'skinview3d';
+import {ReactComponent as MicrosoftLogo} from "../static/Microsoft Logo.svg";
+import {ReactComponent as MojangLogo} from "../static/Mojang Studio Logo.svg";
+import Button from './button';
 
 import './account.sass';
 
 const Account = () => {
-    const viewport = useRef();
+ /*    const viewport = useRef();
     const [mode, setMode] = useState('offline');
 
     useEffect(() => {
@@ -29,20 +32,50 @@ const Account = () => {
         }
     },[mode])
 
-    console.log(mode);
+    console.log(mode); */
+
+    const testAccounts = [
+        {
+            logo: <MicrosoftLogo/>,
+            name: "Microsoft",
+            accounts: [
+                {
+                    username: "My Bedrock Username",
+                    info: "my java username"
+                }
+            ]
+        },
+        {
+            logo: <MojangLogo/>,
+            name: "Mojang",
+            accounts: []
+        },
+        {
+            logo: <h1>Ely.by</h1>,
+            name: "Ely.by",
+            accounts: []
+        }
+    ]
 
     return (
-        <div className="account">
-            {mode == 'Online'?
-                <div className="account__wrapper">
-                    <Suspense fallback={<GridLoader />}>
-                        <canvas ref={viewport}></canvas>
-                    </Suspense>
-                    
-                </div>:
-                <h3>Log in online to use this page</h3>
-            }
-        </div>
+        <ul className="accounts">
+            {testAccounts.map((category) => <li className='accounts__category'>
+                {category.logo}
+                <ul className="accounts__accounts-list">
+                    {category.accounts.map((account) => <li className='account'>
+                        <h2 className='account__username'>{account.username}</h2>
+
+                        <p className='account__info'>{account.info}</p>
+                    </li>)}
+
+                    <li>
+                        <Button className="accounts__button button button_align-center">{`add ${category.name} account`}</Button>
+                    </li>
+                </ul>
+
+                
+            </li>)}
+        </ul>
     );
 }
  

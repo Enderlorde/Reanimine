@@ -26,7 +26,7 @@ const Navigation = (props) => {
                                                 <div className="navigation__icon">
                                                     {navigationItem.icon} 
                                                 </div>
-                                                {navigationItem.name}
+                                                {navigationItem.name.ru}
                                             </NavLink>
                                         </li>
                                     )

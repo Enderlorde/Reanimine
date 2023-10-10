@@ -9,27 +9,7 @@
 
 @font-face 
     font-family: 'Minecraft'
-    font-weight: bold
-    font-style: normal
-    src: url('../static/MinecraftBold.otf')
-
-@font-face 
-    font-family: 'Minecraft'
-    font-weight: bold
-    font-style: italic
-    src: url('../static/MinecraftBoldItalic.otf')
-
-@font-face 
-    font-family: 'Minecraft'
-    font-weight: normal
-    font-style: normal
-    src: url('../static/MinecraftRegular.otf')
-
-@font-face 
-    font-family: 'Minecraft'
-    font-weight: normal
-    font-style: italic
-    src: url('../static/MinecraftItalic.otf')   
+    src: url('../static/minecraft1_1.ttf')
 
 *
     margin: 0
@@ -57,8 +37,12 @@
         height: 100%
 
     &__wrapper
+        display: flex
+        flex-direction: column
+        align-items: center
+
         width: 80%
-        height: calc(100% - 4vw - 12px)
+        height: max(calc(100vh - 4vw - 12px) , calc(100% - 4vw - 12px))
         overflow-y: scroll
 
         &::-webkit-scrollbar  
