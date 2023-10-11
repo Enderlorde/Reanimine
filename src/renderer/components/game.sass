@@ -1,0 +1,44 @@
+.game
+    display: flex
+    flex-direction: column
+    align-items: center
+
+    font-family: "Minecraft"
+
+    width: 70%
+
+    &__requirements-wrapper
+        padding: 1.2vw
+
+        width: 100%
+
+        background-color: #252626
+
+        border: 4px solid #1E1E1F
+
+    &__requirements
+        background-color: #313233
+
+        border: 4px solid #1E1E1F
+
+        &>h2
+            position: relative
+            display: block
+
+            padding: 1.4vw
+
+            border-bottom: 4px solid #242424
+
+            &::after
+                content: ""
+                display: block
+
+                position: absolute
+
+                top:0
+                left: 0
+
+                width: 100%
+                height: 7px
+                
+                background-color: #242425

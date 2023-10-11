@@ -3,14 +3,12 @@ import ReactDOM from 'react-dom/client';
 import { createHashRouter, RouterProvider, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Navigation from './navigation.jsx';
 import Header from './header.jsx';
-import Login from './login.jsx';
 import News from './news.jsx';
 import Map from './map.jsx';
 import Mods from './mods.jsx';
 import Game from './game.jsx';
 import Account from './account.jsx';
 import Settings from './settings.jsx';
-import JavaEdition from './JavaEdition.jsx';
 import {ReactComponent as NewsIcon} from './icons/News Icon.svg';
 import {ReactComponent as JavaIcon} from './icons/Java Edition Icon.svg';
 import './app.sass';
@@ -95,8 +93,6 @@ const App = () => {
         })
     },[]);
     
-
-
     const handlePlay = () => {
         setRunning(true);
         window.sessionStorage.setItem('pid', true)
@@ -126,8 +122,7 @@ const App = () => {
                             name: {en:"news", ru:"Новости"}, 
                             path: "news",
                             icon: <NewsIcon width={20} height={20}/>
-                        }], 
-
+                        }],
                         [{
                             name:{en:"Java edition", ru:"Java edition"}, 
                             path:"je",
@@ -135,7 +130,7 @@ const App = () => {
                         }],
                         [{
                             name:{en:"Reanimine", ru:"Reanimine"},
-                            path:"game"
+                            path:"reanimine"
                         },{
                             name:{en:"map", ru:"Карта"},
                             path:"map"
@@ -154,11 +149,10 @@ const App = () => {
                 }}/>
                 
                 <div className="app__wrapper">
-                    {useLocation().pathname == '/' &&  
-                            /* <Logo width={200} height={200}/>
-                            <Login playHandler={() => handlePlay()} running={running} progress={progressState}/> */
+                    {useLocation().pathname == '/' &&
                             <News/>
                     }
+
                     <Outlet />
                 </div>
             </div>
@@ -172,8 +166,37 @@ const router = createHashRouter([
         element: <App />,
         children: [
             {
-                path: "game",
-                element: <Game />
+                path: "reanimine",
+                element: <Game title="reanimine" requirements={{
+                    os: {
+                        min: "Windows 10 version 14393.0 or higher",
+                        rec: "Windows 10 version 14393.0 or higher"
+                    },
+                    arch: {
+                        min: "ARM, x64, x86",
+                        rec: "ARM, x64, x86"
+                    },
+                    ram: {
+                        min: "4 GB",
+                        rec: "8 GB"
+                    },
+                    motion: {
+                        min: "Not specified",
+                        rec: "Windows Mixed Reality motion contollers"
+                    },
+                    headset: {
+                        min: "Not specified",
+                        rec: "Windows Mixed Reality immersive headset"
+                    },
+                    cpu: {
+                        min: "Intel Celeron J4105 | AMD FX-4100",
+                        rec: "Intel i7-65000U | AMD A8-6600K"
+                    },
+                    gpu: {
+                        min: "Intel HD Graphics 4000 | AMD Radeon R5",
+                        rec: "NVIDIA GeForce 940M | AMD Radon HD 8570D"
+                    }
+                }}/>
             },
             {
                 path: "map",
@@ -195,7 +218,36 @@ const router = createHashRouter([
                 element: <News />
             },{
                 path: "je",
-                element: <JavaEdition />
+                element: <Game title="java" requirements={{
+                    os: {
+                        min: "Windows 10 version 14393.0 or higher",
+                        rec: "Windows 10 version 14393.0 or higher"
+                    },
+                    arch: {
+                        min: "ARM, x64, x86",
+                        rec: "ARM, x64, x86"
+                    },
+                    ram: {
+                        min: "4 GB",
+                        rec: "8 GB"
+                    },
+                    motion: {
+                        min: "Not specified",
+                        rec: "Windows Mixed Reality motion contollers"
+                    },
+                    headset: {
+                        min: "Not specified",
+                        rec: "Windows Mixed Reality immersive headset"
+                    },
+                    cpu: {
+                        min: "Intel Celeron J4105 | AMD FX-4100",
+                        rec: "Intel i7-65000U | AMD A8-6600K"
+                    },
+                    gpu: {
+                        min: "Intel HD Graphics 4000 | AMD Radeon R5",
+                        rec: "NVIDIA GeForce 940M | AMD Radon HD 8570D"
+                    }
+                }}/>
             }
         ]
     }   
