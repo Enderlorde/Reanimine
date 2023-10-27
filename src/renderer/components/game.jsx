@@ -1,59 +1,135 @@
 import React from 'react';
-import './game.sass';
 import {ReactComponent as PromoImage} from '../static/game_background.svg';
+import Feed from './feed';
+import './game.sass';
 
 const Game = (props) => {
     return (
         <div className="game">
             <PromoImage />
+
             <div className="game__breakpoint">
 
             </div>
+
+            <Feed className="game__feed" link="https://launchercontent.mojang.com/javaPatchNotes.json" size={50} />
 
             <div className='game__requirements-wrapper'>
                 <div className="game__requirements">
                     <h2>System requirements</h2>
                     <table className="">
                         <thead>
-                            <td></td>
-                            <td>Minimum Requirements</td>
-                            <td>Recommended Requirements</td>
+                            <tr>
+                                <td></td>
+                                
+                                <td>
+                                    <span>Minimum Requirements</span>
+                                </td>
+
+                                <td>
+                                    <span>Recommended Requirements</span>
+                                </td>
+                            </tr> 
                         </thead>
+
                         <tbody>
                             <tr>
-                                <td>Operation System</td>
-                                <td>{props.requirements.os.min}</td>
-                                <td>{props.requirements.os.rec}</td>
+                                <td>
+                                    <span>Operation System</span>
+                                </td>
+
+                                <td>
+                                    <span>{props.requirements.os.min}</span>
+                                </td>
+
+                                <td>
+                                    <span>{props.requirements.os.rec}</span>
+                                </td>
                             </tr>
+                            
                             <tr>
-                                <td>Architecture</td>
-                                <td>{props.requirements.arch.min}</td>
-                                <td>{props.requirements.arch.rec}</td>
+                                <td>
+                                    <span>Architecture</span>
+                                </td>
+
+                                <td>
+                                    <span>{props.requirements.arch.min}</span>
+                                </td>
+
+                                <td>
+                                    <span>{props.requirements.arch.rec}</span>
+                                </td>
                             </tr>
+
                             <tr>
-                                <td>Memory</td>
-                                <td>{props.requirements.ram.min}</td>
-                                <td>{props.requirements.ram.rec}</td>
+                                <td>
+                                    <span>Memory</span>
+                                </td>
+
+                                <td>
+                                    <span>{props.requirements.ram.min}</span>
+                                </td>
+
+                                <td>
+                                    <span>{props.requirements.ram.rec}</span>
+                                </td>
                             </tr>
+
                             <tr>
-                                <td>Motion Controller</td>
-                                <td>{props.requirements.motion.min}</td>
-                                <td>{props.requirements.motion.rec}</td>
+                                <td>
+                                    <span>Motion Controller</span>
+
+                                </td>
+
+                                <td>
+                                    <span>{props.requirements.motion.min}</span>
+                                </td>
+
+                                <td>
+                                    <span>{props.requirements.motion.rec}</span>
+                                </td>
                             </tr>
+                            
                             <tr>
-                                <td>Headset</td>
-                                <td>{props.requirements.headset.min}</td>
-                                <td>{props.requirements.headset.rec}</td>
+                                <td>
+                                    <span>Headset</span>
+                                </td>
+
+                                <td>
+                                    <span>{props.requirements.headset.min}</span>
+                                </td>
+
+                                <td>
+                                    <span>{props.requirements.headset.rec}</span>
+                                </td>
                             </tr>
+
                             <tr>
-                                <td>Processor</td>
-                                <td>{props.requirements.cpu.min}</td>
-                                <td>{props.requirements.cpu.rec}</td>
+                                <td>
+                                    <span>Processor</span>
+                                </td>
+
+                                <td>
+                                    <span>{props.requirements.cpu.min}</span>
+                                </td>
+
+                                <td>
+                                    <span>{props.requirements.cpu.rec}</span>
+                                </td>
                             </tr>
+
                             <tr>
-                                <td>Graphics</td>
-                                <td>{props.requirements.gpu.min}</td>
-                                <td>{props.requirements.gpu.rec}</td>
+                                <td>
+                                    <span>Graphics</span>
+                                </td>
+
+                                <td>
+                                    <span>{props.requirements.gpu.min}</span>
+                                </td>
+
+                                <td>
+                                    <span>{props.requirements.gpu.rec}</span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
