@@ -11,10 +11,13 @@ $shadow-outline: #313233
     width: 20%
     height: 100%
 
-    //overflow-y: scroll
+    overflow-y: scroll
 
     background-color: $background
     border: 4px solid $background-outline-color
+
+    &::-webkit-scrollbar  
+        display: none
 
     &__list
         display: flex

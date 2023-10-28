@@ -21,8 +21,8 @@ const Dropdown = (props) => {
             
             {props.content.list &&
                 <ul className={"dropdown__list"}>
-                    {props.content.list.map((listData) =>
-                        <li className='dropdown__item' onClick={() => listData.function()}>{listData.text.ru}</li>
+                    {props.content.list.map((listData, index) =>
+                        <li className='dropdown__item' key={index} onClick={() => listData.function()}>{listData.text.ru}</li>
                     )}
                 </ul>
             }

@@ -17,7 +17,7 @@ const App = () => {
     const [progressState, setProgressState] = useState({ type: 'none', current: 0, total: 100 });
     const [running, setRunning] = useState(false);
     const [appVersion, setAppVersion] = useState();
-    const [menu, setMenu] = useState();
+    const [menu, setMenu] = useState([]);
     const [currentLocation, setCurrentLocation] = useState();
 
     const navigate = useNavigate();
@@ -58,9 +58,9 @@ const App = () => {
                 setMenu({...settingsMenu})
             break;
             case "/account":
-                let menuTemp = menu
-                menuTemp.header = {en:"accounts", ru:"Аккаунты"}
-                menuTemp.list[0] = {
+                let menuTemp = settingsMenu
+                menuTemp['header'] = {en:"accounts", ru:"Аккаунты"}
+                menuTemp['list'][0] = {
                     text:{en:"settings", ru:"настройки"},
                     function: () => navigate("/settings")
                 }
@@ -72,7 +72,7 @@ const App = () => {
         }
     });
 
-    useEffect(() => {
+/*     useEffect(() => {
         window.something.handleCounter((e, value) => {
             setProgressState(value);
             //console.log(value);
@@ -91,9 +91,9 @@ const App = () => {
         window.something.getAppVersion().then((appVersion) => {
             setAppVersion(appVersion);
         })
-    },[]);
+    },[]); */
     
-    const handlePlay = () => {
+/*     const handlePlay = () => {
         setRunning(true);
         window.sessionStorage.setItem('pid', true)
         window.something.play().then((process) => {
@@ -104,7 +104,7 @@ const App = () => {
             console.log(e);
             setRunning(false);
         });
-    }
+    } */
 
     const testMen = {
         header: {en:"MINECRAFT BEDROCK", ru:"MINECRAFT BEDROCK"},

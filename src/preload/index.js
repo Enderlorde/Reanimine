@@ -1,6 +1,6 @@
 import  { contextBridge, ipcRenderer } from 'electron';
 
-contextBridge.exposeInMainWorld('something',{
+/* contextBridge.exposeInMainWorld('something',{
     close: () => ipcRenderer.invoke('close'),
     minimize: () => ipcRenderer.invoke('minimize'),
     play: () => ipcRenderer.invoke('play'),
@@ -14,4 +14,13 @@ contextBridge.exposeInMainWorld('something',{
     handleClosing: (callback) => ipcRenderer.on('game-close', callback),
     modsInfo: () => ipcRenderer.invoke('mods-info'),
     getAppVersion: () => ipcRenderer.invoke('getAppVersion'),
+}); */
+
+contextBridge.exposeInMainWorld('mainAPI',{
+    runGame: (options, authKey) => ipcRenderer.invoke('runGame', options, authKey),
+    getAuthorization: (username, password) => ipcRenderer.invoke('getAuthorization', username, password),
+    handleRunProgress: (callback) => ipcRenderer.on('runProgress', callback),
+    handleClosing: (callback) => ipcRenderer.on('closing', callback),
+    clearListeners: (listener) => {ipcRenderer.removeAllListeners('closing'); console.log(listener);},
+    handleChildProcess: (callback) => ipcRenderer.on('childProcess', callback)
 });

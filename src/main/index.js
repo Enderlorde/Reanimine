@@ -11,6 +11,7 @@ import fs from 'fs';
 import { DownloaderHelper } from 'node-downloader-helper';
 import open from 'open';
 import { ModsDownloader } from './mods-download.js';
+import { log } from 'console';
 const modsDownloader =  new ModsDownloader(import.meta.env.MAIN_VITE_CURSEFORGE_API_KEY);
 
 let mode = 'Offline';
@@ -165,9 +166,9 @@ const createWindow = () => {
     const savedOptions = window.webContents.executeJavaScript(`localStorage.getItem('options')`).then(value => JSON.parse(value));
     savedOptions.then((val) => {options = _.merge({...options}, {...val}); console.log(options); console.log(options.authorization)});
 
-    launcher.on('download-status', (e) => window.webContents.send('update-counter', e));
+/*     launcher.on('download-status', (e) => window.webContents.send('update-counter', e));
     launcher.on('download', (e) => window.webContents.send('download-done', e));  
-    launcher.on('close', (code) => window.webContents.send('game-close', code));
+    launcher.on('close', (code) => window.webContents.send('game-close', code)); */
 
     window.loadURL(process.env.ELECTRON_START_URL||`file://${path.join(__dirname, '../renderer/index.html')}`);
 }
@@ -243,10 +244,11 @@ ipcMain.handle('close', () => {
 const rootFolderCheck = (directory) => new Promise((resolve, reject) => {
     try{
         fs.mkdir((directory),{ recursive: true },() => {
-            console.log('Folder created');
+            console.log(`[MAIN]: Root folder ${directory} created successfull!`);
             resolve()
         });
     }catch (e){
+        console.log(`[MAIN]: Root folder ${directory} creating error: ${e}`);
         reject(e)
     }
 });
@@ -411,3 +413,30 @@ ipcMain.handle('login', (e, credentials) => {
 
 launcher.on('data', (e) => console.log(e));
 launcher.on('debug', (e) => console.log(e));
+
+
+
+//Run client
+ipcMain.handle('runGame', (event, optionsSTR, authKeySTR) => {
+    console.log(optionsSTR);
+    let options = JSON.parse(optionsSTR)
+    let authKey = JSON.parse(authKeySTR)
+    options['authorization'] = authKey
+
+    launcher.removeAllListeners('progress')
+    launcher.removeAllListeners('download-status');
+    launcher.removeAllListeners('close');
+
+    rootFolderCheck(options.root).then(() => {
+        launcher.launch(options).then((result) => window.webContents.send("childProcess", JSON.stringify(result)));
+
+        launcher.on('progress',(progress) => window.webContents.send("runProgress", JSON.stringify(progress)));
+        launcher.on('download-status',(progress) => window.webContents.send("runProgress", JSON.stringify(progress)));
+        launcher.on('close', (code) => window.webContents.send("closing", code));
+    })
+});
+
+//Get authentification object
+ipcMain.handle('getAuthorization', (event, username, password) => {
+    return Authenticator.getAuth(username, password);
+});

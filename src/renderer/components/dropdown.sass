@@ -21,7 +21,7 @@ $click-color: #33363D
         justify-content: space-between
         gap: 13px  
 
-        width: 100%
+        //width: 100%
 
         user-select: none
         cursor: pointer
@@ -32,9 +32,13 @@ $click-color: #33363D
         flex-direction: column
         align-items: center
 
+        max-height: 200px
+
+        overflow-y: scroll
+
         user-select: none
 
-        width: 100%
+        right:0
 
         list-style: none
 
@@ -49,6 +53,9 @@ $click-color: #33363D
         background-color: $color
         
         z-index: 999
+
+        &::-webkit-scrollbar
+            display: none
 
     &:hover>.dropdown__list
         display: flex
@@ -65,4 +72,8 @@ $click-color: #33363D
 
         &:active
             background-color: $click-color
+
+    &_align-right>&__item
+        transform: translateX(-100%)
+
             
