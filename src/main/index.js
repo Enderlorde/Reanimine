@@ -23,7 +23,7 @@ const singleInstanceLock = app.requestSingleInstanceLock();
 Authenticator.changeApiUrl('https://authserver.ely.by/auth')
 let options = {
     root: "./minecraft",
-    customArgs: [`-javaagent: ${__dirname}/minecraft/authlib-injector-1.2.2.jar=ely.by`, "-Dauthlibinjector.ignoredPackages=forgewrapper"],
+    //customArgs: [`-javaagent: ${__dirname}/minecraft/authlib-injector-1.2.2.jar=ely.by`, "-Dauthlibinjector.ignoredPackages=forgewrapper"],
     version: {
         number: "1.12.2",
         type: "release"
@@ -159,7 +159,7 @@ const createWindow = () => {
         }
     });
 
-    ipcMain.handle('minimize', () => {
+    ipcMain.handle('minimizeLauncher', () => {
         window.minimize();
     });
 
@@ -201,7 +201,7 @@ const modalWindow = (message) => {
 
 modsDownloader.on('download-status', (e) => window.webContents.send('update-counter', e));
 
-ipcMain.handle('mods-info',() => modsDownloader.getModsInfo(modsIDs).then(
+ipcMain.handle('getModsInfo',() => modsDownloader.getInfo(modsIDs).then(
     (modsInfo) => JSON.stringify(modsInfo)).catch((error) => modalWindow(error.toString()))
 );
 
@@ -237,7 +237,7 @@ ipcMain.handle('save-options', (e, newOptions) => {
     options = _.merge({...options}, {...newOptions});
 });
 
-ipcMain.handle('close', () => {
+ipcMain.handle('closeLauncher', () => {
     app.quit();
 });
 
@@ -430,6 +430,8 @@ ipcMain.handle('runGame', (event, optionsSTR, authKeySTR) => {
     rootFolderCheck(options.root).then(() => {
         launcher.launch(options).then((result) => window.webContents.send("childProcess", JSON.stringify(result)));
 
+        launcher.on('data', (data) => window.webContents.send("sendDataMessage", JSON.stringify(data)));
+        
         launcher.on('progress',(progress) => window.webContents.send("runProgress", JSON.stringify(progress)));
         launcher.on('download-status',(progress) => window.webContents.send("runProgress", JSON.stringify(progress)));
         launcher.on('close', (code) => window.webContents.send("closing", code));

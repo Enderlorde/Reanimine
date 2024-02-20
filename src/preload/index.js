@@ -21,6 +21,16 @@ contextBridge.exposeInMainWorld('mainAPI',{
     getAuthorization: (username, password) => ipcRenderer.invoke('getAuthorization', username, password),
     handleRunProgress: (callback) => ipcRenderer.on('runProgress', callback),
     handleClosing: (callback) => ipcRenderer.on('closing', callback),
-    clearListeners: (listener) => {ipcRenderer.removeAllListeners('closing'); console.log(listener);},
-    handleChildProcess: (callback) => ipcRenderer.on('childProcess', callback)
+    clearListeners: (listener) => {ipcRenderer.removeAllListeners(listener);},
+    handleChildProcess: (callback) => ipcRenderer.on('childProcess', callback),
+    handleDataMessages: (callback) => ipcRenderer.on('sendDataMessage', callback),
+});
+
+contextBridge.exposeInMainWorld('launcherAPI', {
+    minimize: () => ipcRenderer.invoke('minimizeLauncher'),
+    close: () => ipcRenderer.invoke('closeLauncher')
+});
+
+contextBridge.exposeInMainWorld('modsAPI',{
+    modsInfo: () => ipcRenderer.invoke('getModsInfo'),
 });

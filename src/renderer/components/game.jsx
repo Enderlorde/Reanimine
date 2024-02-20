@@ -3,7 +3,7 @@ import {ReactComponent as PromoImage} from '../static/game_background.svg';
 import Feed from './feed';
 import Button from './button';
 import Dropdown from './dropdown';
-import DownloadInfo from './downloadInfo';
+import Notification from './notification';
 import './game.sass';
 
 const Game = (props) => {
@@ -37,10 +37,30 @@ const Game = (props) => {
             setRunProgress({...progress});
             console.log(progress);
         });
-    
-        window.mainAPI.handleClosing((event, code) => {setPopupState(false); setReadyState(true); console.log(`Closed with code ${code}`);})    
 
-        window.mainAPI.handleChildProcess((event, process) => setPopupState(false));
+        const handleRunErrors = (error) => {
+            setPopupState(true);
+            setReadyState(false)
+            setRunProgress({...
+                {
+                task: 100,
+                total: 100,
+                name: "Ошибка",
+                type: error
+            }});
+        }
+
+        window.mainAPI.handleDataMessages((event, dataJSON) => {
+            console.log(`Data: ${dataJSON}`);
+            if (dataJSON.includes('UnsupportedClassVersionError')) 
+            {
+                handleRunErrors("Неподдерживаямая версия джава");
+            }
+        });
+    
+        //window.mainAPI.handleClosing((event, code) => {setPopupState(false); setReadyState(true); console.log(`Closed with code ${code}`);})    
+
+        window.mainAPI.handleChildProcess(() => setRunProgress({...{name:'Загружено', task: 100, total: 100, type:"Игра запущена"}}));
     },[])   
 
     useEffect(() => {
@@ -68,12 +88,11 @@ const Game = (props) => {
         }
 
         getAuthorization().then((authKey) => window.mainAPI.runGame(JSON.stringify(options), JSON.stringify(authKey)))
-        
     }
 
     return (
         <div className="game">
-            <DownloadInfo className="game__downloadInfo" enabled={popupState}  action={runProgress["name"]?"Скачиваем":"Загружаем"} filename={runProgress['type']} value={runProgress['task']?runProgress['task']:runProgress['current']} maxValue={runProgress['total']}/>
+            <Notification className="game__downloadInfo" enabled={popupState}  action={runProgress["name"]?runProgress["name"]:"Загружаем"} filename={runProgress['type']} value={runProgress['task']?runProgress['task']:runProgress['current']} maxValue={runProgress['total']}/>
 
             <PromoImage className="game__promo"/>
 

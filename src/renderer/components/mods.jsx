@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GridLoader } from 'react-spinners';
 import { ReactComponent as DownloadIcon } from './icons/download.svg';
 import { ReactComponent as DateIcon } from './icons/clock.svg';
@@ -13,9 +13,17 @@ const Mods = () => {
     let [modsList, setModsList] = useState();
 
     useEffect(() => {
-        const modsInfoCache = window.sessionStorage.getItem('modsInfo');
+        let modsInfoCache;
+
+        try {
+            modsInfoCache = window.sessionStorage.getItem('modsInfo');
+        }
+        catch {
+            modsInfoCache = null;
+        }
+
         if (!modsInfoCache){
-            window.something.modsInfo().then((result) => {
+            window.modsAPI.modsInfo().then((result) => {
                 const mods = JSON.parse(result);
                 if (mods) {
                     setModsList([...mods]);

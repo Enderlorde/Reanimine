@@ -1,4 +1,6 @@
-import react from '@vitejs/plugin-react';
+import postcss_nested from 'postcss-nested';
+import postcss_import from 'postcss-import';
+import postcss_simple_vars from 'postcss-simple-vars';
 import svgr from 'vite-plugin-svgr';
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
 
@@ -23,13 +25,22 @@ export default defineConfig({
         }
     },
     renderer: {
-        plugins: [react(), svgr()],
+        plugins: [svgr()],
         build: {
             rollupOptions:{
                 input:{
                     index: './src/renderer/index.html',
                     modal: './src/renderer/modal/index.html'
                 }
+            }
+        },
+        css: {
+            postcss: {
+                plugins: [
+                    postcss_nested(),
+                    postcss_import(),
+                    postcss_simple_vars()
+                ]
             }
         }
     },

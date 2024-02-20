@@ -11,7 +11,7 @@ export class ModsDownloader extends EventEmitter {
         this.client = new CurseForgeClient(apiKey,{fetch});
     }
 
-    async getModsInfo(modsIDArray) {
+    async getInfo(modsIDArray) {
         return await this.client.getMods(modsIDArray);
     }
 
