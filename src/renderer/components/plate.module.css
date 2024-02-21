@@ -1,0 +1,43 @@
+@import url('./colors.css');
+
+.plate{
+    background-color: $plate_background;
+
+    border-top: 7px solid $plate_shadow;
+    outline: 4px solid #1E1E1F;
+
+    &:hover{
+        background-color: $plate_background_hover;
+    }
+}
+
+.element{
+    background-color: $plate_background;
+    border-bottom: 4px solid $plate_bottom_outline;
+
+    transition: all 0.3s ease-in-out;
+
+    &:not(:first-child){
+        border-top: 4px solid $plate_top_outline;
+    }
+
+    &:hover{
+        background-color: $plate_background_hover;
+
+        border-bottom-color: $plate_bottom_outline_hover;
+
+        &:not(:first-child){
+            border-top-color: $plate_top_outline_hover;
+        }
+    }
+
+    &:active{
+        background-color: $plate_background_active;
+
+        border-bottom-color: $plate_bottom_outline_active;
+
+        &:not(:first-child){
+            border-top-color: $plate_top_outline_active;
+        }
+    }
+}

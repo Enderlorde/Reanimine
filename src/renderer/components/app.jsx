@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { createHashRouter, RouterProvider, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Navigation from './navigation.jsx';
-import Header from './header.jsx';
+import TitleBar from './titlebar';
 import News from './news.jsx';
 import Map from './map.jsx';
 import Mods from './mods.jsx';
 import Game from './game.jsx';
-import Account from './account.jsx';
+import Accounts from './accounts';
 import Settings from './settings.jsx';
 import {ReactComponent as NewsIcon} from './icons/News Icon.svg';
 import {ReactComponent as JavaIcon} from './icons/Java Edition Icon.svg';
@@ -113,7 +113,7 @@ const App = () => {
 
     return (
         <div className="app">
-            <Header title="Reanimine" menu={menu}/>
+            <TitleBar title="Reanimine" menu={menu}/>
 
             <div className="app__content">
                 <Navigation className="navigation app__navigation" content={{
@@ -208,7 +208,7 @@ const router = createHashRouter([
             },
             {
                 path: "account",
-                element: <Account />
+                element: <Accounts />
             },    {
                 path: "settings",
                 element: <Settings />

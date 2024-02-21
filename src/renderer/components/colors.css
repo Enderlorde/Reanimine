@@ -1,2 +1,33 @@
-$backplate_background: #1E1E1E;
-$backplate_outline: #252626;
+$backplate_background: #252626;
+$backplate_background_hover: #2D2E33;
+$backplate_background_active: #1F2123;
+$backplate_outline: #1E1E1F;
+$backplate_outline_hover: #252626;
+
+$plate_background: #313233;
+$plate_background_hover: #35353A;
+$plate_background_active: #27292B;
+$plate_shadow: #242425;
+$plate_bottom_outline: #242424;
+$plate_bottom_outline_hover: #25272B;
+$plate_bottom_outline_active: #35383C;
+$plate_top_outline: #3A3B3D;
+$plate_top_outline_hover: #414450;
+$plate_top_outline_active: #1A1B1C;
+
+$button_background: #48494A;
+$button_background_hover: #58585A;
+$button_background_active: #313233;
+$button_top_left_outline: #6D6D6E;
+$button_bottom_right_outline: #5A5B5C;
+$button_top_left_outline_hover: #79797B;
+$button_bottom_right_outline_hover: #68686A;
+$button_top_left_outline_active: #5A5B5C;
+$button_bottom_right_outline_active: #454647;
+
+$titlebar_background: #E6E8EB;
+$titlebar_shadow: #B1B2B5;
+
+$dropdown_background: #43464F;
+$dropdown_background_hover: #393C43;
+$dropdown_background_active: #33363D;

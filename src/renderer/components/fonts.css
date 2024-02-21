@@ -1,0 +1,14 @@
+@font-face{
+    src: url('../static/fonts/Minecraftia-Regular.ttf');
+    font-family: "Minecraftia";
+}
+
+@font-face{
+    src: url('../static/fonts/MinecraftTen.ttf');
+    font-family: 'Minecraft Ten';
+}
+
+@font-face{
+    src: url('../static/fonts/Minercraftory.ttf');
+    font-family: 'Minercraftory';
+}

@@ -7,6 +7,7 @@ import { ReactComponent as AccountIcon } from './icons/account.svg';
 import { ReactComponent as WikiIcon } from './icons/wiki.svg';
 import './navigation.sass';
 import './button.sass';
+import button_styles from './button.module.css';
 
 const Navigation = (props) => {
     const navigate = useNavigate();
@@ -23,11 +24,10 @@ const Navigation = (props) => {
                                            {/*  <button className='navigation__button' onClick={() => navigate(`/${navigationItem.path}`)}>
                                                 {navigationItem.name}
                                             </button> */}
-                                            <NavLink className={({isActive, isPending}) => isPending?"pending":isActive?"button button_active":"button"} to={`/${navigationItem.path}`} >
-                                                <div className="navigation__icon">
-                                                    {navigationItem.icon} 
-                                                </div>
-                                                {navigationItem.name.ru}
+                                            <NavLink className={({isActive, isPending}) => isPending?"pending":isActive?`${button_styles.button} ${button_styles.active}}`:button_styles.button} to={`/${navigationItem.path}`} >
+                                                {navigationItem.icon} 
+                                               
+                                                {navigationItem.name.en}
                                             </NavLink>
                                         </li>
                                     )

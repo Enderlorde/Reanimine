@@ -5,7 +5,7 @@ import "./news.sass";
 const News = () => {
     return (
         <div className="news">
-            <Feed className="news__feed" link="https://launchercontent.mojang.com/news.json" size={100}/>
+            <Feed link="https://launchercontent.mojang.com/news.json" size={100}/>
         </div>
     );
 }

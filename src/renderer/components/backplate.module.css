@@ -1,0 +1,16 @@
+@import url('./colors.css');
+
+.backplate{
+    background-color: $backplate_background;
+    border: 4px solid $backplate_outline;
+    transition: all 0.3s ease-in-out;
+
+    &:hover{
+        background-color: $backplate_background_hover;
+        border-color: $backplate_outline_hover;
+    }
+
+    &:active{
+        background-color: $backplate_background_active;
+    }
+}

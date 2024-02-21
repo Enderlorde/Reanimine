@@ -2,7 +2,6 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import _ from 'lodash';
 import DirectoryPicker from './directoryPicker.jsx';
-import Dropdown from './dropdown.jsx';
 import Form from './form.jsx';
 import Switch from './switch.jsx';
 import './settings.sass';
@@ -151,17 +150,6 @@ const Settings = () => {
 
             <Form content={
                 [{
-                    title:"language",
-                    adjustments:[
-                        <Dropdown className="dropdown settings__dropdown" content={{
-                            header: {en:"English - United States",ru:"English - United States"},
-                            list: [{
-                                text:{en:"Russian",ru:"Russian"},
-                                function: () => console.log("Russian")
-                            }]
-                        }} />
-                    ]
-                }, {
                     title: {en:"launcher settings",ru:"Настройки лаунчера"}, 
                     adjustments: [
                         <Switch disabled={true} text={{en:"Use beta version for launcher",ru:"Использовать бета-версию лаунчера"}}/>,

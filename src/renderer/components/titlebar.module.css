@@ -1,0 +1,30 @@
+@import url('./colors.css');
+@import url('fonts.css');
+
+.titlebar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+
+    width: 100%;
+    background-color: $titlebar_background;
+    cursor: grab;
+    box-shadow: 0 2px 10px 2px #272727;
+    border-bottom: 8px solid $titlebar_shadow;
+}
+
+.toolbox{
+-webkit-app-region: no-drag;
+padding-right: 1vw;
+padding: 25px;
+}
+
+.title{
+-webkit-app-region: no-drag;
+padding: 25px;
+}
+
+.accountWidget{
+width: 20%;
+}

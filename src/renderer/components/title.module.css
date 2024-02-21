@@ -1,0 +1,93 @@
+@import url('./fonts.css');
+@import url('./colors.css');
+
+.title{
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    font-family: "Minecraft Ten", serif;
+    color: #000000;
+    font-size: 34px;
+    text-transform: uppercase;
+
+    &_active .arrow{
+        cursor: pointer; 
+        transform: scaleY(-1);
+    }
+
+    &_active .dropdown{
+        display: flex;
+    }
+}
+
+.arrow{
+    transition: all 0.2s ease-in-out;
+    transform: translateY(50%);
+}
+
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 13px;
+
+    user-select: none;
+    cursor: pointer;
+}
+
+.dropdown{
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px + 8px);
+    left: 4px;
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    flex-direction: column;
+    align-items: center;
+
+    max-height: 200px;
+
+    overflow-y: scroll;
+
+    user-select: none;
+
+    list-style: none;
+
+    cursor: pointer;
+    
+    outline: 4px solid #363A44;
+    border: 4px solid #63656D;
+    
+    background-color: $dropdown_background;
+    
+    z-index: 999;
+
+    &::-webkit-scrollbar{
+        display: none;
+    }
+}
+
+.item{
+    padding: 20px;
+    width: 100%;
+
+    font-size: 25px;
+    color: #ffffff;
+    
+    &:not(:last-child){
+        border-bottom: 4px solid #63656D;
+    }
+    
+    &:hover{
+        background-color: $dropdown_background_hover;
+    }
+
+    &:active{
+        background-color: $dropdown_background_active;
+    }
+}
+            

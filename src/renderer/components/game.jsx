@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {ReactComponent as PromoImage} from '../static/game_background.svg';
 import Feed from './feed';
 import Button from './button';
-import Dropdown from './dropdown';
 import Notification from './notification';
 import './game.sass';
 
@@ -101,10 +100,10 @@ const Game = (props) => {
 
                 <div className="separator__game-version-widget">
                     <p>Текущая версия:</p> 
-                    <Dropdown content={{
+                    {/* <Dropdown content={{
                         header: {en:currentVersion,ru:currentVersion},
                         list: versions
-                    }}/>
+                    }}/> */}
                 </div>
             </div>
 
