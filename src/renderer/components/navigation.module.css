@@ -1,0 +1,40 @@
+.navigation{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    height: 100%;
+
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar{ 
+        display: none;
+    }
+}
+
+.list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    list-style: none;
+    width: 100%;
+
+    border-top: 0 !important;
+}
+
+.item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 30px 21px;
+}
+
+.category{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+}

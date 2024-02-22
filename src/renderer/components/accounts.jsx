@@ -68,7 +68,7 @@ const Accounts = () => {
                             
                         </ul>
 
-                        <button className={button_styles.button}>Add {provider.name} account</button>
+                        <button className={`${button_styles.button} ${button_styles.align_center}`}>Add {provider.name} account</button>
                     </div>
                 </li>
             )})}

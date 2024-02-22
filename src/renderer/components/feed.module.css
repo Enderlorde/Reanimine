@@ -27,14 +27,17 @@
     } */
 }
 
-.spinner{
-    display: block;
-    align-self: center;
+.loader{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .item{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    align-items: center;
     gap: 2vw;
 
     padding: 2vw;
@@ -63,7 +66,7 @@
     display: flex;
     flex-direction: column;
 
-    width: 70%;
+    width: 100%;
 }
 
 .headline{

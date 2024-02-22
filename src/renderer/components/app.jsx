@@ -9,8 +9,11 @@ import Mods from './mods.jsx';
 import Game from './game.jsx';
 import Accounts from './accounts';
 import Settings from './settings.jsx';
-import {ReactComponent as NewsIcon} from './icons/News Icon.svg';
-import {ReactComponent as JavaIcon} from './icons/Java Edition Icon.svg';
+import {ReactComponent as NewsIcon} from '../static/news.svg';
+import {ReactComponent as JavaIcon} from '../static/minecraft.svg';
+import {ReactComponent as MapIcon} from '../static/map.svg';
+import {ReactComponent as SettingsIcon} from '../static/settings.svg';
+import {ReactComponent as ModsIcon} from '../static/mods.svg';
 import './app.sass';
 
 const App = () => {
@@ -121,26 +124,29 @@ const App = () => {
                         [{
                             name: {en:"news", ru:"Новости"}, 
                             path: "news",
-                            icon: <NewsIcon width={20} height={20}/>
+                            icon: <NewsIcon width={36} height={40}/>
                         }],
                         [{
                             name:{en:"Java edition", ru:"Java edition"}, 
                             path:"je",
-                            icon: <JavaIcon width={20} height={20}/>
+                            icon: <JavaIcon width={36} height={40}/>
                         }],
                         [{
                             name:{en:"Reanimine", ru:"Reanimine"},
                             path:"reanimine"
                         },{
                             name:{en:"map", ru:"Карта"},
-                            path:"map"
+                            path:"map",
+                            icon: <MapIcon width={36} height={40} />
                         },{
                             name:{en:"Mods", ru:"Моды"},
-                            path:"mods"
+                            path:"mods",
+                            icon: <ModsIcon width={36} height={40} />
                         }],
                         [{
                             name:{en:"settings/accounts", ru:"Настройки/аккаунты"}, 
-                            path:"settings"
+                            path:"settings",
+                            icon: <SettingsIcon width={36} height={40} />
                         }, {
                             name:{en:"more", ru:"больше"}, 
                             path:""

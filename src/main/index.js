@@ -124,6 +124,8 @@ const createWindow = () => {
         }
     });
 
+    window.webContents.userAgent = "desktop";
+
     window.webContents.session.webRequest.onBeforeSendHeaders(
         (details, callback) => {
           callback({ requestHeaders: { Origin: '*', ...details.requestHeaders } });

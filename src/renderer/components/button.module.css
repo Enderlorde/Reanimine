@@ -53,7 +53,7 @@
         }
     }
 
-    &:active,&.active{
+    &:active{
         padding: 10px 15px 16px 15px;
         transform: translateY(7px);
         margin-bottom: 7px;
@@ -69,6 +69,28 @@
             border-right-color: $button_bottom_right_outline_active;
         }
     }
+}
+
+.active{
+    padding: 10px 15px 16px 15px;
+    transform: translateY(7px);
+    margin-bottom: 7px;
+
+    background-color: $button_background_active;
+
+    &::after{
+        height: calc(100% - 8px);
+        box-shadow: none;
+
+        border-color: $button_top_left_outline_active;
+        border-bottom-color: $button_bottom_right_outline_active;
+        border-right-color: $button_bottom_right_outline_active;
+    }
+}
+
+.align_center{
+    display: block;
+    text-align: center;
 }
 
 .more{

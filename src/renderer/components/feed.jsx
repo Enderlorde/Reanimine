@@ -17,6 +17,8 @@ const Feed = (props) => {
             let entries = content.entries
             if (props.size) entries = content.entries.slice(0, props.size)
             setData(entries)
+        }).catch((error) => {
+
         })
         
     },[])
@@ -26,9 +28,9 @@ const Feed = (props) => {
     },[data])
 
     if (data.length <= 0) return (
-    <div className='feed'>
-        <GridLoader color={"#fff"}/>
-    </div>
+        <div className={`${feed_styles.loader}`}>
+            <GridLoader color={"#fff"}/>
+        </div>
     )
 
     return (

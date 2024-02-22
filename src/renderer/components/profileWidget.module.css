@@ -13,6 +13,8 @@
     border-right: 4px solid #D7DBE3;
 
     box-sizing: border-box;
+
+    cursor: pointer;
 }
 
 .avatar{
@@ -41,4 +43,6 @@
     text-transform: uppercase;
     font-size: 25px;
     padding-bottom: 8px;
+
+    color: #000000;
 }

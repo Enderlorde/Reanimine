@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Laz } from 'react';
-import { GridLoader } from 'react-spinners';
+import { GridLoader, BounceLoader } from 'react-spinners';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { ReactComponent as DownloadIcon } from './icons/download.svg';
 import { ReactComponent as DateIcon } from './icons/clock.svg';
@@ -54,10 +54,11 @@ const Mods = () => {
                 modsList.map((mod, index) => <li className={`${mods_styles.mod} ${backplate_styles.backplate}`} key={index}>
                     {mod.logo && 
                         mod.logo.thumbnailUrl &&
-                            <div className={`${mods_styles.img}`}>
+                            <div className={`${mods_styles.illustration}`}>
                                 <LazyLoadImage
+                                className={`${mods_styles.img}`}
                                 alt={mod.name}
-                                placeholder={<span>{mod.name}</span>}
+                                placeholder={<BounceLoader />}
                                 src={mod.logo.thumbnailUrl}/>
                             </div>
                     }
@@ -72,6 +73,10 @@ const Mods = () => {
                         {mod.summary &&
                             <div className={`${mods_styles.content} ${plate_styles.element}`}>
                                 {mod.summary.slice(0, 100)}
+                                {mod.links && 
+                                    mod.links.wikiUrl &&
+                                        <button className={`${button_styles.button} ${button_styles.align_center}`} onClick = {() => window.open(mod.links.wikiUrl,'_blank')}>Wiki</button>
+                                }                                
                             </div>
                         }
                     </div>
