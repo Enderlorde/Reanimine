@@ -1,0 +1,11 @@
+@import url('./fonts.css');
+
+.message{
+    background-color: #2E6BE5;
+    padding: 14px;
+
+    font-family: "Minecraftia";
+    font-size: 20px;
+
+    width: 100%;
+}

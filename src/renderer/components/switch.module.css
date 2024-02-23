@@ -1,0 +1,123 @@
+.wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+}
+
+.switch{
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+
+    width: min(105px, 5.47vw);
+    height: min(56px, 2.91vw);
+
+    overflow-x: hidden;
+
+    background-color: transparent;
+
+    cursor: pointer;
+    
+    &:hover>.switch__buttonSlider{
+        transform: translateX(max(-45px, calc(2.38vw * -1)));
+    }
+
+    &::after{
+        content: "";
+        display: block;
+        width: calc(100% - min(8px, 0.41vw));
+        height: min(48px, 2.5vw);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        border-left: min(4px, 0.2vw) solid #1E1E1F;
+        border-right: min(4px, 0.2vw) solid #1E1E1F;
+    }
+}
+
+
+
+.slider{
+    height: min(48px, 2.5vw);
+    width: min(160px, 8.33vw);
+
+    background-color: blue;
+
+    display: flex;
+    
+    list-style: none;
+
+    transition: all 0.5s ease-in-out;
+    transform: translateX(min(3px, 0.16vw));
+}
+
+.disabled{
+    transform: translateX(max(-45px, calc(2.38vw * -1)));
+}
+
+.states{
+    width: min(49px, 2.55vw);
+    height: min(44px, 2.4vw);
+
+    background-color: red;
+
+    outline: min(4px, 0.2vw) solid #1E1E1F;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: min(30px, 1.6vw);
+    text-orientation: sideways-right;
+    writing-mode: vertical-rl;
+}
+
+.green{
+    border: min(4px, 0.2vw) solid #639D52;
+    border-bottom-color: #4F913C;
+
+    background-color: green;
+}
+
+.grey{
+    background-color: grey;
+    border: min(4px, 0.2vw) solid #A3A4A6;
+    border-bottom-color: #97989B;
+    border-right-color: #97989B;
+
+    color: #242425;
+}
+
+.knob{
+    position: relative;
+    display: block;
+    height: min(48px, 2.5vw);
+
+    transform: translateY(calc(min(4px, 0.2vw) * -1));
+
+    outline: min(4px, 0.2vw) solid #1E1E1F;
+
+    background-color: yellow;
+
+    &::after{
+        content: "";
+
+        display: block;
+
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: calc(100% - min(8px, 0.4vw));
+        height: min(32px, 1.67vw);
+
+        border: min(4px, 0.2vw) solid #ECEDEE;
+        border-bottom-color: #E3E3E5;
+        border-right-color: #E3E3E5;
+
+        background-color: #D0D1D4;
+
+        box-shadow: 0 min(8px, 0.8vw) #58585A;
+    }
+}

@@ -13,9 +13,12 @@
 
 .element{
     background-color: $plate_background;
-    border-bottom: 4px solid $plate_bottom_outline;
 
     transition: all 0.3s ease-in-out;
+
+    &:not(:last-child){
+        border-bottom: 4px solid $plate_bottom_outline;
+    }
 
     &:not(:first-child){
         border-top: 4px solid $plate_top_outline;
@@ -24,7 +27,10 @@
     &:hover{
         background-color: $plate_background_hover;
 
-        border-bottom-color: $plate_bottom_outline_hover;
+        &:not(:last-child){
+            border-bottom-color: $plate_bottom_outline_hover;
+        }
+        
 
         &:not(:first-child){
             border-top-color: $plate_top_outline_hover;
@@ -34,7 +40,9 @@
     &:active{
         background-color: $plate_background_active;
 
-        border-bottom-color: $plate_bottom_outline_active;
+        &:not(:last-child){
+            border-bottom-color: $plate_bottom_outline_active;
+        }
 
         &:not(:first-child){
             border-top-color: $plate_top_outline_active;

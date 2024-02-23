@@ -1,10 +1,8 @@
 import React, { useEffect, useState, Laz } from 'react';
 import { GridLoader, BounceLoader } from 'react-spinners';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { ReactComponent as DownloadIcon } from './icons/download.svg';
-import { ReactComponent as DateIcon } from './icons/clock.svg';
-import { ReactComponent as EditIcon } from './icons/pencil.svg';
-import { ReactComponent as RatingIcon } from './icons/star.svg';
+import { faClock, faDownload, faPenToSquare, faStar } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import button_styles from './button.module.css';
 import mods_styles from './mods.module.css';
 import backplate_styles from './backplate.module.css';
@@ -43,7 +41,7 @@ const Mods = () => {
 
     if (!modsList) 
     return (
-        <div className="mods">
+        <div className={mods_styles.loader}>
             <GridLoader color="#ffffff"/>
         </div>
     )
@@ -66,17 +64,54 @@ const Mods = () => {
                     <div className={`${mods_styles.contentWrapper} ${plate_styles.plate}`}>
                         <div className={`${mods_styles.headline} ${plate_styles.element}`}>
                             <h2 className={`${mods_styles.title}`}>{mod.name}</h2>
-                            <span className={`${mods_styles.version}`}><DateIcon width={10} height={10} />
-                                            {new Date(mod.dateCreated).toLocaleDateString("en-US")}</span>
+                            <ul className={`${mods_styles.info}`}>
+                                {mod.downloadCount &&
+                                    <li className={`${mods_styles.item}`}>
+                                        <FontAwesomeIcon icon={faDownload} className={mods_styles.icon}/>
+                                        {mod.downloadCount}
+                                    </li>
+                                }
+                                
+                                {mod.dateCreated &&
+                                    <li className={`${mods_styles.item}`}>
+                                        <FontAwesomeIcon icon={faClock} className={mods_styles.icon}/>
+                                        {new Date(mod.dateCreated).toLocaleDateString("en-US")}
+                                    </li>
+                                }
+
+                                {mod.dateModified &&
+                                    <li className={`${mods_styles.item}`}>
+                                        <FontAwesomeIcon icon={faPenToSquare} className={mods_styles.icon}/>
+                                        {new Date(mod.dateModified).toLocaleDateString("en-US")}
+                                    </li>
+                                }
+
+                                {mod.gamePopularityRank &&
+                                    <li className={`${mods_styles.item}`}>
+                                        <FontAwesomeIcon icon={faStar} className={mods_styles.icon}/>
+                                        {mod.gamePopularityRank}
+                                    </li>
+                                }
+                            </ul>
                         </div>
 
                         {mod.summary &&
                             <div className={`${mods_styles.content} ${plate_styles.element}`}>
-                                {mod.summary.slice(0, 100)}
+                                {mod.summary}
+
                                 {mod.links && 
                                     mod.links.wikiUrl &&
                                         <button className={`${button_styles.button} ${button_styles.align_center}`} onClick = {() => window.open(mod.links.wikiUrl,'_blank')}>Wiki</button>
                                 }                                
+                            </div>
+                        }
+
+                        {mod.authors &&
+                            <div className={`${mods_styles.content} ${plate_styles.element}`}>
+                                {"by " +
+                                    mod.authors.map((author) => {
+                                        return author.name}).join(", ")
+                                }
                             </div>
                         }
                     </div>

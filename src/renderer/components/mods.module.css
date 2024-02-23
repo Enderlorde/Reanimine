@@ -12,9 +12,12 @@
     width: 100%;
 }
 
-.spinner{
-    display: block;
-    align-self: center;
+.loader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100%;
 }
 
 .mod{
@@ -68,7 +71,13 @@
     font-weight: normal;
 }
 
-.version{
+.info{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    list-style: none;
+
     padding: 8px 4px 0 4px;
 
     line-height: 11px;
@@ -77,6 +86,16 @@
     font-family: "Minecraftia";
 
     background-color: #545454;
+}
+
+.item{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon{
+    transform: translateY(-4px);
 }
 
 .content{

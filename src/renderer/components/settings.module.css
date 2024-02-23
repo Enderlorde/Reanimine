@@ -1,0 +1,80 @@
+@import url('./fonts.css');
+
+.settings{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5vw;
+
+    width: 100%;
+
+    padding: 2.5vw 3.5vw;
+
+    font-family: "Minecraft", serif;
+    font-weight: normal;
+    font-size: 1.2vw;
+}
+
+.dropdown{
+    display: flex;
+    justify-content: space-between;
+
+    width: 100%;
+
+    padding: 1.7vw 2vw;
+
+    background-color: #313233;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 2.5vw;
+
+    width: 100%;
+}
+
+.root{
+    display: flex;
+    flex-direction: column;
+    gap: 2.5vw;
+
+    width: 100%;
+
+    list-style: none;
+}
+
+.title{
+    text-transform: uppercase;
+
+    font-family: "Minecraft Ten", serif;
+    font-size: 30px;
+    font-weight: normal;
+}
+
+.category{
+    display: flex;
+    flex-direction: column;
+
+    gap: 1vw;
+
+    text-align: left;
+
+    padding: 1vw 1.5vw;
+}
+
+.categoryContent{
+    list-style: none;
+}
+
+.item{
+    display: flex;
+    align-items: center;
+
+    padding: 1.7vw 2vw;
+
+    font-family: 'Minecraftia';
+    font-size: 20px;
+}   

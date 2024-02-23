@@ -2,9 +2,12 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import _ from 'lodash';
 import DirectoryPicker from './directoryPicker.jsx';
-import Form from './form.jsx';
 import Switch from './switch.jsx';
-import './settings.sass';
+import settings_styles from './settings.module.css';
+import message_styles from './message.module.css';
+import backplate_styles from './backplate.module.css';
+import plate_styles from './plate.module.css';
+import button_stytles from './button.module.css';
 
 const Settings = () => {
     const defaultOptions = {
@@ -64,9 +67,32 @@ const Settings = () => {
         setOptions({...defaultOptions})
     }
 
+    const content=[{
+        title: {en:"launcher settings",ru:"Настройки лаунчера"}, 
+        adjustments: [
+            <Switch disabled={true} text={{en:"Use beta version for launcher",ru:"Использовать бета-версию лаунчера"}}/>,
+            <Switch disabled={true} text={{en:"Keep the launcher open while in the Launcher",ru:"Не закрывать лаунчер"}}/>,
+            <Switch disabled={true} text={{en:"Disable hardware acceleration (requires restarting the Launcher)",ru:"Отключить аппаратное ускорение (требуется перезапуск лаунчера)"}}/>
+        ]
+    },{
+        title: {en:"launcher accesibility settings",ru:"Настройки доступности"},
+        adjustments: [
+            <Switch text={{en:"Make text side bigger",ru:"Сделать текст больше"}}/>,
+        ]
+    }, {
+        title: {en:"minecraft: java edition settings",ru:"Настройки minecraft: java edition"},
+        adjustments: [
+            <Switch text={{en:"Open output log when Minecraft: Java Edition starts",ru:"Открыть лог когда игра запустится"}}/>,
+            <Switch text={{en:"Automatically send Minecraft: Java Edition reports to Mojang Studios",ru:"Автоматически отсылать отчет в Mojang Studios"}}/>,
+            <Switch text={{en:"Show historical versions of Minecraft: Java Edition in the Launcher",ru:"Показать прошлые версии в лаунчере"}}/>
+        ]
+    }];
+    
+    const confirmText = {en:"Reset Settings",ru:"Сбросить настройки"};
+
     return (
-        <div className="settings">
-            <p className="settings__warning">Some settings may require restarting the Launcher in order to start working</p>
+        <div className={settings_styles.settings}>
+            <div className={message_styles.message}>Some settings may require restarting the Launcher in order to start working</div>
 
      {/*        <form className="settings__form" action="" onSubmit={(e) => submitHandler(e)}>
                 <ul className='settings__list'>
@@ -148,28 +174,34 @@ const Settings = () => {
                 <button className='form__button' type="submit" onClick={() => returnDefault()}>Reset</button>
             </form> */}
 
-            <Form content={
-                [{
-                    title: {en:"launcher settings",ru:"Настройки лаунчера"}, 
-                    adjustments: [
-                        <Switch disabled={true} text={{en:"Use beta version for launcher",ru:"Использовать бета-версию лаунчера"}}/>,
-                        <Switch disabled={true} text={{en:"Keep the launcher open while in the Launcher",ru:"Не закрывать лаунчер"}}/>,
-                        <Switch disabled={true} text={{en:"Disable hardware acceleration (requires restarting the Launcher)",ru:"Отключить аппаратное ускорение (требуется перезапуск лаунчера)"}}/>
-                    ]
-                },{
-                    title: {en:"launcher accesibility settings",ru:"Настройки доступности"},
-                    adjustments: [
-                        <Switch text={{en:"Make text side bigger",ru:"Сделать текст больше"}}/>,
-                    ]
-                }, {
-                    title: {en:"minecraft: java edition settings",ru:"Настройки minecraft: java edition"},
-                    adjustments: [
-                        <Switch text={{en:"Open output log when Minecraft: Java Edition starts",ru:"Открыть лог когда игра запустится"}}/>,
-                        <Switch text={{en:"Automatically send Minecraft: Java Edition reports to Mojang Studios",ru:"Автоматически отсылать отчет в Mojang Studios"}}/>,
-                        <Switch text={{en:"Show historical versions of Minecraft: Java Edition in the Launcher",ru:"Показать прошлые версии в лаунчере"}}/>
-                    ]
-                }]          
-            } confirmText={{en:"Reset Settings",ru:"Сбросить настройки"}}/>
+            <form action="" className={settings_styles.form}>
+                <ul className={settings_styles.root}>
+                    {content.map((category) => {
+                        return (
+                            <li className={`${settings_styles.category} ${backplate_styles.backplate}`}>
+                                <h2 className={`${settings_styles.title}`}>
+                                    {category.title.en}
+                                </h2>
+
+                                <ul className={`${settings_styles.categoryContent} ${plate_styles.plate}`}>
+                                    {category.adjustments &&
+                                        category.adjustments.map((adjustment) => {
+                                            return(
+                                                <li className={`${settings_styles.item} ${plate_styles.element}`}>
+                                                    {adjustment}
+                                                </li>
+                                            )
+                                    })}
+                                </ul>
+                            </li>
+                        )
+                    })}
+                </ul>
+
+                {confirmText &&
+                    <button className={`${button_stytles.button} ${button_stytles.align_center} ${button_stytles.color_red}`}>{confirmText.en}</button>
+                }
+            </form>
         </div>
     );
 }

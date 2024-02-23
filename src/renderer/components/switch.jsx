@@ -1,16 +1,22 @@
-import React from 'react';
-import './switch.sass';
+import React, { useState } from 'react';
+import switch_styles from './switch.module.css';
 
 const Switch = (props) => {
-    return (
-        <div className="switch">
-            <p>{props.text.ru}</p>
+    const [state, setState] = useState(props.active?props.active:false)
 
-            <div className={`switch__button ${props.disabled?"switch__button_disabled":""}`}>
-                <ul className="switch__buttonSlider">
-                    <li className="switch__buttonStates switch__buttonStates_green">-</li>
-                    <li className="switch__buttonStates switch__buttonStates_knob"></li>
-                    <li className="switch__buttonStates switch__buttonStates_grey">o</li>
+    const switchState = () => {
+        setState(!state);
+    }
+
+    return (
+        <div className={`${switch_styles.wrapper}`} onClick={() => switchState()}>
+            <p>{props.text.en}</p>
+
+            <div className={`${switch_styles.switch}`}>
+                <ul className={`${switch_styles.slider} ${state?"":switch_styles.disabled}`}>
+                    <li className={`${switch_styles.states} ${switch_styles.green}`}>-</li>
+                    <li className={`${switch_styles.states} ${switch_styles.knob}`}></li>
+                    <li className={`${switch_styles.states} ${switch_styles.grey}`}>o</li>
                 </ul>
             </div>
         </div>
