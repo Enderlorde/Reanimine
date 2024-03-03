@@ -1,29 +1,35 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import './directoryPicker.sass';
+import React from "react";
+import { useState } from "react";
+import dp_styles from "./directoryPicker.module.css";
+import btn_styles from "./button.module.css";
 
 const DirectoryPicker = (props) => {
-    let [path,setPath] = useState('none');
+    let [path, setPath] = useState("none");
 
-    useEffect(()=>{
+    /*    useEffect(()=>{
         props.onPathChange(path);
-    },[path]);
+    },[path]); */
 
-   /*  useEffect(()=>{
+    /*  useEffect(()=>{
         if (props.defaultPath) setPath(props.defaultPath);
         console.log(props.defaultPath);
     },[])
  */
     const getDirectoryPath = () => {
-        window.something.selectFolder().then((response) => setPath(response));
-    }
+        window.launcherAPI.selectFolder().then((response) => setPath(response));
+    };
 
     return (
-        <div className="directoryPicker">
-            <button className="directoryPicker__button" type="button" onClick={() => getDirectoryPath()}>...</button>
-            <input className="directoryPicker__path" value={props.defaultPath} readOnly/>
+        <div className={dp_styles.dp}>
+            <input className={dp_styles.path} value={path} readOnly />
+            <button
+                className={`${btn_styles.button} ${btn_styles.more}`}
+                type="button"
+                onClick={() => getDirectoryPath()}>
+                ...
+            </button>
         </div>
     );
-}
- 
+};
+
 export default DirectoryPicker;

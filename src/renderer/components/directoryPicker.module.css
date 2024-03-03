@@ -1,0 +1,32 @@
+@import url("./fonts.css");
+
+.dp {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.path {
+    display: block;
+    font-size: 10px;
+    padding: 12px 15px 8px 15px;
+    border: 4px solid #121212;
+    border-bottom-color: #303031;
+    border-right-color: #303031;
+    background-color: #202021;
+    outline: 4px solid #1e1e1f;
+
+    width: 80%;
+
+    color: #fff;
+    font-family: "Minecraftia";
+    font-size: 15px;
+    cursor: not-allowed;
+}
+.button {
+    background-color: #fff;
+    border: 0;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+}

@@ -1,33 +1,33 @@
 $backplate_background: #252626;
-$backplate_background_hover: #2D2E33;
-$backplate_background_active: #1F2123;
-$backplate_outline: #1E1E1F;
+$backplate_background_hover: #2d2e33;
+$backplate_background_active: #1f2123;
+$backplate_outline: #1e1e1f;
 $backplate_outline_hover: #252626;
 
 $plate_background: #313233;
-$plate_background_hover: #35353A;
-$plate_background_active: #27292B;
+$plate_background_hover: #35353a;
+$plate_background_active: #27292b;
 $plate_shadow: #242425;
 $plate_bottom_outline: #242424;
-$plate_bottom_outline_hover: #25272B;
-$plate_bottom_outline_active: #35383C;
-$plate_top_outline: #3A3B3D;
+$plate_bottom_outline_hover: #25272b;
+$plate_bottom_outline_active: #35383c;
+$plate_top_outline: #3a3b3d;
 $plate_top_outline_hover: #414450;
-$plate_top_outline_active: #1A1B1C;
+$plate_top_outline_active: #1a1b1c;
 
-$button_background: #48494A;
-$button_background_hover: #58585A;
+$button_background: #48494a;
+$button_background_hover: #58585a;
 $button_background_active: #313233;
-$button_top_left_outline: #6D6D6E;
-$button_bottom_right_outline: #5A5B5C;
-$button_top_left_outline_hover: #79797B;
-$button_bottom_right_outline_hover: #68686A;
-$button_top_left_outline_active: #5A5B5C;
+$button_top_left_outline: #6d6d6e;
+$button_bottom_right_outline: #5a5b5c;
+$button_top_left_outline_hover: #79797b;
+$button_bottom_right_outline_hover: #68686a;
+$button_top_left_outline_active: #5a5b5c;
 $button_bottom_right_outline_active: #454647;
 
-$titlebar_background: #E6E8EB;
-$titlebar_shadow: #B1B2B5;
+$titlebar_background: #e6e8eb;
+$titlebar_shadow: #b1b2b5;
 
-$dropdown_background: #43464F;
-$dropdown_background_hover: #393C43;
-$dropdown_background_active: #33363D;
+$dropdown_background: #43464f;
+$dropdown_background_hover: #393c43;
+$dropdown_background_active: #33363d;

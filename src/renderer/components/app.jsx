@@ -1,23 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom/client';
-import { createHashRouter, RouterProvider, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import Navigation from './navigation.jsx';
-import TitleBar from './titlebar';
-import News from './news.jsx';
-import Map from './map.jsx';
-import Mods from './mods.jsx';
-import Game from './game.jsx';
-import Accounts from './accounts';
-import Settings from './settings.jsx';
-import {ReactComponent as NewsIcon} from '../static/news.svg';
-import {ReactComponent as JavaIcon} from '../static/minecraft.svg';
-import {ReactComponent as MapIcon} from '../static/map.svg';
-import {ReactComponent as SettingsIcon} from '../static/settings.svg';
-import {ReactComponent as ModsIcon} from '../static/mods.svg';
-import './app.sass';
+import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom/client";
+import {
+    createHashRouter,
+    RouterProvider,
+    Outlet,
+    useLocation,
+    useNavigate,
+} from "react-router-dom";
+import Navigation from "./navigation.jsx";
+import TitleBar from "./titlebar";
+import News from "./news.jsx";
+import Map from "./map.jsx";
+import Mods from "./mods.jsx";
+import Game from "./game.jsx";
+import Accounts from "./accounts";
+import Settings from "./settings.jsx";
+import { ReactComponent as NewsIcon } from "../static/news.svg";
+import { ReactComponent as JavaIcon } from "../static/minecraft.svg";
+import { ReactComponent as MapIcon } from "../static/map.svg";
+import { ReactComponent as SettingsIcon } from "../static/settings.svg";
+import { ReactComponent as ModsIcon } from "../static/mods.svg";
+import "./app.sass";
 
 const App = () => {
-    const [progressState, setProgressState] = useState({ type: 'none', current: 0, total: 100 });
+    const [progressState, setProgressState] = useState({
+        type: "none",
+        current: 0,
+        total: 100,
+    });
     const [running, setRunning] = useState(false);
     const [appVersion, setAppVersion] = useState();
     const [menu, setMenu] = useState([]);
@@ -26,56 +36,63 @@ const App = () => {
     const navigate = useNavigate();
 
     const settingsMenu = {
-        header: {en:"settings", ru:"Настройки"},
-        list: [{
-            text:{en:"accounts", ru:"Аккаунты"},
-            function: () => navigate("/account")
-        }, {
-            text:{en:"about", ru:"О НАС"},
-            function: () => console.log("about")
-        }]
-    }
+        header: { en: "settings", ru: "Настройки" },
+        list: [
+            {
+                text: { en: "accounts", ru: "Аккаунты" },
+                function: () => navigate("/account"),
+            },
+            {
+                text: { en: "about", ru: "О НАС" },
+                function: () => console.log("about"),
+            },
+        ],
+    };
 
     const bedrockMenu = {
         header: "MINECRAFT BEDROCK",
-        list: [{
-            text:"FAQ",
-            function: () => console.log("FAQ")
-        }, {
-            text:"INSTALLATION",
-            function: () => console.log("installation")
-        }, {
-            text:"PATCH NOTE",
-            function: () => console.log("path note")
-        }]
-    }
+        list: [
+            {
+                text: "FAQ",
+                function: () => console.log("FAQ"),
+            },
+            {
+                text: "INSTALLATION",
+                function: () => console.log("installation"),
+            },
+            {
+                text: "PATCH NOTE",
+                function: () => console.log("path note"),
+            },
+        ],
+    };
 
     const location = useLocation();
 
     useEffect(() => {
-        if (location == currentLocation) return ;
+        if (location == currentLocation) return;
         setCurrentLocation(location);
         console.log(location);
-        switch(location.pathname){
-            case "/settings": 
-                setMenu({...settingsMenu})
-            break;
+        switch (location.pathname) {
+            case "/settings":
+                setMenu({ ...settingsMenu });
+                break;
             case "/account":
-                let menuTemp = settingsMenu
-                menuTemp['header'] = {en:"accounts", ru:"Аккаунты"}
-                menuTemp['list'][0] = {
-                    text:{en:"settings", ru:"настройки"},
-                    function: () => navigate("/settings")
-                }
-                setMenu({...menuTemp})
-            break;
-            default: 
-                setMenu(null)
-            break;
+                let menuTemp = settingsMenu;
+                menuTemp["header"] = { en: "accounts", ru: "Аккаунты" };
+                menuTemp["list"][0] = {
+                    text: { en: "settings", ru: "настройки" },
+                    function: () => navigate("/settings"),
+                };
+                setMenu({ ...menuTemp });
+                break;
+            default:
+                setMenu(null);
+                break;
         }
     });
 
-/*     useEffect(() => {
+    /*     useEffect(() => {
         window.something.handleCounter((e, value) => {
             setProgressState(value);
             //console.log(value);
@@ -95,8 +112,8 @@ const App = () => {
             setAppVersion(appVersion);
         })
     },[]); */
-    
-/*     const handlePlay = () => {
+
+    /*     const handlePlay = () => {
         setRunning(true);
         window.sessionStorage.setItem('pid', true)
         window.something.play().then((process) => {
@@ -110,61 +127,94 @@ const App = () => {
     } */
 
     const testMen = {
-        header: {en:"MINECRAFT BEDROCK", ru:"MINECRAFT BEDROCK"},
-        list: [{en:"FAQ", ru:"FAQ"}, {en:"INSTALLATION", ru:"Установка"}, {en:"PATCH NOTE", ru:"История изменений"}]
-    }
+        header: { en: "MINECRAFT BEDROCK", ru: "MINECRAFT BEDROCK" },
+        list: [
+            { en: "FAQ", ru: "FAQ" },
+            { en: "INSTALLATION", ru: "Установка" },
+            { en: "PATCH NOTE", ru: "История изменений" },
+        ],
+    };
 
     return (
         <div className="app">
-            <TitleBar title="Reanimine" menu={menu}/>
+            <TitleBar title="Reanimine" menu={menu} />
 
             <div className="app__content">
-                <Navigation className="navigation app__navigation" content={{
-                    list: [
-                        [{
-                            name: {en:"news", ru:"Новости"}, 
-                            path: "news",
-                            icon: <NewsIcon width={36} height={40}/>
-                        }],
-                        [{
-                            name:{en:"Java edition", ru:"Java edition"}, 
-                            path:"je",
-                            icon: <JavaIcon width={36} height={40}/>
-                        }],
-                        [{
-                            name:{en:"Reanimine", ru:"Reanimine"},
-                            path:"reanimine"
-                        },{
-                            name:{en:"map", ru:"Карта"},
-                            path:"map",
-                            icon: <MapIcon width={36} height={40} />
-                        },{
-                            name:{en:"Mods", ru:"Моды"},
-                            path:"mods",
-                            icon: <ModsIcon width={36} height={40} />
-                        }],
-                        [{
-                            name:{en:"settings/accounts", ru:"Настройки/аккаунты"}, 
-                            path:"settings",
-                            icon: <SettingsIcon width={36} height={40} />
-                        }, {
-                            name:{en:"more", ru:"больше"}, 
-                            path:""
-                        }]
-                    ]
-                }}/>
-                
+                <Navigation
+                    className="navigation app__navigation"
+                    content={{
+                        list: [
+                            [
+                                {
+                                    name: { en: "news", ru: "Новости" },
+                                    path: "news",
+                                    icon: <NewsIcon width={36} height={40} />,
+                                },
+                            ],
+                            [
+                                {
+                                    name: {
+                                        en: "Java edition",
+                                        ru: "Java edition",
+                                    },
+                                    path: "je",
+                                    icon: <JavaIcon width={36} height={40} />,
+                                },
+                                {
+                                    name: {
+                                        en: "Bedrock edition",
+                                        ru: "Bedrock edition",
+                                    },
+                                    path: "bedrock",
+                                    icon: <JavaIcon width={36} height={40} />,
+                                },
+                            ],
+                            /*  [
+                                {
+                                    name: { en: "Reanimine", ru: "Reanimine" },
+                                    path: "reanimine",
+                                },
+                                {
+                                    name: { en: "map", ru: "Карта" },
+                                    path: "map",
+                                    icon: <MapIcon width={36} height={40} />,
+                                },
+                                {
+                                    name: { en: "Mods", ru: "Моды" },
+                                    path: "mods",
+                                    icon: <ModsIcon width={36} height={40} />,
+                                },
+                            ], */
+                            [
+                                {
+                                    name: {
+                                        en: "settings/accounts",
+                                        ru: "Настройки/аккаунты",
+                                    },
+                                    path: "settings",
+                                    icon: (
+                                        <SettingsIcon width={36} height={40} />
+                                    ),
+                                },
+                                {
+                                    name: { en: "more", ru: "больше" },
+                                    path: "",
+                                    classes: ["color_purple", "align_center"],
+                                },
+                            ],
+                        ],
+                    }}
+                />
+
                 <div className="app__wrapper">
-                    {useLocation().pathname == '/' &&
-                            <News/>
-                    }
+                    {useLocation().pathname == "/" && <News />}
 
                     <Outlet />
                 </div>
             </div>
         </div>
     );
-}
+};
 
 const router = createHashRouter([
     {
@@ -173,92 +223,146 @@ const router = createHashRouter([
         children: [
             {
                 path: "reanimine",
-                element: <Game title="reanimine" requirements={{
-                    os: {
-                        min: "Windows 10 version 14393.0 or higher",
-                        rec: "Windows 10 version 14393.0 or higher"
-                    },
-                    arch: {
-                        min: "ARM, x64, x86",
-                        rec: "ARM, x64, x86"
-                    },
-                    ram: {
-                        min: "4 GB",
-                        rec: "8 GB"
-                    },
-                    motion: {
-                        min: "Not specified",
-                        rec: "Windows Mixed Reality motion contollers"
-                    },
-                    headset: {
-                        min: "Not specified",
-                        rec: "Windows Mixed Reality immersive headset"
-                    },
-                    cpu: {
-                        min: "Intel Celeron J4105 | AMD FX-4100",
-                        rec: "Intel i7-65000U | AMD A8-6600K"
-                    },
-                    gpu: {
-                        min: "Intel HD Graphics 4000 | AMD Radeon R5",
-                        rec: "NVIDIA GeForce 940M | AMD Radon HD 8570D"
-                    }
-                }}/>
+                element: (
+                    <Game
+                        title="reanimine"
+                        requirements={{
+                            os: {
+                                min: "Windows 10 version 14393.0 or higher",
+                                rec: "Windows 10 version 14393.0 or higher",
+                            },
+                            arch: {
+                                min: "ARM, x64, x86",
+                                rec: "ARM, x64, x86",
+                            },
+                            ram: {
+                                min: "4 GB",
+                                rec: "8 GB",
+                            },
+                            motion: {
+                                min: "Not specified",
+                                rec: "Windows Mixed Reality motion contollers",
+                            },
+                            headset: {
+                                min: "Not specified",
+                                rec: "Windows Mixed Reality immersive headset",
+                            },
+                            cpu: {
+                                min: "Intel Celeron J4105 | AMD FX-4100",
+                                rec: "Intel i7-65000U | AMD A8-6600K",
+                            },
+                            gpu: {
+                                min: "Intel HD Graphics 4000 | AMD Radeon R5",
+                                rec: "NVIDIA GeForce 940M | AMD Radon HD 8570D",
+                            },
+                        }}
+                    />
+                ),
             },
             {
                 path: "map",
-                element: <Map />
+                element: <Map />,
             },
             {
                 path: "mods",
-                element: <Mods />
+                element: <Mods />,
             },
             {
                 path: "account",
-                element: <Accounts />
-            },    {
+                element: <Accounts />,
+            },
+            {
                 path: "settings",
-                element: <Settings />
+                element: <Settings />,
             },
             {
                 path: "news",
-                element: <News />
-            },{
+                element: <News />,
+            },
+            {
                 path: "je",
-                element: <Game title="java" requirements={{
-                    os: {
-                        min: "Windows 10 version 14393.0 or higher",
-                        rec: "Windows 10 version 14393.0 or higher"
-                    },
-                    arch: {
-                        min: "ARM, x64, x86",
-                        rec: "ARM, x64, x86"
-                    },
-                    ram: {
-                        min: "4 GB",
-                        rec: "8 GB"
-                    },
-                    motion: {
-                        min: "Not specified",
-                        rec: "Windows Mixed Reality motion contollers"
-                    },
-                    headset: {
-                        min: "Not specified",
-                        rec: "Windows Mixed Reality immersive headset"
-                    },
-                    cpu: {
-                        min: "Intel Celeron J4105 | AMD FX-4100",
-                        rec: "Intel i7-65000U | AMD A8-6600K"
-                    },
-                    gpu: {
-                        min: "Intel HD Graphics 4000 | AMD Radeon R5",
-                        rec: "NVIDIA GeForce 940M | AMD Radon HD 8570D"
-                    }
-                }}/>
-            }
-        ]
-    }   
+                element: (
+                    <Game
+                        key="java"
+                        title="java"
+                        newsLink="https://launchercontent.mojang.com/javaPatchNotes.json"
+                        requirements={{
+                            os: {
+                                min: "Windows 10 version 14393.0 or higher",
+                                rec: "Windows 10 version 14393.0 or higher",
+                            },
+                            arch: {
+                                min: "ARM, x64, x86",
+                                rec: "ARM, x64, x86",
+                            },
+                            ram: {
+                                min: "4 GB",
+                                rec: "8 GB",
+                            },
+                            motion: {
+                                min: "Not specified",
+                                rec: "Windows Mixed Reality motion contollers",
+                            },
+                            headset: {
+                                min: "Not specified",
+                                rec: "Windows Mixed Reality immersive headset",
+                            },
+                            cpu: {
+                                min: "Intel Celeron J4105 | AMD FX-4100",
+                                rec: "Intel i7-65000U | AMD A8-6600K",
+                            },
+                            gpu: {
+                                min: "Intel HD Graphics 4000 | AMD Radeon R5",
+                                rec: "NVIDIA GeForce 940M | AMD Radon HD 8570D",
+                            },
+                        }}
+                    />
+                ),
+            },
+            {
+                path: "bedrock",
+                element: (
+                    <Game
+                        key="bedrock"
+                        title="bedrock"
+                        newsLink="https://launchercontent.mojang.com/bedrockPatchNotes.json"
+                        requirements={{
+                            os: {
+                                min: "Windows 10 version 14393.0 or higher",
+                                rec: "Windows 10 version 14393.0 or higher",
+                            },
+                            arch: {
+                                min: "ARM, x64, x86",
+                                rec: "ARM, x64, x86",
+                            },
+                            ram: {
+                                min: "4 GB",
+                                rec: "8 GB",
+                            },
+                            motion: {
+                                min: "Not specified",
+                                rec: "Windows Mixed Reality motion contollers",
+                            },
+                            headset: {
+                                min: "Not specified",
+                                rec: "Windows Mixed Reality immersive headset",
+                            },
+                            cpu: {
+                                min: "Intel Celeron J4105 | AMD FX-4100",
+                                rec: "Intel i7-65000U | AMD A8-6600K",
+                            },
+                            gpu: {
+                                min: "Intel HD Graphics 4000 | AMD Radeon R5",
+                                rec: "NVIDIA GeForce 940M | AMD Radon HD 8570D",
+                            },
+                        }}
+                    />
+                ),
+            },
+        ],
+    },
 ]);
- 
-ReactDOM.createRoot(document.querySelector('#root')).render(
-    <RouterProvider router={router} />
+
+ReactDOM.createRoot(document.querySelector("#root")).render(
+    <RouterProvider router={router} />,
 );

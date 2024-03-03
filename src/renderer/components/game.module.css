@@ -1,0 +1,123 @@
+.game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    font-family: "Minecraft";
+
+    width: 100%;
+}
+
+.downloadInfo {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.promo {
+    display: flex;
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+    align-self: stretch;
+}
+
+.feed {
+    width: 75%;
+}
+
+.requirements-wrapper {
+    padding: 1.2vw;
+
+    width: 75%;
+
+    background-color: #252626;
+
+    border: 4px solid #1e1e1f;
+}
+
+.requirements {
+    background-color: #313233;
+
+    border: 4px solid #1e1e1f;
+
+    & > h2 {
+        position: relative;
+        display: block;
+
+        padding: 1.4vw;
+
+        border-bottom: 4px solid #242424;
+
+        &::after {
+            content: "";
+            display: block;
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 7px;
+
+            background-color: #242425;
+        }
+    }
+
+    & > table > thead > td > span {
+        display: block;
+        width: 100%;
+        background-color: #3a3b3d;
+    }
+
+    & > table {
+        border-top: 4px solid #3a3b3d;
+        border-spacing: 0;
+    }
+
+    & > table > tbody > tr > td:first-of-type > span {
+        display: block;
+        width: 100%;
+        background-color: #3a3b3d;
+    }
+
+    & > table td:first-of-type {
+        border-right: 4px solid #3a3b3d;
+        padding: 20px;
+    }
+
+    & > table td:nth-of-type(2) {
+        border-left: 4px solid #242424;
+        padding: 20px;
+    }
+}
+.separator {
+    display: flex;
+    justify-content: end;
+
+    width: 100%;
+    height: 75px;
+
+    position: relative;
+
+    background-color: #28282b;
+
+    font-family: "Minecraft";
+    font-size: 15px;
+    color: #ffffff;
+
+    border: 4px solid #1b1b1e;
+}
+
+.button {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.version {
+    display: flex;
+    gap: 10px;
+}

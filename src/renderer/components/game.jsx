@@ -1,75 +1,93 @@
-import React, { useEffect, useState } from 'react';
-import {ReactComponent as PromoImage} from '../static/game_background.svg';
-import Feed from './feed';
-import Button from './button';
-import Notification from './notification';
-import './game.sass';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { ReactComponent as PromoImage } from "../static/game_background.svg";
+import Feed from "./feed";
+import button_styles from "./button.module.css";
+import game_styles from "./game.module.css";
 
 const Game = (props) => {
     const [versions, setVersions] = useState([]);
     const [currentVersion, setCurrentVersion] = useState("");
     const [filter, setFilter] = useState("release old_beta old_alpha");
     const [runProgress, setRunProgress] = useState({});
-    const [readyState, setReadyState] = useState(true)
+    const [readyState, setReadyState] = useState(true);
     const [popupState, setPopupState] = useState(false);
 
     useEffect(() => {
-        fetch("https://piston-meta.mojang.com/mc/game/version_manifest.json").then((response) => response.json()).then((manifest) =>  {
-            setVersions(manifest.versions.filter((versionObj) => filter.includes(versionObj.type)).map((versionObj) => {
-                return {
-                    text: {ru:`${versionObj.id}`},
-                    function: () => setCurrentVersion(versionObj.id)
-                }  
-            }))
-        })
+        fetch("https://piston-meta.mojang.com/mc/game/version_manifest.json")
+            .then((response) => response.json())
+            .then((manifest) => {
+                setVersions(
+                    manifest.versions
+                        .filter((versionObj) =>
+                            filter.includes(versionObj.type),
+                        )
+                        .map((versionObj) => {
+                            return {
+                                text: { ru: `${versionObj.id}` },
+                                function: () =>
+                                    setCurrentVersion(versionObj.id),
+                            };
+                        }),
+                );
+            });
 
-        setCurrentVersion(window.localStorage.getItem('JE_current_version'));
+        setCurrentVersion(window.localStorage.getItem("JE_current_version"));
 
-        window.mainAPI.clearListeners('runProgress');
-        window.mainAPI.clearListeners('closing');
-        window.mainAPI.clearListeners('childProcess');
+        window.mainAPI.clearListeners("runProgress");
+        window.mainAPI.clearListeners("closing");
+        window.mainAPI.clearListeners("childProcess");
 
         window.mainAPI.handleRunProgress((event, progressJSON) => {
             let progress = JSON.parse(progressJSON);
             setPopupState(true);
-            setReadyState(false)
-            setRunProgress({...progress});
+            setReadyState(false);
+            setRunProgress({ ...progress });
             console.log(progress);
         });
 
         const handleRunErrors = (error) => {
             setPopupState(true);
-            setReadyState(false)
-            setRunProgress({...
-                {
-                task: 100,
-                total: 100,
-                name: "Ошибка",
-                type: error
-            }});
-        }
+            setReadyState(false);
+            setRunProgress({
+                ...{
+                    task: 100,
+                    total: 100,
+                    name: "Ошибка",
+                    type: error,
+                },
+            });
+        };
 
         window.mainAPI.handleDataMessages((event, dataJSON) => {
             console.log(`Data: ${dataJSON}`);
-            if (dataJSON.includes('UnsupportedClassVersionError')) 
-            {
+            if (dataJSON.includes("UnsupportedClassVersionError")) {
                 handleRunErrors("Неподдерживаямая версия джава");
             }
         });
-    
-        //window.mainAPI.handleClosing((event, code) => {setPopupState(false); setReadyState(true); console.log(`Closed with code ${code}`);})    
 
-        window.mainAPI.handleChildProcess(() => setRunProgress({...{name:'Загружено', task: 100, total: 100, type:"Игра запущена"}}));
-    },[])   
+        //window.mainAPI.handleClosing((event, code) => {setPopupState(false); setReadyState(true); console.log(`Closed with code ${code}`);})
+
+        window.mainAPI.handleChildProcess(() =>
+            setRunProgress({
+                ...{
+                    name: "Загружено",
+                    task: 100,
+                    total: 100,
+                    type: "Игра запущена",
+                },
+            }),
+        );
+    }, []);
 
     useEffect(() => {
-        window.localStorage.setItem('JE_current_version', currentVersion)
-    },[currentVersion])
+        window.localStorage.setItem("JE_current_version", currentVersion);
+    }, [currentVersion]);
 
     const getAuthorization = async () => {
         const authKey = window.mainAPI.getAuthorization("user");
-        return await authKey
-    }
+        return await authKey;
+    };
 
     const runGame = () => {
         console.log("running....");
@@ -78,45 +96,63 @@ const Game = (props) => {
             root: `./clients/${currentVersion}`,
             version: {
                 number: currentVersion,
-                type: "release"
+                type: "release",
             },
             memory: {
                 max: "6G",
-                min: "4G"
-            }
-        }
+                min: "4G",
+            },
+        };
 
-        getAuthorization().then((authKey) => window.mainAPI.runGame(JSON.stringify(options), JSON.stringify(authKey)))
-    }
+        getAuthorization().then((authKey) =>
+            window.mainAPI.runGame(
+                JSON.stringify(options),
+                JSON.stringify(authKey),
+            ),
+        );
+    };
 
     return (
-        <div className="game">
-            <Notification className="game__downloadInfo" enabled={popupState}  action={runProgress["name"]?runProgress["name"]:"Загружаем"} filename={runProgress['type']} value={runProgress['task']?runProgress['task']:runProgress['current']} maxValue={runProgress['total']}/>
+        <div className={game_styles.game}>
+            {/* <Notification
+                className="game__downloadInfo"
+                enabled={popupState}
+                action={runProgress["name"] ? runProgress["name"] : "Загружаем"}
+                filename={runProgress["type"]}
+                value={
+                    runProgress["task"]
+                        ? runProgress["task"]
+                        : runProgress["current"]
+                }
+                maxValue={runProgress["total"]}
+            /> */}
 
-            <PromoImage className="game__promo"/>
+            <PromoImage className={game_styles.promo} />
 
-            <div className="game__separator separator">
-                <Button className="separator__play-button button button_type-play" enabled={readyState} onClick={() => runGame()}>Play</Button>
+            <div className={game_styles.separator}>
+                <div className={game_styles.button}>
+                    <button
+                        className={`${button_styles.button} ${button_styles.color_green} ${button_styles.align_center} ${button_styles.big} ${button_styles.rounded}`}
+                        onClick={() => runGame()}>
+                        Play
+                    </button>
+                </div>
 
-                <div className="separator__game-version-widget">
-                    <p>Текущая версия:</p> 
-                    {/* <Dropdown content={{
-                        header: {en:currentVersion,ru:currentVersion},
-                        list: versions
-                    }}/> */}
+                <div className={game_styles.version}>
+                    <p>Текущая версия:</p>
                 </div>
             </div>
 
-            <Feed className="game__feed" link="https://launchercontent.mojang.com/javaPatchNotes.json" size={50} />
+            {props.newsLink && <Feed link={props.newsLink} size={4} />}
 
-            <div className='game__requirements-wrapper'>
-                <div className="game__requirements">
+            <div className={`${game_styles.requirementsWrapper}`}>
+                <div className={`${game_styles.requirements}`}>
                     <h2>System requirements</h2>
                     <table className="">
                         <thead>
                             <tr>
                                 <td></td>
-                                
+
                                 <td>
                                     <span>Minimum Requirements</span>
                                 </td>
@@ -124,7 +160,7 @@ const Game = (props) => {
                                 <td>
                                     <span>Recommended Requirements</span>
                                 </td>
-                            </tr> 
+                            </tr>
                         </thead>
 
                         <tbody>
@@ -141,7 +177,7 @@ const Game = (props) => {
                                     <span>{props.requirements.os.rec}</span>
                                 </td>
                             </tr>
-                            
+
                             <tr>
                                 <td>
                                     <span>Architecture</span>
@@ -173,7 +209,6 @@ const Game = (props) => {
                             <tr>
                                 <td>
                                     <span>Motion Controller</span>
-
                                 </td>
 
                                 <td>
@@ -184,18 +219,22 @@ const Game = (props) => {
                                     <span>{props.requirements.motion.rec}</span>
                                 </td>
                             </tr>
-                            
+
                             <tr>
                                 <td>
                                     <span>Headset</span>
                                 </td>
 
                                 <td>
-                                    <span>{props.requirements.headset.min}</span>
+                                    <span>
+                                        {props.requirements.headset.min}
+                                    </span>
                                 </td>
 
                                 <td>
-                                    <span>{props.requirements.headset.rec}</span>
+                                    <span>
+                                        {props.requirements.headset.rec}
+                                    </span>
                                 </td>
                             </tr>
 
@@ -232,6 +271,11 @@ const Game = (props) => {
             </div>
         </div>
     );
-}
- 
+};
+
+Game.propTypes = {
+    requirements: PropTypes.object.isRequired,
+    newsLink: PropTypes.string,
+};
+
 export default Game;

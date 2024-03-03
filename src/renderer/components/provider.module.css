@@ -1,30 +1,3 @@
-@import url("./colors.css");
-@import url("./fonts.css");
-
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 50px;
-
-    width: 100%;
-
-    padding: 50px 0;
-}
-
-.providers {
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
-
-    font-family: Arial, Helvetica, sans-serif;
-
-    list-style: none;
-
-    width: 80%;
-}
-
 .provider {
     display: flex;
     flex-direction: column;
@@ -99,33 +72,23 @@
     font-size: 11px;
 }
 
-.settings {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-
-    gap: 50px;
-
-    width: 80%;
-}
-
 .editor {
     display: none;
     flex-direction: column;
     align-items: stretch;
-    gap: 20px;
     width: 100%;
 
-    padding: 26px;
-
-    &.active {
+    &_active {
         display: flex;
     }
 }
 
-.line {
+.input {
+    display: flex;
+    justify-content: space-between;
+    padding: 22px;
+
     width: 100%;
-    height: 0;
-    border-top: 4px solid #202122;
-    border-bottom: 4px solid #494a4c;
+
+    font-family: "Minecraft Ten";
 }

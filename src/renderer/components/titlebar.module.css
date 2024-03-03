@@ -1,30 +1,36 @@
-@import url('./colors.css');
-@import url('fonts.css');
+@import url("./colors.css");
+@import url("fonts.css");
 
-.titlebar{
+.titlebar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
 
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+    user-select: none;
+    cursor: pointer;
+
     width: 100%;
+    min-height: 77px;
     background-color: $titlebar_background;
     box-shadow: 0 2px 10px 2px #272727;
     border-bottom: 8px solid $titlebar_shadow;
 }
 
-.toolbox{
+.toolbox {
     -webkit-app-region: no-drag;
     padding-right: 1vw;
     padding: 25px;
 }
 
-.title{
+.title {
     -webkit-app-region: no-drag;
     padding: 25px;
 }
 
-.widget{
+.widget {
     -webkit-app-region: no-drag;
     width: 20%;
 }

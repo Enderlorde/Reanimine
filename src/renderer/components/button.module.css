@@ -1,15 +1,26 @@
-@import url('./fonts.css');
-@import url('./colors.css');
+@import url("./fonts.css");
 
-.button{
+.button {
+    --button_background: #48494a;
+    --button_background_hover: #58585a;
+    --button_background_active: #313233;
+    --button_top_left_outline: #6d6d6e;
+    --button_bottom_right_outline: #5a5b5c;
+    --button_top_left_outline_hover: #79797b;
+    --button_bottom_right_outline_hover: #68686a;
+    --button_top_left_outline_active: #5a5b5c;
+    --button_bottom_right_outline_active: #454647;
+    --button_shadow: #313233;
+    --button_padding: 10px 15px 23px 15px;
+
     position: relative;
-    
+
     display: flex;
     align-items: center;
     gap: 15px;
 
     width: 100%;
-    padding: 10px 15px 23px 15px;
+    padding: var(--button_padding);
 
     font-family: "Minecraft Ten", serif;
     font-size: 20px;
@@ -19,14 +30,14 @@
     text-decoration: none;
     text-align: center;
 
-    background-color: $button_background;
-    border: 4px solid #1E1E1F ;
+    background-color: var(--button_background);
+    border: 4px solid #1e1e1f;
 
-    transition: all 0.1s cubic-bezier(.89,.04,.79,.41);
+    transition: all 0.1s cubic-bezier(0.89, 0.04, 0.79, 0.41);
 
     cursor: pointer;
-    
-    &::after{
+
+    &::after {
         content: "";
         display: block;
         position: absolute;
@@ -35,117 +46,145 @@
         height: calc(100% - 8px - 11px);
         top: 0;
         left: 0;
-        border: 4px solid $button_top_left_outline;
-        border-bottom-color: $button_bottom_right_outline;
-        border-right-color: $button_bottom_right_outline;
-        box-shadow: 0px 11px #313233;
+        border: 4px solid var(--button_top_left_outline);
+        border-bottom-color: var(--button_bottom_right_outline);
+        border-right-color: var(--button_bottom_right_outline);
+        box-shadow: 0px 11px var(--button_shadow);
 
-        transition: all 0.1s cubic-bezier(.89,.04,.79,.41);
+        transition: all 0.1s cubic-bezier(0.89, 0.04, 0.79, 0.41);
     }
 
-    &:hover{
-        background-color: $button_background_hover;
+    &:hover {
+        background-color: var(--button_background_hover);
 
-        &::after{
-            border-color: $button_top_left_outline_hover;
-            border-bottom-color: $button_bottom_right_outline_hover;
-            border-right-color: $button_bottom_right_outline_hover;
+        &::after {
+            border-color: var(--button_top_left_outline_hover);
+            border-bottom-color: var(--button_bottom_right_outline_hover);
+            border-right-color: var(--button_bottom_right_outline_hover);
         }
     }
 
-    &:active{
-        padding: 10px 15px 16px 15px;
+    &:active {
+        --button_padding: 10px 15px 16px 15px;
+
+        padding: var(--button_padding);
         transform: translateY(7px);
         margin-bottom: 7px;
 
-        background-color: $button_background_active;
+        background-color: var(--button_background_active);
 
-        &::after{
+        &::after {
             height: calc(100% - 8px);
             box-shadow: none;
 
-            border-color: $button_top_left_outline_active;
-            border-bottom-color: $button_bottom_right_outline_active;
-            border-right-color: $button_bottom_right_outline_active;
+            border-color: var(--button_top_left_outline_active);
+            border-bottom-color: var(--button_bottom_right_outline_active);
+            border-right-color: var(--button_bottom_right_outline_active);
         }
     }
 }
 
-.active{
+.active {
     padding: 10px 15px 16px 15px;
     transform: translateY(7px);
     margin-bottom: 7px;
 
-    background-color: $button_background_active;
+    background-color: var(--button_background_active);
 
-    &::after{
+    &::after {
         height: calc(100% - 8px);
         box-shadow: none;
 
-        border-color: $button_top_left_outline_active;
-        border-bottom-color: $button_bottom_right_outline_active;
-        border-right-color: $button_bottom_right_outline_active;
+        border-color: var(--button_top_left_outline_active);
+        border-bottom-color: var(--button_bottom_right_outline_active);
+        border-right-color: var(--button_bottom_right_outline_active);
     }
 }
 
-.align_center{
+.align_center {
     display: block;
     text-align: center;
 }
 
-.more{
+.more {
     width: 58px;
     height: 48px;
     padding: 4px;
     padding-bottom: 15px;
 
-    &::after{
+    &::after {
         content: "";
         display: block;
         position: absolute;
     }
 
-    &:active,&.active{
+    &:active,
+    &.active {
         height: 37px;
-        
+
         transform: translateY(11px);
         margin-bottom: 11px;
 
-        &::after{
+        &::after {
             height: calc(100% - 8px);
             box-shadow: none;
         }
     }
 }
 
-.color_red{
-    background-color: $button_background;
-    border: 4px solid #1E1E1F ;
-    
-    &::after{
-        border: 4px solid $button_top_left_outline;
-        border-bottom-color: $button_bottom_right_outline;
-        border-right-color: $button_bottom_right_outline;
-        box-shadow: 0px 11px #313233;
+.big {
+    --button_padding: 21px 128px calc(21px + 10px);
+
+    width: auto;
+
+    &:active {
+        --button_padding: 21px 128px;
     }
+}
 
-    &:hover{
-        background-color: $button_background_hover;
+.rounded {
+    border-radius: 10px;
 
-        &::after{
-            border-color: $button_top_left_outline_hover;
-            border-bottom-color: $button_bottom_right_outline_hover;
-            border-right-color: $button_bottom_right_outline_hover;
-        }
+    &::after {
+        border-radius: 10px;
     }
+}
 
-    &:active{
-        background-color: $button_background_active;
+.color_red {
+    --button_background: #ca3636;
+    --button_background_hover: #c02d2d;
+    --button_background_active: #ad1d1d;
+    --button_top_left_outline: #d55e5e;
+    --button_bottom_right_outline: #cf4a4a;
+    --button_top_left_outline_hover: #df9696;
+    --button_bottom_right_outline_hover: #d98181;
+    --button_top_left_outline_active: #d68e8e;
+    --button_bottom_right_outline_active: #ce7777;
+    --button_shadow: #ad1d1d;
+}
 
-        &::after{
-            border-color: $button_top_left_outline_active;
-            border-bottom-color: $button_bottom_right_outline_active;
-            border-right-color: $button_bottom_right_outline_active;
-        }
-    }
+.color_green {
+    --button_background: #3c8527;
+    --button_background_hover: #3c8527;
+    --button_background_active: #1d4d13;
+    --button_top_left_outline: #639d52;
+    --button_bottom_right_outline: #4f913c;
+    --button_top_left_outline_hover: #7fa277;
+    --button_bottom_right_outline_hover: #4f913c;
+    --button_top_left_outline_active: #779471;
+    --button_bottom_right_outline_active: #699260;
+    --button_shadow: #1d4d13;
+}
+
+.color_purple {
+    --button_background: #7345e5;
+    --button_background_hover: #5d2cc6;
+    --button_background_active: #4a1cac;
+    --button_top_left_outline: #a264f2;
+    --button_bottom_right_outline: #8e49eb;
+    --button_top_left_outline_hover: #ae69ee;
+    --button_bottom_right_outline_hover: #9243e2;
+    --button_top_left_outline_active: #ae69ee;
+    --button_bottom_right_outline_active: #9243e2;
+    --button_shadow: #4a1cac;
 }

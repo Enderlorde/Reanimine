@@ -1,54 +1,61 @@
 //import 'dotenv/config';
-import { app, BrowserWindow, ipcMain, dialog, shell } from 'electron';
-import { autoUpdater } from 'electron-updater';
-import { spawn } from 'child_process';
-import path from 'path';
-import { Client, Authenticator } from'minecraft-launcher-core';
+import { app, BrowserWindow, ipcMain, dialog, shell } from "electron";
+import { autoUpdater } from "electron-updater";
+import { spawn } from "child_process";
+import path from "path";
+import { Client, Authenticator } from "minecraft-launcher-core";
 const launcher = new Client();
-import os from 'os';
-import _ from 'lodash';
-import fs from 'fs';
-import { DownloaderHelper } from 'node-downloader-helper';
-import open from 'open';
-import { ModsDownloader } from './mods-download.js';
-import { log } from 'console';
-const modsDownloader =  new ModsDownloader(import.meta.env.MAIN_VITE_CURSEFORGE_API_KEY);
+import os from "os";
+import _ from "lodash";
+import fs from "fs";
+import { DownloaderHelper } from "node-downloader-helper";
+import open from "open";
+import { ModsDownloader } from "./mods-download.js";
+const modsDownloader = new ModsDownloader(
+    import.meta.env.MAIN_VITE_CURSEFORGE_API_KEY,
+);
 
-let mode = 'Offline';
+let mode = "Offline";
 
 let window = null;
 
 const singleInstanceLock = app.requestSingleInstanceLock();
 
-Authenticator.changeApiUrl('https://authserver.ely.by/auth')
+Authenticator.changeApiUrl("https://authserver.ely.by/auth");
 let options = {
     root: "./minecraft",
     //customArgs: [`-javaagent: ${__dirname}/minecraft/authlib-injector-1.2.2.jar=ely.by`, "-Dauthlibinjector.ignoredPackages=forgewrapper"],
     version: {
         number: "1.12.2",
-        type: "release"
+        type: "release",
     },
     forge: `./minecraft/Forge.jar`,
-    server:{
-       host: '45.87.246.29',
+    server: {
+        host: "45.87.246.29",
     },
     minArgs: 17,
     memory: {
         max: "1G",
-        min: "512M"
+        min: "512M",
     },
-    overrides:{
+    overrides: {
         detached: true,
         fw: {
-            baseUrl: 'https://github.com/ZekerZhayard/ForgeWrapper/releases/download/',
-            version: '1.5.5',
-            sh1: '90104e9aaa8fbedf6c3d1f6d0b90cabce080b5a9',
+            baseUrl:
+                "https://github.com/ZekerZhayard/ForgeWrapper/releases/download/",
+            version: "1.5.5",
+            sh1: "90104e9aaa8fbedf6c3d1f6d0b90cabce080b5a9",
             size: 29892,
         },
-    }
+    },
 };
 
-const modsIDs = [61811, 229061, 242638, 223008, 271856, 246391, 310383, 51195, 59751, 276837, 237754, 311327, 229060, 237749, 238222, 74072, 74924, 291786, 241392, 60028, 221857, 446100, 247357, 311561, 223094, 309516, 318255, 373157, 228027, 248453, 276951];
+const modsIDs = [
+    61811, 229061, 242638, 223008, 271856, 246391, 310383, 51195, 59751, 276837,
+    237754, 311327, 229060, 237749, 238222, 74072, 74924, 291786, 241392, 60028,
+    221857, 446100, 247357, 311561, 223094, 309516, 318255, 373157, 228027,
+    248453, 276951,
+];
 /* 
 248453 - sadowfacts forgelin,
 373157 - roguelike dungeons,
@@ -120,60 +127,73 @@ const createWindow = () => {
         height: 720,
         frame: false,
         webPreferences: {
-            preload:path.join(__dirname, '..\\preload\\index.js')
-        }
+            preload: path.join(__dirname, "..\\preload\\index.js"),
+        },
     });
 
     window.webContents.userAgent = "desktop";
 
     window.webContents.session.webRequest.onBeforeSendHeaders(
         (details, callback) => {
-          callback({ requestHeaders: { Origin: '*', ...details.requestHeaders } });
+            callback({
+                requestHeaders: { Origin: "*", ...details.requestHeaders },
+            });
         },
-      );
-      
-    window.webContents.session.webRequest.onHeadersReceived((details, callback) => {
-        callback({
-          responseHeaders: {
-            //'Access-Control-Allow-Origin': ['*'],
-            // We use this to bypass headers
-            'Access-Control-Allow-Headers': ['*'],
-            ...details.responseHeaders,
-          },
-        });
-      });
+    );
+
+    window.webContents.session.webRequest.onHeadersReceived(
+        (details, callback) => {
+            callback({
+                responseHeaders: {
+                    //'Access-Control-Allow-Origin': ['*'],
+                    // We use this to bypass headers
+                    "Access-Control-Allow-Headers": ["*"],
+                    ...details.responseHeaders,
+                },
+            });
+        },
+    );
 
     window.webContents.session.clearCache();
 
     window.webContents.setWindowOpenHandler((details) => {
         shell.openExternal(details.url);
-        return { action: 'deny' }
-      })
+        return { action: "deny" };
+    });
 
-    ipcMain.handle('open-directory', async () => {
-        const { cancelled,filePaths } = await dialog.showOpenDialog(window, {
-            properties: ['openDirectory']
-        })
+    ipcMain.handle("selectDirectory", async () => {
+        const { cancelled, filePaths } = await dialog.showOpenDialog(window, {
+            properties: ["openDirectory"],
+        });
         if (cancelled) {
-            return
-        }else{
-            return filePaths[0]
+            return;
+        } else {
+            return filePaths[0];
         }
     });
 
-    ipcMain.handle('minimizeLauncher', () => {
+    ipcMain.handle("minimizeLauncher", () => {
         window.minimize();
     });
 
-    const savedOptions = window.webContents.executeJavaScript(`localStorage.getItem('options')`).then(value => JSON.parse(value));
-    savedOptions.then((val) => {options = _.merge({...options}, {...val}); console.log(options); console.log(options.authorization)});
+    const savedOptions = window.webContents
+        .executeJavaScript(`localStorage.getItem('options')`)
+        .then((value) => JSON.parse(value));
+    savedOptions.then((val) => {
+        options = _.merge({ ...options }, { ...val });
+        console.log(options);
+        console.log(options.authorization);
+    });
 
-/*     launcher.on('download-status', (e) => window.webContents.send('update-counter', e));
+    /*     launcher.on('download-status', (e) => window.webContents.send('update-counter', e));
     launcher.on('download', (e) => window.webContents.send('download-done', e));  
     launcher.on('close', (code) => window.webContents.send('game-close', code)); */
 
-    window.loadURL(process.env.ELECTRON_START_URL||`file://${path.join(__dirname, '../renderer/index.html')}`);
-}
+    window.loadURL(
+        process.env.ELECTRON_START_URL ||
+            `file://${path.join(__dirname, "../renderer/index.html")}`,
+    );
+};
 
 const modalWindow = (message) => {
     const modalWindow = new BrowserWindow({
@@ -185,75 +205,84 @@ const modalWindow = (message) => {
         modal: true,
         show: false,
         webPreferences: {
-            preload:path.join(__dirname, '..\\preload\\modal.js')
+            preload: path.join(__dirname, "..\\preload\\modal.js"),
         },
         resizable: false,
         autoHideMenuBar: true,
     });
 
-    modalWindow.loadURL('http://localhost:5173/modal/index.html')
+    modalWindow.loadURL("http://localhost:5173/modal/index.html");
 
-    modalWindow.once('ready-to-show', () => {
-        modalWindow.webContents.send('message-send',message);
+    modalWindow.once("ready-to-show", () => {
+        modalWindow.webContents.send("message-send", message);
         modalWindow.show();
-    })
+    });
 
-    ipcMain.handleOnce('modal-close', () => modalWindow.close())
-}
+    ipcMain.handleOnce("modal-close", () => modalWindow.close());
+};
 
-modsDownloader.on('download-status', (e) => window.webContents.send('update-counter', e));
-
-ipcMain.handle('getModsInfo',() => modsDownloader.getInfo(modsIDs).then(
-    (modsInfo) => JSON.stringify(modsInfo)).catch((error) => modalWindow(error.toString()))
+modsDownloader.on("download-status", (e) =>
+    window.webContents.send("update-counter", e),
 );
 
-ipcMain.handle('getAppVersion', () => app.getVersion());
+ipcMain.handle("getModsInfo", () =>
+    modsDownloader
+        .getInfo(modsIDs)
+        .then((modsInfo) => JSON.stringify(modsInfo))
+        .catch((error) => modalWindow(error.toString())),
+);
 
-ipcMain.handle('registration', async () => {
+ipcMain.handle("getAppVersion", () => app.getVersion());
+
+ipcMain.handle("registration", async () => {
     open("https://account.ely.by/login");
 });
 
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') app.quit()
+app.on("window-all-closed", () => {
+    if (process.platform !== "darwin") app.quit();
 });
 
-if (!singleInstanceLock){
-    app.quit()
-}else{
-    app.on('second-instance', () => {
+if (!singleInstanceLock) {
+    app.quit();
+} else {
+    app.on("second-instance", () => {
         if (window) {
-            if (window.isMinimized())
-                window.restore();
+            if (window.isMinimized()) window.restore();
             window.focus();
         }
-    })
+    });
 }
 
-app.on('ready', () => {
+app.on("ready", () => {
     createWindow();
 
     autoUpdater.checkForUpdatesAndNotify();
 });
 
-ipcMain.handle('save-options', (e, newOptions) => {
-    options = _.merge({...options}, {...newOptions});
+ipcMain.handle("save-options", (e, newOptions) => {
+    options = _.merge({ ...options }, { ...newOptions });
 });
 
-ipcMain.handle('closeLauncher', () => {
+ipcMain.handle("closeLauncher", () => {
     app.quit();
 });
 
-const rootFolderCheck = (directory) => new Promise((resolve, reject) => {
-    try{
-        fs.mkdir((directory),{ recursive: true },() => {
-            console.log(`[MAIN]: Root folder ${directory} created successfull!`);
-            resolve()
-        });
-    }catch (e){
-        console.log(`[MAIN]: Root folder ${directory} creating error: ${e}`);
-        reject(e)
-    }
-});
+const rootFolderCheck = (directory) =>
+    new Promise((resolve, reject) => {
+        try {
+            fs.mkdir(directory, { recursive: true }, () => {
+                console.log(
+                    `[MAIN]: Root folder ${directory} created successfull!`,
+                );
+                resolve();
+            });
+        } catch (e) {
+            console.log(
+                `[MAIN]: Root folder ${directory} creating error: ${e}`,
+            );
+            reject(e);
+        }
+    });
 
 const authlibCheck = (root) => {
     return new Promise((resolve, reject) => {
@@ -261,34 +290,45 @@ const authlibCheck = (root) => {
             progressThrottle: 300,
             override: {
                 skip: true,
-                skipSmaller: false
+                skipSmaller: false,
             },
             retry: {
                 maxRetries: 10,
-                delay: 1000
-            }
-        }
-       
-        const dl = new DownloaderHelper('https://github.com/yushijinhun/authlib-injector/releases/download/v1.2.2/authlib-injector-1.2.2.jar', root, requestOptions);
+                delay: 1000,
+            },
+        };
 
-        dl.on('end', () => {
-            console.log('Download Completed');
+        const dl = new DownloaderHelper(
+            "https://github.com/yushijinhun/authlib-injector/releases/download/v1.2.2/authlib-injector-1.2.2.jar",
+            root,
+            requestOptions,
+        );
+
+        dl.on("end", () => {
+            console.log("Download Completed");
             resolve();
         });
 
-        dl.on('skip', (progress) => {
-            window.webContents.send('update-counter', {type: progress.name, current: progress.downloaded, total: progress.total});
-            resolve('Skipped');
+        dl.on("skip", (progress) => {
+            window.webContents.send("update-counter", {
+                type: progress.name,
+                current: progress.downloaded,
+                total: progress.total,
+            });
+            resolve("Skipped");
         });
 
-        dl.on('progress.throttled', (progress) => {
-            window.webContents.send('update-counter', {type: progress.name, current: progress.downloaded, total: progress.total});
+        dl.on("progress.throttled", (progress) => {
+            window.webContents.send("update-counter", {
+                type: progress.name,
+                current: progress.downloaded,
+                total: progress.total,
+            });
         });
 
-        dl.on('error', (err) => console.log('Download Failed', err));
+        dl.on("error", (err) => console.log("Download Failed", err));
 
-        dl.start().catch((err) => reject(err));  
-       
+        dl.start().catch((err) => reject(err));
     });
 };
 
@@ -296,151 +336,205 @@ const forgeCheck = (root) => {
     return new Promise((resolve, reject) => {
         const requestOptions = {
             progressThrottle: 300,
-            fileName: 'Forge.jar',
+            fileName: "Forge.jar",
             override: {
                 skip: true,
-                skipSmaller: false
+                skipSmaller: false,
             },
             retry: {
                 maxRetries: 10,
-                delay: 1000
-            }
-        }
+                delay: 1000,
+            },
+        };
 
-        const dl = new DownloaderHelper("https://maven.minecraftforge.net/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860-installer.jar", root, requestOptions);
+        const dl = new DownloaderHelper(
+            "https://maven.minecraftforge.net/net/minecraftforge/forge/1.12.2-14.23.5.2860/forge-1.12.2-14.23.5.2860-installer.jar",
+            root,
+            requestOptions,
+        );
 
-        dl.on('end', () => {
-            console.log('Download Completed');
+        dl.on("end", () => {
+            console.log("Download Completed");
             resolve();
         });
 
-        dl.on('skip', (progress) => {
-            window.webContents.send('update-counter', {type: progress.name, current: progress.downloaded, total: progress.total});
-            resolve('Skipped');
+        dl.on("skip", (progress) => {
+            window.webContents.send("update-counter", {
+                type: progress.name,
+                current: progress.downloaded,
+                total: progress.total,
+            });
+            resolve("Skipped");
         });
 
-        dl.on('progress.throttled', (progress) => {
-            window.webContents.send('update-counter', {type: progress.name, current: progress.downloaded, total: progress.total});
+        dl.on("progress.throttled", (progress) => {
+            window.webContents.send("update-counter", {
+                type: progress.name,
+                current: progress.downloaded,
+                total: progress.total,
+            });
         });
 
-        dl.on('error', (err) => console.log('Download Failed', err));
-        dl.start().catch((err) => reject(err));  
-    })
+        dl.on("error", (err) => console.log("Download Failed", err));
+        dl.start().catch((err) => reject(err));
+    });
 };
 
 const modsCheck = () => {
-    return modsDownloader.download(options.root, options.version.number, modsIDs);
-}
+    return modsDownloader.download(
+        options.root,
+        options.version.number,
+        modsIDs,
+    );
+};
 
 const javaCheck = () => {
-    return new Promise((resolve, reject)=> {
-        let process = spawn('java', ['-version']);
-        process.on('error', (err) => {
-            open('https://www.java.com/ru/download/manual.jsp');
-            reject(new Error('Java not found, please check installation'));
-        })
-        process.stderr.once('data', (data) => {
-            console.log('[JAVACHECK]: '+data);
-            data = data.toString().split('\n')[0];
-            let javaVersion = new RegExp('java version').test(data)?data.split(' ')[2].replace(/"/g, ''):false;
-            if(javaVersion){
-                console.log('[JAVACHECK]: JAVA ' + javaVersion);
-                resolve(javaVersion)
-            }else{
+    return new Promise((resolve, reject) => {
+        let process = spawn("java", ["-version"]);
+        process.on("error", () => {
+            open("https://www.java.com/ru/download/manual.jsp");
+            reject(new Error("Java not found, please check installation"));
+        });
+        process.stderr.once("data", (data) => {
+            console.log("[JAVACHECK]: " + data);
+            data = data.toString().split("\n")[0];
+            let javaVersion = new RegExp("java version").test(data)
+                ? data.split(" ")[2].replace(/"/g, "")
+                : false;
+            if (javaVersion) {
+                console.log("[JAVACHECK]: JAVA " + javaVersion);
+                resolve(javaVersion);
+            } else {
                 console.log("[JAVACHECK]: NO JAVA INSTALLED");
-                open('https://www.java.com/ru/download/manual.jsp');
-                reject('No java');
+                open("https://www.java.com/ru/download/manual.jsp");
+                reject("No java");
             }
-        })
-    })
-}
+        });
+    });
+};
 
-ipcMain.handle('play',() => {
-    if (mode == 'Online') {
+ipcMain.handle("play", () => {
+    if (mode == "Online") {
         return new Promise((resolve, reject) => {
-            javaCheck().then(() => {
-                return rootFolderCheck(options.root);
-            }).then(() =>{
-                return modsCheck();
-            }).then(() =>{
-                return authlibCheck(options.root);
-            }).then(() =>{
-                return forgeCheck(options.root)
-            }).then(() =>{
-                return launcher.launch(options)
-            }).then((result) => {
-                resolve(JSON.stringify(result));
-            }).catch((err) => {
-                modalWindow(err.message);
-                reject(err)
-            });
-        })
-    }else{
-        options.customArgs = []
+            javaCheck()
+                .then(() => {
+                    return rootFolderCheck(options.root);
+                })
+                .then(() => {
+                    return modsCheck();
+                })
+                .then(() => {
+                    return authlibCheck(options.root);
+                })
+                .then(() => {
+                    return forgeCheck(options.root);
+                })
+                .then(() => {
+                    return launcher.launch(options);
+                })
+                .then((result) => {
+                    resolve(JSON.stringify(result));
+                })
+                .catch((err) => {
+                    modalWindow(err.message);
+                    reject(err);
+                });
+        });
+    } else {
+        options.customArgs = [];
         return new Promise((resolve, reject) => {
-            javaCheck().then(() => {
-                return rootFolderCheck(options.root);
-            }).then(() =>{
-                return launcher.launch(options)
-            }).then((result) => {
-                resolve(JSON.stringify(result));
-            }).catch((err) => {
-                modalWindow(err.message);
-                reject(err)
-            });
-        })
+            javaCheck()
+                .then(() => {
+                    return rootFolderCheck(options.root);
+                })
+                .then(() => {
+                    return launcher.launch(options);
+                })
+                .then((result) => {
+                    resolve(JSON.stringify(result));
+                })
+                .catch((err) => {
+                    modalWindow(err.message);
+                    reject(err);
+                });
+        });
     }
-    
 });
 
-ipcMain.handle('total-memory', () => os.totalmem());
+ipcMain.handle("total-memory", () => os.totalmem());
 
-ipcMain.handle('login', (e, credentials) => {
+/* ipcMain.handle("login", (e, credentials) => {
     const fullfiled = (authData) => {
-        options=_.merge({...options},{authorization: authData}); console.log(options.authorization);
-        mode = authData.access_token === authData.client_token?'Offline':'Online';
+        options = _.merge({ ...options }, { authorization: authData });
+        console.log(options.authorization);
+        mode =
+            authData.access_token === authData.client_token
+                ? "Offline"
+                : "Online";
         const info = `${mode} mode as ${authData.name}`;
         console.log(info);
-        return JSON.stringify({info: info, mode: mode, authData: authData});
-    }
+        return JSON.stringify({ info: info, mode: mode, authData: authData });
+    };
 
     const rejected = (reason) => {
         console.log(`[LOGIN]: ${reason}`);
         modalWindow(reason.toString());
-        return JSON.stringify({info:`${reason}`, mode:'error'});
-    }
+        return JSON.stringify({ info: `${reason}`, mode: "error" });
+    };
 
-    return Authenticator.getAuth(credentials.nickname, credentials.password).then((authData) => fullfiled(authData), (reason) => rejected(reason))
-});
+    return Authenticator.getAuth(
+        credentials.nickname,
+        credentials.password,
+    ).then(
+        (authData) => fullfiled(authData),
+        (reason) => rejected(reason),
+    );
+}); */
 
-launcher.on('data', (e) => console.log(e));
-launcher.on('debug', (e) => console.log(e));
-
-
+launcher.on("data", (e) => console.log(e));
+launcher.on("debug", (e) => console.log(e));
 
 //Run client
-ipcMain.handle('runGame', (event, optionsSTR, authKeySTR) => {
+ipcMain.handle("runGame", (event, optionsSTR, authKeySTR) => {
     console.log(optionsSTR);
-    let options = JSON.parse(optionsSTR)
-    let authKey = JSON.parse(authKeySTR)
-    options['authorization'] = authKey
+    let options = JSON.parse(optionsSTR);
+    let authKey = JSON.parse(authKeySTR);
+    options["authorization"] = authKey;
 
-    launcher.removeAllListeners('progress')
-    launcher.removeAllListeners('download-status');
-    launcher.removeAllListeners('close');
+    launcher.removeAllListeners("progress");
+    launcher.removeAllListeners("download-status");
+    launcher.removeAllListeners("close");
 
     rootFolderCheck(options.root).then(() => {
-        launcher.launch(options).then((result) => window.webContents.send("childProcess", JSON.stringify(result)));
+        launcher
+            .launch(options)
+            .then((result) =>
+                window.webContents.send("childProcess", JSON.stringify(result)),
+            );
 
-        launcher.on('data', (data) => window.webContents.send("sendDataMessage", JSON.stringify(data)));
-        
-        launcher.on('progress',(progress) => window.webContents.send("runProgress", JSON.stringify(progress)));
-        launcher.on('download-status',(progress) => window.webContents.send("runProgress", JSON.stringify(progress)));
-        launcher.on('close', (code) => window.webContents.send("closing", code));
-    })
+        launcher.on("data", (data) =>
+            window.webContents.send("sendDataMessage", JSON.stringify(data)),
+        );
+
+        launcher.on("progress", (progress) =>
+            window.webContents.send("runProgress", JSON.stringify(progress)),
+        );
+        launcher.on("download-status", (progress) =>
+            window.webContents.send("runProgress", JSON.stringify(progress)),
+        );
+        launcher.on("close", (code) =>
+            window.webContents.send("closing", code),
+        );
+    });
 });
 
 //Get authentification object
-ipcMain.handle('getAuthorization', (event, username, password) => {
+/* ipcMain.handle("getAuthorization", (event, username, password) => {
     return Authenticator.getAuth(username, password);
+}); */
+ipcMain.handle("getAuth", (e, credentials) => {
+    console.log(`[MAIN] getAuth: credentials- ${credentials}`);
+    credentials = JSON.parse(credentials);
+
+    return Authenticator.getAuth(credentials.username, credentials.password);
 });

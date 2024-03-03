@@ -1,4 +1,4 @@
-.navigation{
+.navigation {
     display: flex;
     flex-direction: column;
     width: 20%;
@@ -6,12 +6,12 @@
 
     overflow-y: scroll;
 
-    &::-webkit-scrollbar{ 
+    &::-webkit-scrollbar {
         display: none;
     }
 }
 
-.list{
+.list {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -23,15 +23,17 @@
     border-top: 0 !important;
 }
 
-.item{
+.item {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     padding: 30px 21px;
+
+    user-select: none;
 }
 
-.category{
+.category {
     display: flex;
     flex-direction: column;
     align-items: center;

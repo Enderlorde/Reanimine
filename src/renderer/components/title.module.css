@@ -1,7 +1,7 @@
-@import url('./fonts.css');
-@import url('./colors.css');
+@import url("./fonts.css");
+@import url("./colors.css");
 
-.title{
+.title {
     position: relative;
     display: flex;
     align-items: center;
@@ -11,22 +11,22 @@
     font-size: 34px;
     text-transform: uppercase;
 
-    &_active .arrow{
-        cursor: pointer; 
+    &_active .arrow {
+        cursor: pointer;
         transform: scaleY(-1);
     }
 
-    &_active .dropdown{
+    &_active .dropdown {
         display: flex;
     }
 }
 
-.arrow{
+.arrow {
     transition: all 0.2s ease-in-out;
     transform: translateY(50%);
 }
 
-.header{
+.header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -36,8 +36,8 @@
     cursor: pointer;
 }
 
-.dropdown{
-    display: none;
+.dropdown {
+    display: flex;
     position: absolute;
     top: calc(100% + 4px + 8px);
     left: 4px;
@@ -58,36 +58,35 @@
     list-style: none;
 
     cursor: pointer;
-    
-    outline: 4px solid #363A44;
-    border: 4px solid #63656D;
-    
+
+    outline: 4px solid #363a44;
+    border: 4px solid #63656d;
+
     background-color: $dropdown_background;
-    
+
     z-index: 999;
 
-    &::-webkit-scrollbar{
+    &::-webkit-scrollbar {
         display: none;
     }
 }
 
-.item{
+.item {
     padding: 20px;
     width: 100%;
 
     font-size: 25px;
     color: #ffffff;
-    
-    &:not(:last-child){
-        border-bottom: 4px solid #63656D;
+
+    &:not(:last-child) {
+        border-bottom: 4px solid #63656d;
     }
-    
-    &:hover{
+
+    &:hover {
         background-color: $dropdown_background_hover;
     }
 
-    &:active{
+    &:active {
         background-color: $dropdown_background_active;
     }
 }
-            
