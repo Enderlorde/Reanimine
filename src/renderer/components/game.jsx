@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { ReactComponent as PromoImage } from "../static/game_background.svg";
+import PromoImage from "../static/game_background.svg?react";
 import Feed from "./feed";
 import button_styles from "./button.module.css";
 import game_styles from "./game.module.css";

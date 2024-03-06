@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
-import { ReactComponent as MojangLogo } from "../static/mojang.svg";
-import { ReactComponent as MicrosoftLogo } from "../static/microsoft.svg";
-import { ReactComponent as OfflineLogo } from "../static/offline.svg";
+import MojangLogo from "../static/mojang.svg?react";
+import MicrosoftLogo from "../static/microsoft.svg?react";
+import OfflineLogo from "../static/offline.svg?react";
 import Provider from "./provider";
 import accounts_styles from "./accounts.module.css";
 import button_styles from "./button.module.css";

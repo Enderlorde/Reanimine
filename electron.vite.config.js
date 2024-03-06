@@ -1,63 +1,39 @@
-import postcss_nested from 'postcss-nested';
-import postcss_import from 'postcss-import';
-import postcss_simple_vars from 'postcss-simple-vars';
-import svgr from 'vite-plugin-svgr';
-import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
-
-const esm = [
-    'curseforge-api',
-    'node-fetch'
-]
+import postcss_nested from "postcss-nested";
+import postcss_import from "postcss-import";
+import postcss_simple_vars from "postcss-simple-vars";
+import viteSvgr from "vite-plugin-svgr";
+import { defineConfig, defineViteConfig } from "electron-vite";
 
 export default defineConfig({
     main: {
-        plugins: [externalizeDepsPlugin({exclude: esm})]
+        build: {
+            outDir: "./dist/main",
+            emptyOutDir: true,
+        },
     },
     preload: {
-        plugins: [externalizeDepsPlugin()],
         build: {
-            rollupOptions:{
-                input:{
-                    index: './src/preload/index.js',
-                    modal: './src/preload/modal.js'
-                }
-            }
-        }
-    },
-    renderer: {
-        plugins: [svgr()],
-        build: {
-            rollupOptions:{
-                input:{
-                    index: './src/renderer/index.html',
-                    modal: './src/renderer/modal/index.html'
-                }
-            }
+            outDir: "./dist/preload",
+            emptyOutDir: true,
+            lib: {
+                formats: "cjs",
+            },
         },
+    },
+    renderer: defineViteConfig({
+        plugins: [viteSvgr()],
         css: {
             postcss: {
                 plugins: [
-                    postcss_nested(),
                     postcss_import(),
-                    postcss_simple_vars()
-                ]
-            }
-        }
-    },
-    build: {
-        rollupOptions: {
-            output: {
-                manualChunks(id) {
-                    esm.map((module) => {
-                        if (id.includes(module)){
-                            return module
-                        }
-                    })
-                }
-            }
+                    postcss_nested(),
+                    postcss_simple_vars(),
+                ],
+            },
         },
-        watch: {
-            
-        }
-    }
+        build: {
+            outDir: "./dist/renderer",
+            emptyOutDir: true,
+        },
+    }),
 });

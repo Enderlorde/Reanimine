@@ -15,11 +15,11 @@ import Mods from "./mods.jsx";
 import Game from "./game.jsx";
 import Accounts from "./accounts";
 import Settings from "./settings.jsx";
-import { ReactComponent as NewsIcon } from "../static/news.svg";
-import { ReactComponent as JavaIcon } from "../static/minecraft.svg";
-import { ReactComponent as MapIcon } from "../static/map.svg";
-import { ReactComponent as SettingsIcon } from "../static/settings.svg";
-import { ReactComponent as ModsIcon } from "../static/mods.svg";
+import NewsIcon from "../static/news.svg?react";
+import JavaIcon from "../static/minecraft.svg?react";
+import MapIcon from "../static/map.svg";
+import SettingsIcon from "../static/settings.svg?react";
+import ModsIcon from "../static/mods.svg";
 import "./app.sass";
 
 const App = () => {

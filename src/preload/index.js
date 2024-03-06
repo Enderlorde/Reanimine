@@ -1,4 +1,4 @@
-import { contextBridge, ipcRenderer } from "electron";
+let { contextBridge, ipcRenderer } = require("electron");
 
 /* contextBridge.exposeInMainWorld('something',{
     close: () => ipcRenderer.invoke('close'),

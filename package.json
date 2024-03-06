@@ -1,85 +1,76 @@
 {
-  "name": "reanimine",
-  "version": "0.1.2",
-  "description": "Simple minecraft launcher for my server",
-  "main": "out\\main\\index.js",
-  "scripts": {
-    "start": "electron-vite preview",
-    "dev": "set ELECTRON_START_URL=http://localhost:5173 && electron-vite -w dev",
-    "build": "electron-vite build && electron-builder"
-  },
-  "build": {
-    "productName": "Reanimine",
-    "copyright": "Enderlorde 2023",
-    "appId": "com.launcher.reanicraft",
-    "asar": true,
-    "files": [
-      "out/**/*"
-    ],
-    "win": {
-      "publish": {
-        "provider": "github"
-      },
-      "target": "nsis"
-    }
-  },
-  "author": "Enderlorde",
-  "license": "ISC",
-  "devDependencies": {
-    "@babel/cli": "^7.21.5",
-    "@babel/core": "^7.21.8",
-    "@babel/eslint-parser": "^7.21.8",
-    "@babel/preset-env": "^7.21.5",
-    "@babel/preset-react": "^7.18.6",
-    "@vitejs/plugin-react": "^4.0.0",
-    "cross-env": "^7.0.3",
-    "electron": "^22.0.3",
-    "electron-builder": "^23.6.0",
-    "electron-is-dev": "^2.0.0",
-    "electron-vite": "^1.0.22",
-    "eslint": "^8.57.0",
-    "eslint-plugin-react": "^7.32.2",
-    "postcss-import": "^16.0.1",
-    "postcss-nested": "^6.0.1",
-    "postcss-simple-vars": "^7.0.1",
-    "prettier": "^3.2.5",
-    "prop-types": "^15.8.1",
-    "sass": "^1.62.1",
-    "vite": "^4.3.9",
-    "vite-plugin-svgr": "^3.2.0",
-    "wait-on": "^7.0.1"
-  },
-  "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.5.1",
-    "@fortawesome/free-brands-svg-icons": "^6.5.1",
-    "@fortawesome/free-solid-svg-icons": "^6.5.1",
-    "@fortawesome/react-fontawesome": "^0.2.0",
-    "@minecraft-js/nbt": "^1.1.0",
-    "@wiicamp/react-minecraft-skin-viewer": "^1.0.6",
-    "@xmcl/nbt": "^3.0.1",
-    "ajv": "^8.12.0",
-    "curseforge-api": "^1.1.0",
-    "electron-updater": "^5.3.0",
-    "framer-motion": "^11.0.8",
-    "lodash": "^4.17.21",
-    "minecraft-launcher-core": "^3.16.18",
-    "node-downloader-helper": "^2.1.7",
-    "node-fetch": "^3.3.1",
-    "open": "^8.4.2",
-    "react": "^18.2.0",
-    "react-circular-progressbar": "^2.1.0",
-    "react-dom": "^18.2.0",
-    "react-lazy-load-image-component": "^1.6.0",
-    "react-router-dom": "^6.11.2",
-    "react-spinners": "^0.13.8",
-    "skinview3d": "^3.0.0-alpha.1",
-    "string-strip-html": "^13.4.3",
-    "three": "^0.156.1",
-    "uuid": "^9.0.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Enderlorde/Reanimine.git"
-  },
-  "private": true
+    "name": "reanimine",
+    "version": "0.1.2",
+    "description": "Simple minecraft launcher for my server",
+    "main": "dist\\main\\index.js",
+    "scripts": {
+        "start": "electron-vite preview",
+        "dev": "electron-vite -w dev",
+        "build": "electron-vite build && electron-builder"
+    },
+    "build": {
+        "productName": "Reanimine",
+        "copyright": "Enderlorde 2023",
+        "appId": "com.launcher.reanicraft",
+        "asar": true,
+        "files": [
+            "out/**/*"
+        ],
+        "win": {
+            "publish": {
+                "provider": "github"
+            },
+            "target": "nsis"
+        }
+    },
+    "author": "Enderlorde",
+    "license": "ISC",
+    "devDependencies": {
+        "electron-builder": "^23.6.0",
+        "electron-is-dev": "^2.0.0",
+        "electron-vite": "^2.1.0",
+        "eslint": "^8.57.0",
+        "eslint-plugin-react": "^7.32.2",
+        "postcss-import": "^16.0.1",
+        "postcss-nested": "^6.0.1",
+        "postcss-simple-vars": "^7.0.1",
+        "prettier": "^3.2.5",
+        "prop-types": "^15.8.1",
+        "sass": "^1.71.1",
+        "vite": "^4.3.9",
+        "vite-plugin-svgr": "^4.2.0",
+        "wait-on": "^7.0.1"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^6.5.1",
+        "@fortawesome/free-brands-svg-icons": "^6.5.1",
+        "@fortawesome/free-solid-svg-icons": "^6.5.1",
+        "@fortawesome/react-fontawesome": "^0.2.0",
+        "@xmcl/core": "^2.13.0",
+        "@xmcl/curseforge": "^2.1.1",
+        "@xmcl/gamesetting": "^3.0.2",
+        "@xmcl/installer": "^5.4.0",
+        "@xmcl/mod-parser": "^3.3.5",
+        "@xmcl/model": "^2.0.3",
+        "@xmcl/nbt": "^3.0.2",
+        "@xmcl/user": "^4.2.0",
+        "electron": "^29.1.0",
+        "electron-updater": "^5.3.0",
+        "framer-motion": "^11.0.8",
+        "node-downloader-helper": "^2.1.7",
+        "node-fetch": "^3.3.1",
+        "open": "^8.4.2",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-lazy-load-image-component": "^1.6.0",
+        "react-router-dom": "^6.11.2",
+        "react-spinners": "^0.13.8",
+        "string-strip-html": "^13.4.6"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Enderlorde/Reanimine.git"
+    },
+    "type": "module",
+    "private": true
 }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 import title_styles from "./title.module.css";
-import { ReactComponent as Arrow } from "./icons/arrow.svg";
+import Arrow from "./icons/arrow.svg?react";
 
 const Title = (props) => {
     const [state, setState] = useState(false);
