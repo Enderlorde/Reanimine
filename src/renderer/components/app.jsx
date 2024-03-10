@@ -15,21 +15,15 @@ import Mods from "./mods.jsx";
 import Game from "./game.jsx";
 import Accounts from "./accounts";
 import Settings from "./settings.jsx";
-import NewsIcon from "../static/news.svg?react";
-import JavaIcon from "../static/minecraft.svg?react";
-import MapIcon from "../static/map.svg";
-import SettingsIcon from "../static/settings.svg?react";
-import ModsIcon from "../static/mods.svg";
+import NewsUrl from "../static/News Icon.png";
+import JavaIcon from "../static/Java Edition Icon.svg?react";
+import BedrockIcon from "../static/Bedrock Icon.svg?react";
+import EducationIcon from "../static/Education Edition Icon.svg?react";
+import DungeonsIcon from "../static/Minecraft dungons 1.svg?react";
+import LegendsIcon from "../static/Minecraft legends icon 1.svg?react";
 import "./app.sass";
 
 const App = () => {
-    const [progressState, setProgressState] = useState({
-        type: "none",
-        current: 0,
-        total: 100,
-    });
-    const [running, setRunning] = useState(false);
-    const [appVersion, setAppVersion] = useState();
     const [menu, setMenu] = useState([]);
     const [currentLocation, setCurrentLocation] = useState();
 
@@ -45,24 +39,6 @@ const App = () => {
             {
                 text: { en: "about", ru: "О НАС" },
                 function: () => console.log("about"),
-            },
-        ],
-    };
-
-    const bedrockMenu = {
-        header: "MINECRAFT BEDROCK",
-        list: [
-            {
-                text: "FAQ",
-                function: () => console.log("FAQ"),
-            },
-            {
-                text: "INSTALLATION",
-                function: () => console.log("installation"),
-            },
-            {
-                text: "PATCH NOTE",
-                function: () => console.log("path note"),
             },
         ],
     };
@@ -92,49 +68,6 @@ const App = () => {
         }
     });
 
-    /*     useEffect(() => {
-        window.something.handleCounter((e, value) => {
-            setProgressState(value);
-            //console.log(value);
-        });
-    
-        window.something.handleDownload((e, value) => {
-            console.log('downloadDone');
-            console.log(value);
-        });
-
-        window.something.handleClosing(() => {
-            setRunning(false);
-            window.sessionStorage.removeItem('pid');
-        });
-
-        window.something.getAppVersion().then((appVersion) => {
-            setAppVersion(appVersion);
-        })
-    },[]); */
-
-    /*     const handlePlay = () => {
-        setRunning(true);
-        window.sessionStorage.setItem('pid', true)
-        window.something.play().then((process) => {
-            //console.log(process);
-            if (process)
-                window.sessionStorage.setItem('pid', process.pid);
-        }).catch((e) => {
-            console.log(e);
-            setRunning(false);
-        });
-    } */
-
-    const testMen = {
-        header: { en: "MINECRAFT BEDROCK", ru: "MINECRAFT BEDROCK" },
-        list: [
-            { en: "FAQ", ru: "FAQ" },
-            { en: "INSTALLATION", ru: "Установка" },
-            { en: "PATCH NOTE", ru: "История изменений" },
-        ],
-    };
-
     return (
         <div className="app">
             <TitleBar title="Reanimine" menu={menu} />
@@ -148,7 +81,15 @@ const App = () => {
                                 {
                                     name: { en: "news", ru: "Новости" },
                                     path: "news",
-                                    icon: <NewsIcon width={36} height={40} />,
+                                    icon: (
+                                        <img
+                                            src={NewsUrl}
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                            }}
+                                        />
+                                    ),
                                 },
                             ],
                             [
@@ -166,25 +107,41 @@ const App = () => {
                                         ru: "Bedrock edition",
                                     },
                                     path: "bedrock",
-                                    icon: <JavaIcon width={36} height={40} />,
+                                    icon: (
+                                        <BedrockIcon width={36} height={40} />
+                                    ),
+                                },
+                                {
+                                    name: {
+                                        en: "Education edition",
+                                        ru: "Образовательное издание",
+                                    },
+                                    path: "education",
+                                    icon: (
+                                        <EducationIcon width={36} height={40} />
+                                    ),
+                                },
+                                {
+                                    name: {
+                                        en: "MC Dungeons",
+                                        ru: "MC Подземелья",
+                                    },
+                                    path: "dungeons",
+                                    icon: (
+                                        <DungeonsIcon width={36} height={40} />
+                                    ),
+                                },
+                                {
+                                    name: {
+                                        en: "Mc Legends",
+                                        ru: "MC Легенды",
+                                    },
+                                    path: "legends",
+                                    icon: (
+                                        <LegendsIcon width={36} height={40} />
+                                    ),
                                 },
                             ],
-                            /*  [
-                                {
-                                    name: { en: "Reanimine", ru: "Reanimine" },
-                                    path: "reanimine",
-                                },
-                                {
-                                    name: { en: "map", ru: "Карта" },
-                                    path: "map",
-                                    icon: <MapIcon width={36} height={40} />,
-                                },
-                                {
-                                    name: { en: "Mods", ru: "Моды" },
-                                    path: "mods",
-                                    icon: <ModsIcon width={36} height={40} />,
-                                },
-                            ], */
                             [
                                 {
                                     name: {
@@ -192,14 +149,16 @@ const App = () => {
                                         ru: "Настройки/аккаунты",
                                     },
                                     path: "settings",
-                                    icon: (
-                                        <SettingsIcon width={36} height={40} />
-                                    ),
+                                    classes: ["size_small", "align_center"],
                                 },
                                 {
                                     name: { en: "more", ru: "больше" },
                                     path: "",
-                                    classes: ["color_purple", "align_center"],
+                                    classes: [
+                                        "size_small",
+                                        "color_purple",
+                                        "align_center",
+                                    ],
                                 },
                             ],
                         ],

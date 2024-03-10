@@ -1,7 +1,4 @@
 import React, { useRef, useState } from "react";
-import MojangLogo from "../static/mojang.svg?react";
-import MicrosoftLogo from "../static/microsoft.svg?react";
-import OfflineLogo from "../static/offline.svg?react";
 import Provider from "./provider";
 import accounts_styles from "./accounts.module.css";
 import button_styles from "./button.module.css";
@@ -11,7 +8,6 @@ import message_styles from "./message.module.css";
 const Accounts = () => {
     const [providers, setProviders] = useState([
         {
-            logo: <MicrosoftLogo width={21} height={21} />,
             name: "Microsoft",
             accounts: [
                 {
@@ -32,7 +28,7 @@ const Accounts = () => {
         },
         {
             name: "Mojang",
-            logo: <MojangLogo width={21} height={21} />,
+
             accounts: [],
         },
         {
@@ -40,7 +36,6 @@ const Accounts = () => {
             accounts: [],
         },
         {
-            logo: <OfflineLogo width={21} height={21} />,
             name: "offline",
             accounts: [],
         },

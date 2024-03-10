@@ -16,7 +16,7 @@ const Navigation = (props) => {
                         <li
                             className={`${navigation_styles.category} ${plate_styles.element}`}
                             key={index}>
-                            <ul className={`${navigation_styles.list} `}>
+                            <ul className={`${navigation_styles.list}`}>
                                 {navigationCategory.map(
                                     (navigationItem, index) => {
                                         return (
