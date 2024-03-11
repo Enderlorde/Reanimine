@@ -1,15 +1,9 @@
 .navigation {
     display: flex;
     flex-direction: column;
-    width: 20%;
+    justify-content: safe;
 
-    overflow-y: scroll;
-
-    &::-webkit-scrollbar {
-        display: none;
-    }
-
-    padding: 4px 0;
+    height: 100%;
 }
 
 .list {
@@ -23,6 +17,16 @@
 
     border-top: 0 !important;
     font-size: 0;
+
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.menu {
+    height: calc(100% - 77px);
 }
 
 .item {
@@ -46,4 +50,8 @@
     .list {
         gap: 26px;
     }
+}
+
+.widget {
+    -webkit-app-region: no-drag;
 }

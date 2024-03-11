@@ -19,7 +19,7 @@
     align-items: center;
     gap: 15px;
 
-    width: 100%;
+    width: 330px;
     padding: var(--button_padding);
 
     font-family: "Minecraft Ten", serif;
@@ -106,8 +106,6 @@
     box-sizing: border-box;
 
     --button_padding: 14px 0 calc(21px + 10px);
-
-    width: 330px;
 
     &:active,
     &.active {

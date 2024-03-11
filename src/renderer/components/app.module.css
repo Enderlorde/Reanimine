@@ -1,0 +1,51 @@
+@font-face {
+    font-family: "karmatic-arcade";
+    src: url("../static/ka1.ttf");
+}
+@font-face {
+    font-family: "MinecraftEvenings";
+    src: url("../static/MinecraftEvenings.ttf");
+}
+@font-face {
+    font-family: "Minecraft";
+    src: url("../static/minecraft1_1.ttf");
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.app {
+    display: flex;
+    align-items: flex-start;
+
+    background-color: #3d3f43;
+    width: 100vw;
+    height: 100vh;
+
+    font-family: "karmatic-arcade", serif;
+    color: #eff1f3;
+    overflow: hidden;
+    text-align: center;
+    font-size: 14px;
+}
+
+.content {
+    display: flex;
+    width: 100%;
+    height: calc(100% - 77px);
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    height: 100%;
+
+    flex-grow: 2;
+}

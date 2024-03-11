@@ -21,7 +21,7 @@ import BedrockIcon from "../static/Bedrock Icon.svg?react";
 import EducationIcon from "../static/Education Edition Icon.svg?react";
 import DungeonsIcon from "../static/Minecraft dungons 1.svg?react";
 import LegendsIcon from "../static/Minecraft legends icon 1.svg?react";
-import "./app.sass";
+import app_styles from "./app.module.css";
 
 const App = () => {
     const [menu, setMenu] = useState([]);
@@ -69,105 +69,93 @@ const App = () => {
     });
 
     return (
-        <div className="app">
-            <TitleBar title="Reanimine" menu={menu} />
-
-            <div className="app__content">
-                <Navigation
-                    className="navigation app__navigation"
-                    content={{
-                        list: [
-                            [
-                                {
-                                    name: { en: "news", ru: "Новости" },
-                                    path: "news",
-                                    icon: (
-                                        <img
-                                            src={NewsUrl}
-                                            style={{
-                                                width: "40px",
-                                                height: "40px",
-                                            }}
-                                        />
-                                    ),
-                                },
-                            ],
-                            [
-                                {
-                                    name: {
-                                        en: "Java edition",
-                                        ru: "Java edition",
-                                    },
-                                    path: "je",
-                                    icon: <JavaIcon width={36} height={40} />,
-                                },
-                                {
-                                    name: {
-                                        en: "Bedrock edition",
-                                        ru: "Bedrock edition",
-                                    },
-                                    path: "bedrock",
-                                    icon: (
-                                        <BedrockIcon width={36} height={40} />
-                                    ),
-                                },
-                                {
-                                    name: {
-                                        en: "Education edition",
-                                        ru: "Образовательное издание",
-                                    },
-                                    path: "education",
-                                    icon: (
-                                        <EducationIcon width={36} height={40} />
-                                    ),
-                                },
-                                {
-                                    name: {
-                                        en: "MC Dungeons",
-                                        ru: "MC Подземелья",
-                                    },
-                                    path: "dungeons",
-                                    icon: (
-                                        <DungeonsIcon width={36} height={40} />
-                                    ),
-                                },
-                                {
-                                    name: {
-                                        en: "Mc Legends",
-                                        ru: "MC Легенды",
-                                    },
-                                    path: "legends",
-                                    icon: (
-                                        <LegendsIcon width={36} height={40} />
-                                    ),
-                                },
-                            ],
-                            [
-                                {
-                                    name: {
-                                        en: "settings/accounts",
-                                        ru: "Настройки/аккаунты",
-                                    },
-                                    path: "settings",
-                                    classes: ["size_small", "align_center"],
-                                },
-                                {
-                                    name: { en: "more", ru: "больше" },
-                                    path: "",
-                                    classes: [
-                                        "size_small",
-                                        "color_purple",
-                                        "align_center",
-                                    ],
-                                },
-                            ],
+        <div className={app_styles.app}>
+            <Navigation
+                content={{
+                    list: [
+                        [
+                            {
+                                name: { en: "news", ru: "Новости" },
+                                path: "news",
+                                icon: (
+                                    <img
+                                        src={NewsUrl}
+                                        style={{
+                                            width: "40px",
+                                            height: "40px",
+                                        }}
+                                    />
+                                ),
+                            },
                         ],
-                    }}
-                />
-
-                <div className="app__wrapper">
-                    {useLocation().pathname == "/" && <News />}
-
+                        [
+                            {
+                                name: {
+                                    en: "Java edition",
+                                    ru: "Java edition",
+                                },
+                                path: "je",
+                                icon: <JavaIcon width={36} height={40} />,
+                            },
+                            {
+                                name: {
+                                    en: "Bedrock edition",
+                                    ru: "Bedrock edition",
+                                },
+                                path: "bedrock",
+                                icon: <BedrockIcon width={36} height={40} />,
+                            },
+                            {
+                                name: {
+                                    en: "Education edition",
+                                    ru: "Образовательное издание",
+                                },
+                                path: "education",
+                                icon: <EducationIcon width={36} height={40} />,
+                            },
+                            {
+                                name: {
+                                    en: "MC Dungeons",
+                                    ru: "MC Подземелья",
+                                },
+                                path: "dungeons",
+                                icon: <DungeonsIcon width={36} height={40} />,
+                            },
+                            {
+                                name: {
+                                    en: "Mc Legends",
+                                    ru: "MC Легенды",
+                                },
+                                path: "legends",
+                                icon: <LegendsIcon width={36} height={40} />,
+                            },
+                        ],
+                        [
+                            {
+                                name: {
+                                    en: "settings/accounts",
+                                    ru: "Настройки/аккаунты",
+                                },
+                                path: "settings",
+                                classes: ["size_small", "align_center"],
+                            },
+                            {
+                                name: { en: "more", ru: "больше" },
+                                path: "",
+                                classes: [
+                                    "size_small",
+                                    "color_purple",
+                                    "align_center",
+                                ],
+                            },
+                        ],
+                    ],
+                }}
+            />
+            <div className={app_styles.wrapper}>
+                <TitleBar title="Reanimine" menu={menu} />
+                {useLocation().pathname == "/" && <News />}
+                <div className={app_styles.content}>
                     <Outlet />
                 </div>
             </div>
