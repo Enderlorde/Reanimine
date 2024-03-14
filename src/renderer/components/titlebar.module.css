@@ -16,6 +16,7 @@
     height: 77px;
     background-color: $titlebar_background;
     border-bottom: 8px solid $titlebar_shadow;
+    border-left: 4px solid #d7dbe3;
 }
 
 .toolbox {
